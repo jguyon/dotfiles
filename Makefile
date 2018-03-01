@@ -19,6 +19,7 @@ git:
 
 fish:
 	$(NIX) nixpkgs.fish
+	mkdir -p ~/.config/fish
 	$(STOW) -t ~/.config/fish fish
 
 nvim:
@@ -26,6 +27,7 @@ nvim:
 		nixpkgs.neovim \
 		nixpkgs.python27Packages.neovim \
 		nixpkgs.python36Packages.neovim
+	mkdir -p ~/.config/nvim
 	$(STOW) -t ~/.config/nvim nvim
 	[ -e ~/.local/share/nvim/site/autoload/plug.vim ] || \
 		curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
