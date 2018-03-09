@@ -1,9 +1,9 @@
 NIX = nix-env -iA
 STOW = stow -S -R
 
-all: core git fish nvim node javascript bucklescript
+all: core git fish tmux nvim node javascript bucklescript
 
-.PHONY: all core git fish nvim node javascript bucklescript
+.PHONY: all core git fish tmux nvim node javascript bucklescript
 
 core:
 	$(NIX) \
@@ -21,6 +21,10 @@ fish:
 	$(NIX) nixpkgs.fish
 	mkdir -p ~/.config/fish
 	$(STOW) -t ~/.config/fish fish
+
+tmux:
+	$(NIX) nixpkgs.tmux
+	$(STOW) -t ~ tmux
 
 nvim:
 	$(NIX) \
