@@ -50,6 +50,6 @@ javascript: node
 
 bucklescript: node
 	yarn global add \
-		https://github.com/reasonml/reason-cli/archive/3.0.4-bin-linux.tar.gz \
+		reason-cli@3.1.0-$$(uname | tr '[:upper:]' '[:lower:]') \
 		bs-platform \
 		ocaml-language-server
