@@ -13,7 +13,7 @@ core:
 		nixpkgs.gnugrep \
 		nixpkgs.bash
 
-git:
+git: nvim
 	$(NIX) nixpkgs.gitAndTools.gitFull
 	$(STOW) -t ~ git
 
@@ -22,11 +22,11 @@ fish:
 	mkdir -p ~/.config/fish
 	$(STOW) -t ~/.config/fish fish
 
-tmux:
+tmux: fish
 	$(NIX) nixpkgs.tmux
 	$(STOW) -t ~ tmux
 
-nvim:
+nvim: core fish
 	$(NIX) \
 		nixpkgs.neovim \
 		nixpkgs.python27Packages.neovim \
