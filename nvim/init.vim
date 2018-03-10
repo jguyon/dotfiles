@@ -32,7 +32,6 @@ Plug 'junegunn/fzf.vim' " Fuzzy-search everything
 Plug 'airblade/vim-gitgutter' " Display git hunks in gutter
 Plug 'tpope/vim-fugitive' " Git commands
 Plug 'tpope/vim-dispatch' " Run build and test tasks
-Plug 'radenling/vim-dispatch-neovim' " Dispatch commands using terminal
 Plug 'tpope/vim-projectionist' " Project-specific config
 Plug 'w0rp/ale' " Linting
 Plug 'maximbaz/lightline-ale' " Display error info in status line
@@ -61,6 +60,7 @@ call plug#end()
 " }}}
 " basics {{{
 
+set shell=~/.nix-profile/bin/bash " Run commands with bash
 set mouse=a " Enable mouse
 set number relativenumber " Show relative line numbers
 set signcolumn=yes " Sign column always visible on the left
@@ -523,8 +523,8 @@ nnoremap <silent> <plug>(git-authors) :Gblame <cr>
 let g:projectionist_heuristics = {
   \ 'bsconfig.json': {
   \   '*': {
-  \     'start': 'bsb -make-world -w -no-color',
-  \     'make': 'bsb -make-world -no-color',
+  \     'start': 'bsb -make-world -w',
+  \     'make': 'bsb -make-world',
   \   },
   \   'src/*.re': {
   \     'alternate': 'src/{}.rei',
