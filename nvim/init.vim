@@ -18,9 +18,8 @@ Plug 'easymotion/vim-easymotion' " Move around easily
 " }}}
 " interface {{{
 
-Plug 'morhetz/gruvbox' " Colorscheme
+Plug 'arcticicestudio/nord-vim' " Color scheme
 Plug 'junegunn/rainbow_parentheses.vim' " Color matching pairs
-Plug 'nathanaelkane/vim-indent-guides' " Highlight indentation
 Plug 'mhinz/vim-startify' " Startup screen
 Plug 'itchyny/lightline.vim' " Status line
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
@@ -289,15 +288,14 @@ map ;z <Plug>(easymotion-bd-t2)
 map ;r <Plug>(easymotion-repeat)
 
 " }}}
-" gruvbox {{{
+" nord {{{
 
-let g:gruvbox_italic = 1
-let g:gruvbox_contrast_dark = 'soft'
-let g:gruvbox_contrast_light = 'soft'
+let g:nord_italic = 1
+let g:nord_italic_comments = 1
 
 set termguicolors
 set background=dark
-colorscheme gruvbox
+colorscheme nord
 
 " }}}
 " rainbow_parentheses.vim {{{
@@ -307,17 +305,6 @@ augroup rainbow
   au!
   au VimEnter * RainbowParentheses
 augroup END
-
-" }}}
-" vim-indent-guides {{{
-
-let g:indent_guides_enable_on_vim_startup = 1
-let g:indent_guides_auto_colors = 0
-let g:indent_guides_tab_guides = 1
-let g:indent_guides_space_guides = 1
-let g:indent_guides_guide_size = 1
-let g:indent_guides_start_level = 2
-let g:indent_guides_exclude_filetypes = ['help', 'qf', 'startify', 'fzf']
 
 " }}}
 " vim-startify {{{
@@ -343,7 +330,7 @@ noremap <silent> <plug>(session-close) :SClose <cr>
 " lightline {{{
 
 let g:lightline = {}
-let g:lightline.colorscheme = 'gruvbox'
+let g:lightline.colorscheme = 'nord'
 
 " layout {{{
 

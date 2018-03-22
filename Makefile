@@ -25,6 +25,10 @@ fish:
 tmux: fish
 	$(NIX) nixpkgs.tmux
 	$(STOW) -t ~ tmux
+	[ -e ~/.local/share/tmux/plugins/tpm/tpm ] || \
+		git clone https://github.com/tmux-plugins/tpm \
+		~/.local/share/tmux/plugins/tpm
+	~/.local/share/tmux/plugins/tpm/bin/install_plugins
 
 nvim: core fish
 	$(NIX) \
