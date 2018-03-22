@@ -587,7 +587,7 @@ nmap <plug>(errors-reset) <plug>(ale_reset_buffer)
 " }}}
 " lsp {{{
 
-let g:LanguageClient_autoStart = 0
+let g:LanguageClient_autoStart = 1
 let g:LanguageClient_diagnosticsEnable = 0
 let g:LanguageClient_selectionUI = 'fzf'
 
