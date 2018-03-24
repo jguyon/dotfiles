@@ -11,6 +11,7 @@ Plug 'tpope/vim-sleuth' " Auth-detect indentation
 Plug 'tpope/vim-repeat' " Enable '.' operator for custom mappings
 Plug 'tpope/vim-surround' " Replace/delete surrounding characters
 Plug 'tpope/vim-commentary' " Comment stuff in/out
+Plug 'tpope/vim-obsession' " Sensible sessions
 Plug 'jiangmiao/auto-pairs' " Auto-insert matching bracket, quote...
 Plug 'haya14busa/vim-edgemotion' " Move to edges
 Plug 'easymotion/vim-easymotion' " Move around easily
@@ -20,7 +21,6 @@ Plug 'easymotion/vim-easymotion' " Move around easily
 
 Plug 'arcticicestudio/nord-vim' " Color scheme
 Plug 'junegunn/rainbow_parentheses.vim' " Color matching pairs
-Plug 'mhinz/vim-startify' " Startup screen
 Plug 'itchyny/lightline.vim' " Status line
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim' " Fuzzy-search everything
@@ -197,42 +197,6 @@ nmap <leader>hn <plug>(hunk-next)
 nmap <leader>hv <plug>(hunk-preview)
 
 " }}}
-" terminals {{{
-
-nnoremap <silent> <leader>se :call <sid>launch_term() <cr>
-nnoremap <silent> <leader>sE :call <sid>launch_cmd() <cr>
-nnoremap <silent> <leader>st :tabe \| call <sid>launch_term() <cr>
-nnoremap <silent> <leader>sT :tabe \| call <sid>launch_cmd() <cr>
-nnoremap <silent> <leader>ss :split \| call <sid>launch_term() <cr>
-nnoremap <silent> <leader>sS :split \| call <sid>launch_cmd() <cr>
-nnoremap <silent> <leader>sv :vsplit \| call <sid>launch_term() <cr>
-nnoremap <silent> <leader>sV :vsplit \| call <sid>launch_cmd() <cr>
-
-function! s:launch_term() abort
-  execute 'e term://' . getcwd() . '//fish'
-  startinsert
-endfunction
-
-function! s:launch_cmd() abort
-  call inputsave()
-  let l:cmd = input('Enter command: ')
-  call inputrestore()
-
-  execute 'e term://' . getcwd() . '//' . l:cmd
-  startinsert
-endfunction
-
-" }}}
-" session {{{
-
-nmap <leader>ps <plug>(session-start-screen)
-nmap <leader>pw <plug>(session-save)
-nmap <leader>pW <plug>(session-foce-save)
-nmap <leader>pd <plug>(session-delete)
-nmap <leader>pD <plug>(session-force-delete)
-nmap <leader>pq <plug>(session-close)
-
-" }}}
 " linting {{{
 
 nmap <leader>ee <plug>(errors-enable)
@@ -258,11 +222,23 @@ nmap <leader>ls <plug>(lang-symbols)
 nmap <leader>lS <plug>(lang-workspace-symbols)
 
 " }}}
+" sessions {{{
+
+nmap <leader>ss <plug>(session-start)
+nmap <leader>sS <plug>(session-stop)
+
+" }}}
 
 " }}}
 " vim-sleuth {{{
 
 let g:sleuth_automatic = 1
+
+" }}}
+" vim-obsession {{{
+
+noremap <silent> <plug>(session-start) :Obsess <cr>
+noremap <silent> <plug>(session-stop) :Obsess! <cr>
 
 " }}}
 " vim-edgemotion {{{
@@ -305,26 +281,6 @@ augroup rainbow
   au!
   au VimEnter * RainbowParentheses
 augroup END
-
-" }}}
-" vim-startify {{{
-
-let g:startify_session_dir = '~/.local/share/nvim/session'
-let g:startify_update_oldfiles = 1
-let g:startify_session_autoload = 1
-let g:startify_session_persistence = 1
-let g:startify_fortune_use_unicode = 1
-let g:startify_change_to_vcs_root = 1
-let g:startify_relative_path = 1
-let g:startify_session_sort = 1
-
-noremap <silent> <plug>(session-start-screen) :Startify <cr>
-noremap <silent> <plug>(session-load) :SLoad <cr>
-noremap <silent> <plug>(session-save) :SSave <cr>
-noremap <silent> <plug>(session-force-save) :SSave! <cr>
-noremap <silent> <plug>(session-delete) :SDelete <cr>
-noremap <silent> <plug>(session-force-delete) :SDelete! <cr>
-noremap <silent> <plug>(session-close) :SClose <cr>
 
 " }}}
 " lightline {{{
