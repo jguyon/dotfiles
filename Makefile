@@ -11,9 +11,11 @@ core:
 		nixpkgs.man \
 		nixpkgs.findutils \
 		nixpkgs.gnugrep \
+		nixpkgs.gcc \
+		nixpkgs.gnumake \
 		nixpkgs.bash
 
-git: nvim
+git:
 	$(NIX) nixpkgs.gitAndTools.gitFull
 	$(STOW) -t ~ git
 
@@ -22,7 +24,7 @@ fish:
 	mkdir -p ~/.config/fish
 	$(STOW) -t ~/.config/fish fish
 
-tmux: fish
+tmux: core fish
 	$(NIX) nixpkgs.tmux
 	$(STOW) -t ~ tmux
 	[ -e ~/.local/share/tmux/plugins/tpm/tpm ] || \
@@ -30,7 +32,7 @@ tmux: fish
 		~/.local/share/tmux/plugins/tpm
 	~/.local/share/tmux/plugins/tpm/bin/install_plugins
 
-nvim: core fish
+nvim: core
 	$(NIX) \
 		nixpkgs.neovim \
 		nixpkgs.python27Packages.neovim \
@@ -42,7 +44,7 @@ nvim: core fish
 		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 	nvim --headless '+PlugInstall --sync' +qa
 
-node:
+node: core
 	$(NIX) \
 		nixpkgs.nodejs-9_x \
 		nixpkgs.yarn
