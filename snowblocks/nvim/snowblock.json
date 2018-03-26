@@ -1,0 +1,35 @@
+[
+  {
+    "defaults": {
+      "link": {
+        "create": true
+      }
+    }
+  },
+  {
+    "clean": ["~/.config/nvim"]
+  },
+  {
+    "link": {
+      "~/.config/nvim/init.vim": "init.vim"
+    }
+  },
+  {
+    "shell": [
+      {
+        "command":
+          "nix-env -iA neovim python27Packages.neovim python36Packages.neovim vim-vint -f '<nixpkgs>'",
+        "description": "Installing neovim"
+      },
+      {
+        "command":
+          "[ -e ~/.local/share/nvim/site/autoload/plug.vim ] || curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim",
+        "description": "Installing neovim plugin manager"
+      },
+      {
+        "command": "nvim --headless '+PlugInstall --sync' +qa",
+        "description": "Installing neovim plugins"
+      }
+    ]
+  }
+]

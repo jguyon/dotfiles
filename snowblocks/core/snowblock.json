@@ -1,0 +1,11 @@
+[
+  {
+    "shell": [
+      {
+        "command":
+          "nix-env -iA coreutils man findutils gnugrep bash -f '<nixpkgs>'",
+        "description": "Installing core programs"
+      }
+    ]
+  }
+]

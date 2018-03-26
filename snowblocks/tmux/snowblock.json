@@ -1,0 +1,27 @@
+[
+  {
+    "clean": ["~"]
+  },
+  {
+    "link": {
+      "~/.tmux.conf": "tmux.conf"
+    }
+  },
+  {
+    "shell": [
+      {
+        "command": "nix-env -iA tmux -f '<nixpkgs>'",
+        "description": "Installing tmux"
+      },
+      {
+        "command":
+          "[ -e ~/.tmux/plugins/tpm/tpm ] || git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm",
+        "description": "Installing tmux plugin manager"
+      },
+      {
+        "command": "~/.tmux/plugins/tpm/bin/install_plugins",
+        "description": "Installing tmux plugins"
+      }
+    ]
+  }
+]

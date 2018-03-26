@@ -2,7 +2,7 @@
   email = jeromep.guyon@gmail.com
   name = Jérôme Guyon
 [core]
-  excludesfile = ~/.gitignore_global
+  excludesfile = ~/.global_gitignore
   editor = nvim
 [push]
   default = simple

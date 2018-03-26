@@ -1,0 +1,19 @@
+[
+  {
+    "clean": ["~"]
+  },
+  {
+    "link": {
+      "~/.gitconfig": "gitconfig",
+      "~/.global_gitignore": "gitignore"
+    }
+  },
+  {
+    "shell": [
+      {
+        "command": "nix-env -iA gitAndTools.gitFull -f '<nixpkgs>'",
+        "description": "Installing git"
+      }
+    ]
+  }
+]

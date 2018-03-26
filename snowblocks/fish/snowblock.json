@@ -1,0 +1,27 @@
+[
+  {
+    "defaults": {
+      "link": {
+        "create": true
+      }
+    }
+  },
+  {
+    "clean": ["~/.config/fish", "~/.config/fish/functions"]
+  },
+  {
+    "link": {
+      "~/.config/fish/config.fish": "config.fish",
+      "~/.config/fish/functions/fish_prompt.fish": "functions/fish_prompt.fish",
+      "~/.config/fish/functions/n.fish": "functions/n.fish"
+    }
+  },
+  {
+    "shell": [
+      {
+        "command": "nix-env -iA fish -f '<nixpkgs>'",
+        "description": "Installing fish"
+      }
+    ]
+  }
+]
