@@ -1,4 +1,4 @@
-# postdash's dotfiles
+# jguyon's dotfiles
 
 ## Install
 
