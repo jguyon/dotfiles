@@ -13,7 +13,9 @@
     "link": {
       "~/.config/fish/config.fish": "config.fish",
       "~/.config/fish/functions/fish_prompt.fish": "functions/fish_prompt.fish",
-      "~/.config/fish/functions/n.fish": "functions/n.fish"
+      "~/.config/fish/functions/n.fish": "functions/n.fish",
+      "~/.config/fish/functions/t.fish": "functions/t.fish",
+      "~/.config/fish/functions/ts.fish": "functions/ts.fish"
     }
   },
   {
