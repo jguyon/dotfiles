@@ -273,6 +273,9 @@ set termguicolors
 set background=dark
 colorscheme nord
 
+hi! link ALEError NONE
+hi! link ALEWarning NONE
+
 " }}}
 " rainbow_parentheses.vim {{{
 
@@ -515,11 +518,12 @@ let g:ale_fixers = {
   \ 'typescript': ['prettier'],
   \ 'json': ['prettier'],
   \ 'css': ['prettier'],
-  \ 'reason': ['refmt']
+  \ 'markdown': ['prettier'],
+  \ 'reason': ['refmt'],
   \ }
 
-nmap <plug>(errors-enable) ALEEnable<cr>
-nmap <plug>(errors-disable) ALEDisable<cr>
+nnoremap <silent> <plug>(errors-enable) :ALEEnable<cr>
+nnoremap <silent> <plug>(errors-disable) :ALEDisable<cr>
 nmap <plug>(errors-lint) <plug>(ale_lint)
 nmap <plug>(errors-fix) <plug>(ale_fix)
 nmap <plug>(errors-prev) <plug>(ale_previous_wrap)
