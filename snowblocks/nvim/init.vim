@@ -269,8 +269,6 @@ map ;r <Plug>(easymotion-repeat)
 let g:nord_italic = 1
 let g:nord_italic_comments = 1
 
-set termguicolors
-set background=dark
 colorscheme nord
 
 hi! link ALEError NONE
