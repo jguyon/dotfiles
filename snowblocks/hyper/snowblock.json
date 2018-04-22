@@ -1,5 +1,12 @@
 [
   {
+    "defaults": {
+      "link": {
+        "force": true
+      }
+    }
+  },
+  {
     "clean": ["~"]
   },
   {
