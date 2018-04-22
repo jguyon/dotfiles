@@ -467,10 +467,6 @@ nnoremap <silent> <plug>(git-authors) :Gblame <cr>
 
 let g:projectionist_heuristics = {
   \ 'bsconfig.json': {
-  \   '*': {
-  \     'start': 'bsb -make-world -w',
-  \     'make': 'bsb -make-world',
-  \   },
   \   'src/*.re': {
   \     'alternate': 'src/{}.rei',
   \     'type': 'source',
@@ -478,15 +474,6 @@ let g:projectionist_heuristics = {
   \   'src/*.rei': {
   \     'alternate': 'src/{}.re',
   \     'type': 'interface',
-  \   },
-  \   'src/*.bs.js': {
-  \     'alternate': 'src/{}.re',
-  \     'type': 'target',
-  \   },
-  \ },
-  \ 'bsconfig.json&node_modules/.bin/jest': {
-  \   '*_test.re': {
-  \     'dispatch': 'node_modules/.bin/jest {}_test.bs.js',
   \   },
   \ },
   \ }
