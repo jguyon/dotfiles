@@ -199,6 +199,7 @@ nmap <leader>hv <plug>(hunk-preview)
 " }}}
 " linting {{{
 
+nmap J <plug>(errors-detail)
 nmap <leader>ee <plug>(errors-enable)
 nmap <leader>eE <plug>(errors-disable)
 nmap <leader>el <plug>(errors-lint)
@@ -506,7 +507,7 @@ let g:lightline#ale#indicator_errors = g:ale_sign_error
 let g:ale_sign_warning = "\u26a0"
 let g:lightline#ale#indicator_warnings = g:ale_sign_warning
 let g:ale_sign_info = "\u2139"
-let g:ale_open_list = 'on_save'
+let g:ale_open_list = 0
 let g:ale_lint_on_text_changed = 'normal'
 let g:ale_lint_on_insert_leave = 1
 let g:ale_fix_on_save = 1
@@ -528,6 +529,7 @@ nmap <plug>(errors-prev) <plug>(ale_previous_wrap)
 nmap <plug>(errors-next) <plug>(ale_next_wrap)
 nmap <plug>(errors-toggle) <plug>(ale_toggle_buffer)
 nmap <plug>(errors-reset) <plug>(ale_reset_buffer)
+nmap <plug>(errors-detail) <plug>(ale_detail)
 
 " }}}
 " lsp {{{
