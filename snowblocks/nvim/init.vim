@@ -22,7 +22,7 @@ Plug 'easymotion/vim-easymotion' " Move around easily
 Plug 'yuttie/inkstained-vim' " Color scheme
 Plug 'junegunn/rainbow_parentheses.vim' " Color matching pairs
 Plug 'itchyny/lightline.vim' " Status line
-Plug 'jguyon/vim-ctrlspace' " Workspace management
+Plug 'jguyon/vim-ctrlspace', { 'branch': 'fix-terminal' } " Workspace management
 Plug 'Shougo/denite.nvim', {
   \ 'do': ':UpdateRemotePlugins'
   \ } " Fuzzy-find everything
