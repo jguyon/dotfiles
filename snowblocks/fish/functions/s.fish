@@ -15,7 +15,7 @@ function s
     # if no arguments are given,
     # call ssh with the most recently used host
     if test -n "$s_last_host"
-      ts "$s_last_host"
+      s "$s_last_host"
     else
       echo "This command must be called with a host at least once" 1>&2
       false
