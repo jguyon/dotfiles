@@ -21,6 +21,7 @@ Plug 'easymotion/vim-easymotion' " Move around easily
 Plug 'arcticicestudio/nord-vim' " Color scheme
 Plug 'junegunn/rainbow_parentheses.vim' " Color matching pairs
 Plug 'itchyny/lightline.vim' " Status line
+Plug 'jguyon/vim-ctrlspace' " Workspace management
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim' " Fuzzy-search everything
 
@@ -386,6 +387,16 @@ function! init#lightline_tabcwd(tabnr) abort
 endfunction
 
 " }}}
+
+" }}}
+" vim-ctrlspace {{{
+
+nnoremap <silent> <c-space> :CtrlSpace <cr>
+
+let g:CtrlSpaceSearchTiming = 100
+let g:CtrlSpaceSaveWorkspaceOnExit = 1
+let g:CtrlSpaceSaveWorkspaceOnSwitch = 1
+let g:CtrlSpaceLoadLastWorkspaceOnStart = 1
 
 " }}}
 " fzf.vim {{{
