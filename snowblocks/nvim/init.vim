@@ -267,8 +267,8 @@ let g:lightline.inactive = {
   \ }
 
 let g:lightline.tab = {
-  \ 'active': [ 'tabnum', 'tabcwd' ],
-  \ 'inactive': [ 'tabnum', 'tabcwd' ],
+  \ 'active': [ 'tabnum', 'filename', 'modified' ],
+  \ 'inactive': [ 'tabnum', 'filename', 'modified' ],
   \ }
 
 let g:lightline.mode_map = {
@@ -301,7 +301,8 @@ let g:lightline.component_type = {
   \ }
 
 let g:lightline.tab_component_function = {
-  \ 'tabcwd': 'init#lightline_tabcwd'
+  \ 'tabnum': 'init#lightline_tabnum',
+  \ 'filename': 'init#lightline_filename',
   \ }
 
 function! init#lightline_shortpath() abort
@@ -340,14 +341,15 @@ function! init#lightline_githunks() abort
   endif
 endfunction
 
-function! init#lightline_tabcwd(tabnr) abort
-  let l:dirname = getcwd(-1, a:tabnr)
+function! init#lightline_tabnum(n) abort
+  return a:n . ctrlspace#api#TabBuffersNumber(a:n)
+endfunction
 
-  if strlen(l:dirname) > 0
-    return pathshorten(fnamemodify(l:dirname, ':~'))
-  else
-    return ''
-  endif
+function! init#lightline_filename(n) abort
+  let l:buflist = tabpagebuflist(a:n)
+  let l:winnr = tabpagewinnr(a:n)
+  let l:bufnr = l:buflist[l:winnr - 1]
+  return ctrlspace#api#TabTitle(a:n, l:bufnr, expand('#'. l:bufnr . ':t'))
 endfunction
 
 " }}}
@@ -361,6 +363,10 @@ let g:CtrlSpaceSearchTiming = 100
 let g:CtrlSpaceSaveWorkspaceOnExit = 1
 let g:CtrlSpaceSaveWorkspaceOnSwitch = 1
 let g:CtrlSpaceLoadLastWorkspaceOnStart = 1
+
+if executable('ag')
+  let g:CtrlSpaceGlobCommand = 'ag -l --nocolor -g ""'
+endif
 
 " }}}
 " denite.nvim {{{
