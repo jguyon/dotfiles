@@ -11,7 +11,6 @@ Plug 'tpope/vim-sleuth' " Auth-detect indentation
 Plug 'tpope/vim-repeat' " Enable '.' operator for custom mappings
 Plug 'tpope/vim-surround' " Replace/delete surrounding characters
 Plug 'tpope/vim-commentary' " Comment stuff in/out
-Plug 'tpope/vim-obsession' " Sensible sessions
 Plug 'jiangmiao/auto-pairs' " Auto-insert matching bracket, quote...
 Plug 'haya14busa/vim-edgemotion' " Move to edges
 Plug 'easymotion/vim-easymotion' " Move around easily
@@ -234,12 +233,6 @@ nmap <leader>sS <plug>(session-stop)
 " vim-sleuth {{{
 
 let g:sleuth_automatic = 1
-
-" }}}
-" vim-obsession {{{
-
-noremap <silent> <plug>(session-start) :Obsess <cr>
-noremap <silent> <plug>(session-stop) :Obsess! <cr>
 
 " }}}
 " vim-edgemotion {{{
