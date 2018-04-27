@@ -22,8 +22,9 @@ Plug 'arcticicestudio/nord-vim' " Color scheme
 Plug 'junegunn/rainbow_parentheses.vim' " Color matching pairs
 Plug 'itchyny/lightline.vim' " Status line
 Plug 'jguyon/vim-ctrlspace' " Workspace management
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
-Plug 'junegunn/fzf.vim' " Fuzzy-search everything
+Plug 'Shougo/denite.nvim', {
+  \ 'do': ':UpdateRemotePlugins'
+  \ } " Fuzzy-find everything
 
 " }}}
 " integration {{{
@@ -109,19 +110,18 @@ let g:maplocalleader = ' '
 
 nmap <leader><leader> <plug>(search-commands)
 nmap <leader>? <plug>(search-helptags)
-nmap <leader><tab> <plug>(search-mappings)
-nmap <leader>/ <plug>(search-search-history)
 nmap <leader>: <plug>(search-command-history)
 nnoremap <silent> <leader>c :pclose<cr>:lclose<cr>:cclose<cr>
 
 " }}}
 " buffers {{{
 
-nnoremap <silent> <leader>bp :bprevious <cr>
-nnoremap <silent> <leader>bn :bnext <cr>
+nnoremap <silent> <leader>bw :w <cr>
+nnoremap <silent> <leader>bW :w! <cr>
 nnoremap <silent> <leader>bd :bdelete <cr>
 nnoremap <silent> <leader>bD :bdelete! <cr>
-nmap <leader>bb <plug>(search-buffers)
+nmap <leader>ba <plug>(file-alternative)
+
 
 " }}}
 " windows {{{
@@ -142,19 +142,6 @@ nnoremap <silent> <leader>w- :resize -5 <cr>
 nnoremap <silent> <leader>w+ :resize +5 <cr>
 nnoremap <silent> <leader>w< :vertical resize -5 <cr>
 nnoremap <silent> <leader>w> :vertical resize +5 <cr>
-nmap <leader>ww <plug>(search-windows)
-
-" }}}
-" tabs {{{
-
-nnoremap <silent> <leader>tc :tabnew <cr>
-nnoremap <silent> <leader>td :tabclose <cr>
-nnoremap <silent> <leader>tn :tabnext <cr>
-nnoremap <silent> <leader>tp :tabprev <cr>
-nnoremap <silent> <leader>tf :tabfirst <cr>
-nnoremap <silent> <leader>tl :tablast <cr>
-nnoremap <silent> \ :<C-U>execute v:count . 'tabnext' <cr>
-nmap <leader>tr <plug>(tab-cd-root)
 
 " }}}
 " quit {{{
@@ -165,22 +152,10 @@ nnoremap <silent> <leader>qw :wqa <cr>
 nnoremap <silent> <leader>qW :wqa! <cr>
 
 " }}}
-" files {{{
-
-nnoremap <silent> <leader>fw :w <cr>
-nnoremap <silent> <leader>fW :w! <cr>
-nmap <leader>ff <plug>(search-files)
-nmap <leader>fk <plug>(search-filetypes)
-nmap <leader>fh <plug>(search-file-history)
-nmap <leader>fa <plug>(file-alternative)
-
-" }}}
 " git {{{
 
-nmap <leader>gg <plug>(search-git-files)
-nmap <leader>gs <plug>(search-git-status)
-nmap <leader>gl <plug>(search-git-log)
-nmap <leader>gb <plug>(search-git-log-buffer)
+nmap <leader>gs <plug>(git-status)
+nmap <leader>gl <plug>(git-log)
 nmap <leader>gc <plug>(git-commit)
 nmap <leader>gd <plug>(git-diff)
 nmap <leader>gp <plug>(git-push)
@@ -218,15 +193,6 @@ nmap K <plug>(lang-hover)
 nmap <cr> <plug>(lang-hover)
 nmap <leader>lr <plug>(lang-rename)
 nmap <leader>lg <plug>(lang-go-to-def)
-nmap <leader>lf <plug>(lang-references)
-nmap <leader>ls <plug>(lang-symbols)
-nmap <leader>lS <plug>(lang-workspace-symbols)
-
-" }}}
-" sessions {{{
-
-nmap <leader>ss <plug>(session-start)
-nmap <leader>sS <plug>(session-stop)
 
 " }}}
 
@@ -399,52 +365,27 @@ let g:CtrlSpaceSaveWorkspaceOnSwitch = 1
 let g:CtrlSpaceLoadLastWorkspaceOnStart = 1
 
 " }}}
-" fzf.vim {{{
+" denite.nvim {{{
 
-let g:fzf_buffers_jump = 1
-let g:fzf_layout = { 'down': '~30%' }
-let g:fzf_history_dir = '~/.local/share/nvim/fzf-history'
+noremap <silent> <plug>(search-commands) :Denite command <cr>
+noremap <silent> <plug>(search-command-history) :Denite command_history <cr>
+noremap <silent> <plug>(search-helptags) :Denite help <cr>
 
-let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'Comment'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':     ['fg', 'Statement'],
-  \ 'info':    ['fg', 'PreProc'],
-  \ 'border':  ['fg', 'Comment'],
-  \ 'prompt':  ['fg', 'Conditional'],
-  \ 'pointer': ['fg', 'Exception'],
-  \ 'marker':  ['fg', 'Keyword'],
-  \ 'spinner': ['fg', 'Label'],
-  \ 'header':  ['fg', 'Comment'] }
+call denite#custom#map(
+  \ 'insert',
+  \ '<C-j>',
+  \ '<denite:move_to_next_line>',
+  \ 'noremap'
+  \)
+call denite#custom#map(
+  \ 'insert',
+  \ '<C-k>',
+  \ '<denite:move_to_previous_line>',
+  \ 'noremap'
+  \)
 
-augroup FZF
-  autocmd! FileType fzf
-  autocmd  FileType fzf set laststatus=0 noruler
-    \| autocmd BufLeave <buffer> set laststatus=2 ruler
-augroup END
-
-command! -bang -nargs=? -complete=dir Files
-  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-command! -bang -nargs=? -complete=dir GFilesPreview
-  \ call fzf#vim#gitfiles(<q-args>, fzf#vim#with_preview(), <bang>0)
-
-noremap <silent> <plug>(search-files) :Files <cr>
-noremap <silent> <plug>(search-buffers) :Buffers <cr>
-noremap <silent> <plug>(search-windows) :Windows <cr>
-noremap <silent> <plug>(search-commands) :Commands <cr>
-noremap <silent> <plug>(search-file-history) :History <cr>
-noremap <silent> <plug>(search-command-history) :History: <cr>
-noremap <silent> <plug>(search-search-history) :History/ <cr>
-noremap <silent> <plug>(search-helptags) :Helptags <cr>
-noremap <silent> <plug>(search-mappings) :Maps <cr>
-noremap <silent> <plug>(search-filetypes) :Filetypes <cr>
-noremap <silent> <plug>(search-git-files) :GFilesPreview <cr>
-noremap <silent> <plug>(search-git-status) :GFiles?<cr>
-noremap <silent> <plug>(search-git-log) :Commits <cr>
-noremap <silent> <plug>(search-git-log-buffer) :BCommits <cr>
+call denite#custom#option('_', 'reversed', 1)
+call denite#custom#option('_', 'smartcase', 1)
 
 " }}}
 " vim-gitgutter {{{
@@ -460,6 +401,7 @@ nmap <silent> <plug>(hunk-preview) <plug>GitGutterPreviewHunk
 " }}}
 " vim-fugitive {{{
 
+nnoremap <silent> <plug>(git-status) :Gstatus <cr>
 nnoremap <silent> <plug>(git-commit) :Gcommit <cr>
 nnoremap <silent> <plug>(git-push) :Gpush <cr>
 nnoremap <silent> <plug>(git-pull) :Gpull <cr>
@@ -483,11 +425,6 @@ let g:projectionist_heuristics = {
   \ }
 
 nnoremap <silent> <plug>(file-alternative) :A <cr>
-nnoremap <silent> <plug>(tab-cd-root) :call init#tab_cd() <cr>
-
-function! init#tab_cd() abort
-  exec 'tcd projectionist#path()'
-endfunction
 
 " }}}
 " ale {{{
@@ -499,6 +436,7 @@ let g:ale_sign_warning = "\u26a0"
 let g:lightline#ale#indicator_warnings = g:ale_sign_warning
 let g:ale_sign_info = "\u2139"
 let g:ale_open_list = 0
+let g:ale_lint_on_enter = 0
 let g:ale_lint_on_text_changed = 'normal'
 let g:ale_lint_on_insert_leave = 1
 let g:ale_fix_on_save = 1
@@ -527,7 +465,6 @@ nmap <plug>(errors-detail) <plug>(ale_detail)
 
 let g:LanguageClient_autoStart = 1
 let g:LanguageClient_diagnosticsEnable = 0
-let g:LanguageClient_selectionUI = 'fzf'
 
 let g:LanguageClient_serverCommands = {
   \ 'javascript': ['javascript-typescript-stdio'],
@@ -553,12 +490,6 @@ noremap <silent> <plug>(lang-rename)
   \ :call LanguageClient_textDocument_rename() <cr>
 noremap <silent> <plug>(lang-go-to-def)
   \ :call LanguageClient_textDocument_definition() <cr>
-noremap <silent> <plug>(lang-symbols)
-  \ :call LanguageClient_textDocument_documentSymbol() <cr>
-noremap <silent> <plug>(lang-references)
-  \ :call LanguageClient_textDocument_references() <cr>
-noremap <silent> <plug>(lang-workspace-symbols)
-  \ :call LanguageClient_workspace_symbol() <cr>
 
 " }}}
 " javascript {{{
