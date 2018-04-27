@@ -18,7 +18,8 @@ Plug 'easymotion/vim-easymotion' " Move around easily
 " }}}
 " interface {{{
 
-Plug 'arcticicestudio/nord-vim' " Color scheme
+
+Plug 'yuttie/inkstained-vim' " Color scheme
 Plug 'junegunn/rainbow_parentheses.vim' " Color matching pairs
 Plug 'itchyny/lightline.vim' " Status line
 Plug 'jguyon/vim-ctrlspace' " Workspace management
@@ -66,8 +67,6 @@ set number relativenumber " Show relative line numbers
 set signcolumn=yes " Sign column always visible on the left
 set cursorline " Highlight current line
 set colorcolumn=81 " 80 columns indicator
-set foldmethod=syntax " Fold according to language syntax
-set foldnestmax=3 " Maximum nesting of closed folds
 set showcmd " Show normal mode commands
 set ignorecase smartcase " Ignore case in searches, unless using uppercase
 set splitright splitbelow " Go to right/bottom when splitting windows
@@ -225,15 +224,14 @@ map ;z <Plug>(easymotion-bd-t2)
 map ;r <Plug>(easymotion-repeat)
 
 " }}}
-" nord {{{
+" inkstained {{{
 
-let g:nord_italic = 1
-let g:nord_italic_comments = 1
-
-colorscheme nord
+set termguicolors
+colorscheme inkstained
 
 hi! link ALEError NONE
 hi! link ALEWarning NONE
+hi! link ColorColumn CursorLine
 
 " }}}
 " rainbow_parentheses.vim {{{
@@ -248,7 +246,7 @@ augroup END
 " lightline {{{
 
 let g:lightline = {}
-let g:lightline.colorscheme = 'nord'
+let g:lightline.colorscheme = 'inkstained'
 
 " layout {{{
 
