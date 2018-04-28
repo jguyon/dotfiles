@@ -11,6 +11,15 @@ const colors = {
   grayscale: "#929cad"
 };
 
+colors.lightBlack = colors.black;
+colors.lightRed = colors.red;
+colors.lightGreen = colors.green;
+colors.lightYellow = colors.yellow;
+colors.lightBlue = colors.blue;
+colors.lightMagenta = colors.magenta;
+colors.lightCyan = colors.cyan;
+colors.lightWhite = colors.white;
+
 module.exports = {
   config: {
     shell: "fish",
@@ -21,21 +30,11 @@ module.exports = {
     cursorShape: "BLOCK",
     cursorColor: colors.white,
     cursorAccentColor: colors.black,
-    backgroundColor: colors.white,
-    foregroundColor: colors.black,
+    foregroundColor: colors.white,
+    backgroundColor: colors.black,
     selectionColor: colors.colorCubes,
     borderColor: colors.grayscale,
-    colors: {
-      ...colors,
-      lightBlack: colors.black,
-      lightRed: colors.red,
-      lightGreen: colors.green,
-      lightYellow: colors.yellow,
-      lightBlue: colors.blue,
-      lightMagenta: colors.magenta,
-      lightCyan: colors.cyan,
-      lightWhite: colors.white
-    }
+    colors
   },
 
   plugins: ["hyperminimal"],
