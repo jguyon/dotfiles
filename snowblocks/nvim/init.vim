@@ -2,6 +2,21 @@
 
 " plugins {{{
 
+" automatically install vim-plug
+if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+  silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+endif
+
+" automatically install plugins
+augroup autoinstall
+  au!
+  au VimEnter * 
+    \ if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+    \|  PlugInstall --sync | source $MYVIMRC
+    \|endif
+augroup END
+
 call plug#begin('~/.local/share/nvim/plugged')
 
 " editing {{{
@@ -18,14 +33,11 @@ Plug 'easymotion/vim-easymotion' " Move around easily
 " }}}
 " interface {{{
 
-
 Plug 'yuttie/inkstained-vim' " Color scheme
 Plug 'junegunn/rainbow_parentheses.vim' " Color matching pairs
 Plug 'itchyny/lightline.vim' " Status line
 Plug 'jguyon/vim-ctrlspace', { 'branch': 'fix-terminal' } " Workspace management
-Plug 'Shougo/denite.nvim', {
-  \ 'do': ':UpdateRemotePlugins'
-  \ } " Fuzzy-find everything
+Plug '~/.fzf' | Plug 'junegunn/fzf.vim' " Fuzzy search everything
 
 " }}}
 " integration {{{
@@ -49,7 +61,6 @@ Plug 'autozimu/LanguageClient-neovim', {
 Plug 'stephpy/vim-yaml' " YAML
 Plug 'cespare/vim-toml' " TOML
 Plug 'dag/vim-fish' " fish shell
-Plug 'StanAngeloff/php.vim' " PHP
 Plug 'pangloss/vim-javascript' " javascript
 Plug 'mxw/vim-jsx' " JSX
 Plug 'reasonml-editor/vim-reason-plus' " reasonml
@@ -63,6 +74,7 @@ call plug#end()
 
 set shell=~/.nix-profile/bin/bash " Run commands with bash
 set mouse=a " Enable mouse
+set termguicolors " Enable true colour
 set number relativenumber " Show relative line numbers
 set signcolumn=yes " Sign column always visible on the left
 set cursorline " Highlight current line
@@ -82,7 +94,9 @@ set backup backupdir=~/.local/share/nvim/backup " Enable backups
 set swapfile dir=~/.local/share/nvim/backup " Enable swapfile
 set undofile undodir=~/.local/share/nvim/backup " Enable undofiles
 set history=1000 undolevels=1000 undoreload=10000 " We live in the future
-set sessionoptions-=buffers " Don't save hidden buffers in sessions
+
+" Theme
+colorscheme inkstained
 
 " Use <esc> to quit terminal mode
 tnoremap <esc> <C-\><C-n>
@@ -99,28 +113,26 @@ inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 
-" }}}
-" mappings {{{
-
+" set <leader> key to <space>
 let g:mapleader = ' '
 let g:maplocalleader = ' '
 
-" global {{{
+" }}}
+" mappings {{{
 
-nmap <leader><leader> <plug>(search-commands)
-nmap <leader>? <plug>(search-helptags)
-nmap <leader>: <plug>(search-command-history)
-nnoremap <silent> <leader>c :pclose<cr>:lclose<cr>:cclose<cr>
+" quit {{{
+
+nnoremap <silent> <leader>qq :qa <cr>
+nnoremap <silent> <leader>qQ :qa! <cr>
+nnoremap <silent> <leader>qw :wqa <cr>
+nnoremap <silent> <leader>qW :wqa! <cr>
 
 " }}}
-" buffers {{{
+" current buffer {{{
 
-nnoremap <silent> <leader>bw :w <cr>
-nnoremap <silent> <leader>bW :w! <cr>
-nnoremap <silent> <leader>bd :bdelete <cr>
-nnoremap <silent> <leader>bD :bdelete! <cr>
-nmap <leader>ba <plug>(file-alternative)
-
+nnoremap <silent> <leader>fw :write <cr>
+nnoremap <silent> <leader>fW :write! <cr>
+nmap <leader>fa <plug>(file-alternative)
 
 " }}}
 " windows {{{
@@ -143,12 +155,22 @@ nnoremap <silent> <leader>w< :vertical resize -5 <cr>
 nnoremap <silent> <leader>w> :vertical resize +5 <cr>
 
 " }}}
-" quit {{{
+" terminal {{{
 
-nnoremap <silent> <leader>qq :qa <cr>
-nnoremap <silent> <leader>qQ :qa! <cr>
-nnoremap <silent> <leader>qw :wqa <cr>
-nnoremap <silent> <leader>qW :wqa! <cr>
+nnoremap <silent> <leader>t :call LaunchCommand('fish') <cr>
+nnoremap <silent> <leader>T :call PromptCommand() <cr>
+
+function! LaunchCommand(cmd) abort
+  execute 'edit term://' . getcwd() . '//' . a:cmd
+  startinsert
+endfunction
+
+function! PromptCommand() abort
+  call inputsave()
+  let l:cmd = input('Enter a command: ')
+  call inputrestore()
+  call LaunchCommand(l:cmd)
+endfunction
 
 " }}}
 " git {{{
@@ -184,35 +206,19 @@ nmap <leader>et <plug>(errors-toggle)
 nmap <leader>er <plug>(errors-reset)
 
 " }}}
-" language {{{
+" language server {{{
 
-nmap <leader>ll <plug>(lang-enable)
-nmap <leader>lL <plug>(lang-disable)
 nmap K <plug>(lang-hover)
-nmap <cr> <plug>(lang-hover)
-nmap <leader>lr <plug>(lang-rename)
-nmap <leader>lg <plug>(lang-go-to-def)
+nmap <leader>il <plug>(lang-enable)
+nmap <leader>iL <plug>(lang-disable)
+nmap <leader>ir <plug>(lang-rename)
+nmap <leader>ig <plug>(lang-go-to-def)
 
 " }}}
-
-" }}}
-" vim-sleuth {{{
-
-let g:sleuth_automatic = 1
-
-" }}}
-" vim-edgemotion {{{
+" motions {{{
 
 map <C-j> <Plug>(edgemotion-j)
 map <C-k> <Plug>(edgemotion-k)
-
-" }}}
-" vim-easymotion {{{
-
-let g:EasyMotion_do_mapping = 0
-let g:EasyMotion_smartcase = 1
-let g:EasyMotion_use_smartsign_us = 1
-
 map ;f <Plug>(easymotion-s)
 map ;t <Plug>(easymotion-bd-t)
 map ;w <Plug>(easymotion-bd-w)
@@ -224,31 +230,75 @@ map ;z <Plug>(easymotion-bd-t2)
 map ;r <Plug>(easymotion-repeat)
 
 " }}}
-" inkstained {{{
+" ctrlspace {{{
 
-set termguicolors
-colorscheme inkstained
+map <c-space> <plug>(ctrlspace)
 
-hi! link ALEError NONE
-hi! link ALEWarning NONE
-hi! link ColorColumn CursorLine
+" }}}
+" fuzzy search {{{
 
-let g:terminal_color_0 = '#e7e5e2'
-let g:terminal_color_1 = '#aa586e'
-let g:terminal_color_2 = '#608f8e'
-let g:terminal_color_3 = '#447487'
-let g:terminal_color_4 = '#56759a'
-let g:terminal_color_5 = '#7c6a93'
-let g:terminal_color_6 = '#a05b89'
-let g:terminal_color_7 = '#697383'
-let g:terminal_color_8 = '#bdbbb6'
-let g:terminal_color_9 = g:terminal_color_1
-let g:terminal_color_10 = g:terminal_color_2
-let g:terminal_color_11 = g:terminal_color_3
-let g:terminal_color_12 = g:terminal_color_4
-let g:terminal_color_13 = g:terminal_color_5
-let g:terminal_color_14 = g:terminal_color_6
-let g:terminal_color_15 = '#555f6f'
+nmap <leader>ff <plug>(search-files)
+nmap <leader>fc <plug>(search-colors)
+nmap <leader><leader> <plug>(search-commands)
+nmap <leader><tab> <plug>(search-mappings)
+nmap <leader>? <plug>(search-help)
+nmap <leader>h <plug>(search-buffer-history)
+nmap <leader>: <plug>(search-command-history)
+nmap <leader>/ <plug>(search-search-history)
+
+" }}}
+
+" }}}
+" vim-sleuth {{{
+
+let g:sleuth_automatic = 1
+
+" }}}
+" vim-easymotion {{{
+
+let g:EasyMotion_do_mapping = 0
+let g:EasyMotion_smartcase = 1
+let g:EasyMotion_use_smartsign_us = 1
+
+" }}}
+" inkstained-vim {{{
+
+function! TweakInkStained(scheme)
+  if a:scheme !=# 'inkstained'
+    return
+  endif
+
+  hi! link ALEError NONE
+  hi! link ALEWarning NONE
+  hi! link ColorColumn CursorLine
+
+  let g:terminal_color_0 = '#e7e5e2'
+  let g:terminal_color_1 = '#aa586e'
+  let g:terminal_color_2 = '#608f8e'
+  let g:terminal_color_3 = '#447487'
+  let g:terminal_color_4 = '#56759a'
+  let g:terminal_color_5 = '#7c6a93'
+  let g:terminal_color_6 = '#a05b89'
+  let g:terminal_color_7 = '#697383'
+  let g:terminal_color_8 = '#bdbbb6'
+  let g:terminal_color_9 = g:terminal_color_1
+  let g:terminal_color_10 = g:terminal_color_2
+  let g:terminal_color_11 = g:terminal_color_3
+  let g:terminal_color_12 = g:terminal_color_4
+  let g:terminal_color_13 = g:terminal_color_5
+  let g:terminal_color_14 = g:terminal_color_6
+  let g:terminal_color_15 = '#555f6f'
+endfunction
+
+if exists('g:colors_name')
+  call TweakInkStained(g:colors_name)
+endif
+
+augroup inkstained
+  au!
+  au ColorScheme * call TweakInkStained(expand('<amatch>'))
+augroup END
+
 
 " }}}
 " rainbow_parentheses.vim {{{
@@ -263,8 +313,24 @@ augroup END
 " lightline {{{
 
 let g:lightline = {}
-let g:lightline.colorscheme = 'inkstained'
 
+" colorscheme {{{
+
+if exists('g:colors_name')
+  let g:lightline.colorscheme = g:colors_name
+endif
+
+function! LightlineUpdateColors(scheme, needs_update) abort
+  let g:lightline.colorscheme = a:scheme
+  call lightline#init()
+endfunction
+
+augroup lightlineupdatecolors
+  au!
+  au ColorScheme * call LightlineUpdateColors(expand('<amatch>'), 1)
+augroup END
+
+" }}}
 " layout {{{
 
 let g:lightline.separator = { 'left': "\ue0b0", 'right': "\ue0b2" }
@@ -284,8 +350,8 @@ let g:lightline.inactive = {
   \ }
 
 let g:lightline.tab = {
-  \ 'active': [ 'tabnum', 'filename', 'modified' ],
-  \ 'inactive': [ 'tabnum', 'filename', 'modified' ],
+  \ 'active': [ 'tabnum', 'tabtitle', 'modified' ],
+  \ 'inactive': [ 'tabnum', 'tabtitle', 'modified' ],
   \ }
 
 let g:lightline.mode_map = {
@@ -301,9 +367,9 @@ let g:lightline.component = {
   \ }
 
 let g:lightline.component_function = {
-  \ 'filename': 'init#lightline_shortpath',
-  \ 'readonly': 'init#lightline_readonly',
-  \ 'githunks': 'init#lightline_githunks',
+  \ 'filename': 'LightlineShortpath',
+  \ 'readonly': 'LightlineReadOnly',
+  \ 'githunks': 'LightlineGitHunks',
   \ }
 
 let g:lightline.component_expand = {
@@ -318,21 +384,25 @@ let g:lightline.component_type = {
   \ }
 
 let g:lightline.tab_component_function = {
-  \ 'tabnum': 'init#lightline_tabnum',
-  \ 'filename': 'init#lightline_filename',
+  \ 'tabnum': 'LightlineTabNum',
+  \ 'tabtitle': 'LightlineTabTitle',
   \ }
 
-function! init#lightline_shortpath() abort
+function! LightlineShortpath() abort
   let l:filename = expand('%')
 
-  if strlen(l:filename) > 0
-    return pathshorten(fnamemodify(expand('%'), ':~:.'))
-  else
+  if strlen(l:filename) == 0
     return ''
+  elseif &filetype ==# '' && strridx(l:filename, 'term://', 0) == 0
+    return substitute(l:filename, '^term://.*//[0-9]*:\(.*\)$', '\1', '')
+  elseif &filetype ==# 'help'
+    return fnamemodify(l:filename, ':t:r')
+  else
+    return pathshorten(fnamemodify(expand('%'), ':~:.'))
   endif
 endfunction
 
-function! init#lightline_readonly() abort
+function! LightlineReadOnly() abort
   if &readonly
     return "\ue0a2"
   else
@@ -340,7 +410,7 @@ function! init#lightline_readonly() abort
   endif
 endfunction
 
-function! init#lightline_githunks() abort
+function! LightlineGitHunks() abort
   if !exists('*fugitive#head') || !exists('*GitGutterGetHunkSummary')
     return ''
   endif
@@ -358,11 +428,11 @@ function! init#lightline_githunks() abort
   endif
 endfunction
 
-function! init#lightline_tabnum(n) abort
+function! LightlineTabNum(n) abort
   return a:n . ctrlspace#api#TabBuffersNumber(a:n)
 endfunction
 
-function! init#lightline_filename(n) abort
+function! LightlineTabTitle(n) abort
   let l:buflist = tabpagebuflist(a:n)
   let l:winnr = tabpagewinnr(a:n)
   let l:bufnr = l:buflist[l:winnr - 1]
@@ -374,39 +444,55 @@ endfunction
 " }}}
 " vim-ctrlspace {{{
 
-nnoremap <silent> <c-space> :CtrlSpace <cr>
-
+let g:CtrlSpaceSetDefaultMapping = 0
 let g:CtrlSpaceSearchTiming = 100
 let g:CtrlSpaceSaveWorkspaceOnExit = 1
 let g:CtrlSpaceSaveWorkspaceOnSwitch = 1
 let g:CtrlSpaceLoadLastWorkspaceOnStart = 1
+let g:CtrlSpaceGlobCommand = $FZF_DEFAULT_COMMAND
 
-if executable('ag')
-  let g:CtrlSpaceGlobCommand = 'ag -l --nocolor -g ""'
-endif
+nnoremap <silent> <plug>(ctrlspace) :CtrlSpace<cr>
 
 " }}}
-" denite.nvim {{{
+" fzf.vim {{{
 
-noremap <silent> <plug>(search-commands) :Denite command <cr>
-noremap <silent> <plug>(search-command-history) :Denite command_history <cr>
-noremap <silent> <plug>(search-helptags) :Denite help <cr>
+let g:fzf_layout = { 'down': '~30%' }
 
-call denite#custom#map(
-  \ 'insert',
-  \ '<C-j>',
-  \ '<denite:move_to_next_line>',
-  \ 'noremap'
-  \)
-call denite#custom#map(
-  \ 'insert',
-  \ '<C-k>',
-  \ '<denite:move_to_previous_line>',
-  \ 'noremap'
-  \)
+let g:fzf_history_dir = '~/.local/share/nvim/fzf-history'
 
-call denite#custom#option('_', 'reversed', 1)
-call denite#custom#option('_', 'smartcase', 1)
+let g:fzf_colors = {
+  \ 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'],
+  \ }
+
+augroup fzfstatusline
+  au!
+  au FileType fzf set laststatus=0 noshowmode noruler
+	\| au BufLeave <buffer> set laststatus=2 showmode ruler
+augroup END
+
+command! -bang -nargs=? -complete=dir Files
+  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+
+nnoremap <silent> <plug>(search-files) :Files<cr>
+nnoremap <silent> <plug>(search-colors) :Colors<cr>
+nnoremap <silent> <plug>(search-commands) :Commands<cr>
+nnoremap <silent> <plug>(search-mappings) :Maps<cr>
+nnoremap <silent> <plug>(search-help) :Helptags<cr>
+nnoremap <silent> <plug>(search-buffer-history) :History<cr>
+nnoremap <silent> <plug>(search-command-history) :History:<cr>
+nnoremap <silent> <plug>(search-search-history) :History/<cr>
 
 " }}}
 " vim-gitgutter {{{
@@ -434,6 +520,9 @@ nnoremap <silent> <plug>(git-authors) :Gblame <cr>
 
 let g:projectionist_heuristics = {
   \ 'bsconfig.json': {
+  \   '*': {
+  \     'start': '-dir={project} npx bsb -clean-world -make-world -w'
+  \   },
   \   'src/*.re': {
   \     'alternate': 'src/{}.rei',
   \     'type': 'source',
@@ -441,6 +530,10 @@ let g:projectionist_heuristics = {
   \   'src/*.rei': {
   \     'alternate': 'src/{}.re',
   \     'type': 'interface',
+  \   },
+  \   'src/*.bs.js': {
+  \     'alternate': 'src/{}.re',
+  \     'type': 'target',
   \   },
   \ },
   \ }

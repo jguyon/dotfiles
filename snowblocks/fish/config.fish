@@ -7,3 +7,6 @@ end
 if type -q yarn
   set -gx PATH (yarn global bin) $PATH
 end
+
+# configure fzf search command
+set -gx FZF_DEFAULT_COMMAND 'ag -l --nocolor -g ""'
