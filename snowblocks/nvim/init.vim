@@ -37,7 +37,7 @@ Plug 'yuttie/inkstained-vim' " Color scheme
 Plug 'junegunn/rainbow_parentheses.vim' " Color matching pairs
 Plug 'itchyny/lightline.vim' " Status line
 Plug 'jguyon/vim-ctrlspace', { 'branch': 'fix-terminal' } " Workspace management
-Plug '~/.fzf' | Plug 'junegunn/fzf.vim' " Fuzzy search everything
+Plug 'Shougo/denite.nvim'
 
 " }}}
 " integration {{{
@@ -94,6 +94,7 @@ set backup backupdir=~/.local/share/nvim/backup " Enable backups
 set swapfile dir=~/.local/share/nvim/backup " Enable swapfile
 set undofile undodir=~/.local/share/nvim/backup " Enable undofiles
 set history=1000 undolevels=1000 undoreload=10000 " We live in the future
+set sessionoptions-=buffers " Don't save hidden buffers in sessions
 
 " Theme
 colorscheme inkstained
@@ -120,6 +121,13 @@ let g:maplocalleader = ' '
 " }}}
 " mappings {{{
 
+" general {{{
+
+nmap <c-space> <plug>(ctrlspace)
+nmap <leader><leader> <plug>(search-commands)
+nmap <leader>? <plug>(search-help)
+
+" }}}
 " quit {{{
 
 nnoremap <silent> <leader>qq :qa <cr>
@@ -133,6 +141,8 @@ nnoremap <silent> <leader>qW :wqa! <cr>
 nnoremap <silent> <leader>fw :write <cr>
 nnoremap <silent> <leader>fW :write! <cr>
 nmap <leader>fa <plug>(file-alternative)
+nmap <leader>ff <plug>(search-files)
+nmap <leader>fc <plug>(search-and-create-file)
 
 " }}}
 " windows {{{
@@ -209,10 +219,10 @@ nmap <leader>er <plug>(errors-reset)
 " language server {{{
 
 nmap K <plug>(lang-hover)
-nmap <leader>il <plug>(lang-enable)
-nmap <leader>iL <plug>(lang-disable)
+nmap <leader>ii <plug>(lang-enable)
+nmap <leader>iI <plug>(lang-disable)
 nmap <leader>ir <plug>(lang-rename)
-nmap <leader>ig <plug>(lang-go-to-def)
+nmap <leader>id <plug>(lang-go-to-def)
 
 " }}}
 " motions {{{
@@ -228,23 +238,6 @@ map ;n <Plug>(easymotion-bd-n)
 map ;s <Plug>(easymotion-s2)
 map ;z <Plug>(easymotion-bd-t2)
 map ;r <Plug>(easymotion-repeat)
-
-" }}}
-" ctrlspace {{{
-
-map <c-space> <plug>(ctrlspace)
-
-" }}}
-" fuzzy search {{{
-
-nmap <leader>ff <plug>(search-files)
-nmap <leader>fc <plug>(search-colors)
-nmap <leader><leader> <plug>(search-commands)
-nmap <leader><tab> <plug>(search-mappings)
-nmap <leader>? <plug>(search-help)
-nmap <leader>h <plug>(search-buffer-history)
-nmap <leader>: <plug>(search-command-history)
-nmap <leader>/ <plug>(search-search-history)
 
 " }}}
 
@@ -263,11 +256,7 @@ let g:EasyMotion_use_smartsign_us = 1
 " }}}
 " inkstained-vim {{{
 
-function! TweakInkStained(scheme)
-  if a:scheme !=# 'inkstained'
-    return
-  endif
-
+if exists('g:colors_name') && g:colors_name ==# 'inkstained'
   hi! link ALEError NONE
   hi! link ALEWarning NONE
   hi! link ColorColumn CursorLine
@@ -288,16 +277,7 @@ function! TweakInkStained(scheme)
   let g:terminal_color_13 = g:terminal_color_5
   let g:terminal_color_14 = g:terminal_color_6
   let g:terminal_color_15 = '#697383'
-endfunction
-
-if exists('g:colors_name')
-  call TweakInkStained(g:colors_name)
 endif
-
-augroup inkstained
-  au!
-  au ColorScheme * call TweakInkStained(expand('<amatch>'))
-augroup END
 
 " }}}
 " rainbow_parentheses.vim {{{
@@ -318,16 +298,6 @@ let g:lightline = {}
 if exists('g:colors_name')
   let g:lightline.colorscheme = g:colors_name
 endif
-
-function! LightlineUpdateColors(scheme, needs_update) abort
-  let g:lightline.colorscheme = a:scheme
-  call lightline#init()
-endfunction
-
-augroup lightlineupdatecolors
-  au!
-  au ColorScheme * call LightlineUpdateColors(expand('<amatch>'), 1)
-augroup END
 
 " }}}
 " layout {{{
@@ -366,6 +336,7 @@ let g:lightline.component = {
   \ }
 
 let g:lightline.component_function = {
+  \ 'mode': 'LightlineMode',
   \ 'filename': 'LightlineShortpath',
   \ 'readonly': 'LightlineReadOnly',
   \ 'githunks': 'LightlineGitHunks',
@@ -387,6 +358,16 @@ let g:lightline.tab_component_function = {
   \ 'tabtitle': 'LightlineTabTitle',
   \ }
 
+function! LightlineMode() abort
+  if &filetype ==# 'denite'
+    return 'denite'
+  elseif &filetype ==# 'ctrlspace'
+    return 'ctrlspace'
+  else
+    return lightline#mode()
+  endif
+endfunction
+
 function! LightlineShortpath() abort
   let l:filename = expand('%')
 
@@ -394,6 +375,11 @@ function! LightlineShortpath() abort
     return ''
   elseif &filetype ==# '' && strridx(l:filename, 'term://', 0) == 0
     return substitute(l:filename, '^term://.*//[0-9]*:\(.*\)$', '\1', '')
+  elseif &filetype ==# 'denite'
+    return denite#get_status('buffer_name')
+  elseif &filetype ==# 'ctrlspace'
+    return ctrlspace#api#StatuslineModeSegment(
+      \ ' ' . g:lightline.subseparator.left . ' ')
   elseif &filetype ==# 'help'
     return fnamemodify(l:filename, ':t:r')
   else
@@ -410,6 +396,10 @@ function! LightlineReadOnly() abort
 endfunction
 
 function! LightlineGitHunks() abort
+  if &filetype ==# 'denite' || &filetype ==# 'ctrlspace'
+    return ''
+  endif
+
   if !exists('*fugitive#head') || !exists('*GitGutterGetHunkSummary')
     return ''
   endif
@@ -448,50 +438,49 @@ let g:CtrlSpaceSearchTiming = 100
 let g:CtrlSpaceSaveWorkspaceOnExit = 1
 let g:CtrlSpaceSaveWorkspaceOnSwitch = 1
 let g:CtrlSpaceLoadLastWorkspaceOnStart = 1
-let g:CtrlSpaceGlobCommand = $FZF_DEFAULT_COMMAND
+let g:CtrlSpaceGlobCommand = 'ag --follow --nocolor --nogroup -g ""'
+let g:CtrlSpaceStatuslineFunction = 'lightline#statusline(0)'
+
+hi! link CtrlSpaceNormal Normal
+hi! link CtrlSpaceSelected CursorLine
+hi! link CtrlSpaceSearch MatchParen
 
 nnoremap <silent> <plug>(ctrlspace) :CtrlSpace<cr>
 
 " }}}
-" fzf.vim {{{
+" denite.nvim {{{
 
-let g:fzf_layout = { 'down': '~30%' }
+call denite#custom#var('file/rec,file_rec', 'command',
+  \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
 
-let g:fzf_history_dir = '~/.local/share/nvim/fzf-history'
+call denite#custom#option('_', 'statusline', v:false)
+call denite#custom#option('_', 'reversed', v:true)
+call denite#custom#option('_', 'auto_resize', v:true)
+call denite#custom#option('_', 'highlight_matched_char', 'MatchParen')
+call denite#custom#option('_', 'highlight_matched_range', 'NONE')
+call denite#custom#option('_', 'highlight_mode_insert', 'CursorLine')
 
-let g:fzf_colors = {
-  \ 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'Comment'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':     ['fg', 'Statement'],
-  \ 'info':    ['fg', 'PreProc'],
-  \ 'border':  ['fg', 'Ignore'],
-  \ 'prompt':  ['fg', 'Conditional'],
-  \ 'pointer': ['fg', 'Exception'],
-  \ 'marker':  ['fg', 'Keyword'],
-  \ 'spinner': ['fg', 'Label'],
-  \ 'header':  ['fg', 'Comment'],
-  \ }
+call denite#custom#map(
+  \ 'insert',
+  \ '<C-j>',
+  \ '<denite:move_to_next_line>',
+  \ 'noremap'
+  \)
+call denite#custom#map(
+  \ 'insert',
+  \ '<C-k>',
+  \ '<denite:move_to_previous_line>',
+  \ 'noremap'
+  \)
 
-augroup fzfstatusline
-  au!
-  au FileType fzf set laststatus=0 noshowmode noruler
-	\| au BufLeave <buffer> set laststatus=2 showmode ruler
-augroup END
-
-command! -bang -nargs=? -complete=dir Files
-  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-
-nnoremap <silent> <plug>(search-files) :Files<cr>
-nnoremap <silent> <plug>(search-colors) :Colors<cr>
-nnoremap <silent> <plug>(search-commands) :Commands<cr>
-nnoremap <silent> <plug>(search-mappings) :Maps<cr>
-nnoremap <silent> <plug>(search-help) :Helptags<cr>
-nnoremap <silent> <plug>(search-buffer-history) :History<cr>
-nnoremap <silent> <plug>(search-command-history) :History:<cr>
-nnoremap <silent> <plug>(search-search-history) :History/<cr>
+nnoremap <silent> <plug>(search-and-create-file)
+  \ :Denite -buffer-name='new file' directory_rec file<cr>
+nnoremap <silent> <plug>(search-files)
+  \ :Denite -buffer-name=file file_rec<cr>
+nnoremap <silent> <plug>(search-help)
+  \ :Denite -buffer-name=help help<cr>
+nnoremap <silent> <plug>(search-commands)
+  \ :Denite -buffer-name=command command<cr>
 
 " }}}
 " vim-gitgutter {{{

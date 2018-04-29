@@ -3,7 +3,7 @@
     "shell": [
       {
         "command":
-          "nix-env -iA coreutils man findutils gnugrep bash openssh ag fzf -f '<nixpkgs>'",
+          "nix-env -iA coreutils man findutils gnugrep bash openssh ag -f '<nixpkgs>'",
         "description": "Installing core programs"
       }
     ]
