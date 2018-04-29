@@ -75,6 +75,7 @@ call plug#end()
 set shell=~/.nix-profile/bin/bash " Run commands with bash
 set mouse=a " Enable mouse
 set termguicolors " Enable true colour
+set guicursor=a:Cursor " Force cursor highlight group
 set number relativenumber " Show relative line numbers
 set signcolumn=yes " Sign column always visible on the left
 set cursorline " Highlight current line
