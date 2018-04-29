@@ -1,14 +1,14 @@
 const colors = {
   black: "#e7e5e2",
-  lightBlack: "#bbbdb6",
+  lightBlack: "#d3d1cc",
   red: "#aa586e",
   green: "#608f8e",
   yellow: "#447487",
   blue: "#56759a",
   magenta: "#7c6a93",
   cyan: "#a05b89",
-  white: "#697383",
-  lightWhite: "#555f6f",
+  white: "#929cad",
+  lightWhite: "#697383",
   colorCubes: "#dfddd7",
   grayscale: "#929cad"
 };
@@ -19,6 +19,8 @@ colors.lightYellow = colors.yellow;
 colors.lightBlue = colors.blue;
 colors.lightMagenta = colors.magenta;
 colors.lightCyan = colors.cyan;
+colors.colorCubes = colors.lightBlack;
+colors.grayscale = colors.white;
 
 module.exports = {
   config: {

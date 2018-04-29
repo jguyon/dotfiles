@@ -279,15 +279,15 @@ function! TweakInkStained(scheme)
   let g:terminal_color_4 = '#56759a'
   let g:terminal_color_5 = '#7c6a93'
   let g:terminal_color_6 = '#a05b89'
-  let g:terminal_color_7 = '#697383'
-  let g:terminal_color_8 = '#bdbbb6'
+  let g:terminal_color_7 = '#929cad'
+  let g:terminal_color_8 = '#d3d1cc'
   let g:terminal_color_9 = g:terminal_color_1
   let g:terminal_color_10 = g:terminal_color_2
   let g:terminal_color_11 = g:terminal_color_3
   let g:terminal_color_12 = g:terminal_color_4
   let g:terminal_color_13 = g:terminal_color_5
   let g:terminal_color_14 = g:terminal_color_6
-  let g:terminal_color_15 = '#555f6f'
+  let g:terminal_color_15 = '#697383'
 endfunction
 
 if exists('g:colors_name')
@@ -298,7 +298,6 @@ augroup inkstained
   au!
   au ColorScheme * call TweakInkStained(expand('<amatch>'))
 augroup END
-
 
 " }}}
 " rainbow_parentheses.vim {{{
