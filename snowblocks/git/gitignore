@@ -32,6 +32,8 @@ Session.vim
 *~
 tags
 .projections.json
+.cs_files
+.cs_workspaces
 
 # linux
 *~

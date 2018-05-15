@@ -13,7 +13,7 @@ augroup autoinstall
   au!
   au VimEnter * 
     \ if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
-    \|  PlugInstall --sync | source $MYVIMRC
+    \|  PlugInstall --sync | q
     \|endif
 augroup END
 
@@ -36,8 +36,9 @@ Plug 'easymotion/vim-easymotion' " Move around easily
 Plug 'yuttie/inkstained-vim' " Color scheme
 Plug 'junegunn/rainbow_parentheses.vim' " Color matching pairs
 Plug 'itchyny/lightline.vim' " Status line
-Plug 'jguyon/vim-ctrlspace', { 'branch': 'fix-terminal' } " Workspace management
-Plug 'Shougo/denite.nvim'
+Plug 'vim-ctrlspace/vim-ctrlspace' " Workspace management
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
+Plug 'junegunn/fzf.vim' " Fuzzy-search everything
 
 " }}}
 " integration {{{
@@ -106,9 +107,15 @@ tnoremap <esc> <C-\><C-n>
 " No line numbers for terminals and help files
 augroup NOLINENUMBERS
   au!
-  au TermOpen * setlocal nonumber norelativenumber
+  au TermOpen * setlocal nonumber norelativenumber nomodified
   au FileType help setlocal nonumber norelativenumber
 augroup END
+
+" Do not warn when closing terminal
+" augroup TERMINALNOMODIFIED
+"   au!
+"   au TermOpen * setlocal modified
+" augroup END
 
 " Use <tab>/<s-tab> to select completion and <cr> to validate
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
@@ -126,7 +133,9 @@ let g:maplocalleader = ' '
 
 nmap <c-space> <plug>(ctrlspace)
 nmap <leader><leader> <plug>(search-commands)
+nmap <leader>: <plug>(search-command-history)
 nmap <leader>? <plug>(search-help)
+nmap <leader><tab> <plug>(search-mappings)
 
 " }}}
 " quit {{{
@@ -143,7 +152,6 @@ nnoremap <silent> <leader>fw :write <cr>
 nnoremap <silent> <leader>fW :write! <cr>
 nmap <leader>fa <plug>(file-alternative)
 nmap <leader>ff <plug>(search-files)
-nmap <leader>fc <plug>(search-and-create-file)
 
 " }}}
 " windows {{{
@@ -187,12 +195,13 @@ endfunction
 " git {{{
 
 nmap <leader>gs <plug>(git-status)
-nmap <leader>gl <plug>(git-log)
 nmap <leader>gc <plug>(git-commit)
 nmap <leader>gd <plug>(git-diff)
 nmap <leader>gp <plug>(git-push)
 nmap <leader>gm <plug>(git-pull)
 nmap <leader>ga <plug>(git-authors)
+nmap <silent>gl <plug>(search-git-commits-current)
+nmap <silent>gL <plug>(search-git-commits)
 
 " }}}
 " hunks {{{
@@ -224,6 +233,8 @@ nmap <leader>ii <plug>(lang-enable)
 nmap <leader>iI <plug>(lang-disable)
 nmap <leader>ir <plug>(lang-rename)
 nmap <leader>id <plug>(lang-go-to-def)
+nmap <leader>it <plug>(lang-go-to-typedef)
+nmap <leader>im <plug>(lang-go-to-impl)
 
 " }}}
 " motions {{{
@@ -309,7 +320,7 @@ let g:lightline.subseparator = { 'left': "\ue0b1", 'right': "\ue0b3" }
 let g:lightline.active = {
   \ 'left': [ [ 'mode', 'paste', 'readonly' ],
   \           [ 'githunks', 'filename', 'modified' ] ],
-  \ 'right': [ [ 'linter_ok', 'linter_warnings', 'linter_errors' ],
+  \ 'right': [ [ 'linter_checking', 'linter_ok', 'linter_warnings', 'linter_errors' ],
   \            [ 'lineinfo' ],
   \            [ 'filetype' ] ],
   \ }
@@ -344,14 +355,17 @@ let g:lightline.component_function = {
   \ }
 
 let g:lightline.component_expand = {
+  \ 'linter_checking': 'lightline#ale#checking',
   \ 'linter_warnings': 'lightline#ale#warnings',
   \ 'linter_errors': 'lightline#ale#errors',
   \ 'linter_ok': 'lightline#ale#ok',
   \ }
 
 let g:lightline.component_type = {
+  \ 'linter_checking': 'left',
   \ 'linter_warnings': 'warning',
   \ 'linter_errors': 'error',
+  \ 'linter_ok': 'left',
   \ }
 
 let g:lightline.tab_component_function = {
@@ -449,39 +463,40 @@ hi! link CtrlSpaceSearch MatchParen
 nnoremap <silent> <plug>(ctrlspace) :CtrlSpace<cr>
 
 " }}}
-" denite.nvim {{{
+" fzf.vim {{{
 
-call denite#custom#var('file/rec,file_rec', 'command',
-  \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+let g:fzf_command_prefix = 'Fzf'
+let g:fzf_layout = { 'down': '~30%' }
+let g:fzf_history_dir = '~/.local/share/fzf-history'
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'MatchParen'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'MatchParen'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
 
-call denite#custom#option('_', 'statusline', v:false)
-call denite#custom#option('_', 'reversed', v:true)
-call denite#custom#option('_', 'auto_resize', v:true)
-call denite#custom#option('_', 'highlight_matched_char', 'MatchParen')
-call denite#custom#option('_', 'highlight_matched_range', 'NONE')
-call denite#custom#option('_', 'highlight_mode_insert', 'CursorLine')
+" Don't display status line with fzf
+augroup FZF
+  au!
+  au FileType fzf set laststatus=0 noshowmode noruler
+    \| au BufLeave <buffer> set laststatus=2 showmode ruler
+augroup END
 
-call denite#custom#map(
-  \ 'insert',
-  \ '<C-j>',
-  \ '<denite:move_to_next_line>',
-  \ 'noremap'
-  \)
-call denite#custom#map(
-  \ 'insert',
-  \ '<C-k>',
-  \ '<denite:move_to_previous_line>',
-  \ 'noremap'
-  \)
-
-nnoremap <silent> <plug>(search-and-create-file)
-  \ :Denite -buffer-name='new file' directory_rec file<cr>
-nnoremap <silent> <plug>(search-files)
-  \ :Denite -buffer-name=file file_rec<cr>
-nnoremap <silent> <plug>(search-help)
-  \ :Denite -buffer-name=help help<cr>
-nnoremap <silent> <plug>(search-commands)
-  \ :Denite -buffer-name=command command<cr>
+nnoremap <silent> <plug>(search-help) :FzfHelptags<cr>
+nnoremap <silent> <plug>(search-commands) :FzfCommands<cr>
+nnoremap <silent> <plug>(search-command-history) :FzfHistory:<cr>
+nnoremap <silent> <plug>(search-mappings) :FzfMaps<cr>
+nnoremap <silent> <plug>(search-files) :FzfFiles<cr>
+nnoremap <silent> <plug>(search-git-commits) :FzfCommits<cr>
+nnoremap <silent> <plug>(search-git-commits-current) :FzfBCommits<cr>
 
 " }}}
 " vim-gitgutter {{{
@@ -510,19 +525,18 @@ nnoremap <silent> <plug>(git-authors) :Gblame <cr>
 let g:projectionist_heuristics = {
   \ 'bsconfig.json': {
   \   '*': {
-  \     'start': '-dir={project} npx bsb -clean-world -make-world -w'
+  \     'start': '-dir={project} npx bsb -make-world -w',
+  \     'make': 'yarn bsb',
+  \     'dispatch': 'yarn bsb -make-world'
   \   },
-  \   'src/*.re': {
-  \     'alternate': 'src/{}.rei',
-  \     'type': 'source',
+  \   '*.re': {
+  \     'alternate': '{}.rei',
   \   },
-  \   'src/*.rei': {
-  \     'alternate': 'src/{}.re',
-  \     'type': 'interface',
+  \   '*.rei': {
+  \     'alternate': '{}.re',
   \   },
-  \   'src/*.bs.js': {
-  \     'alternate': 'src/{}.re',
-  \     'type': 'target',
+  \   '*.bs.js': {
+  \     'alternate': '{}.re',
   \   },
   \ },
   \ }
@@ -532,6 +546,7 @@ nnoremap <silent> <plug>(file-alternative) :A <cr>
 " }}}
 " ale {{{
 
+let g:lightline#ale#indicator_checking = "\u2026"
 let g:lightline#ale#indicator_ok = "\u2713"
 let g:ale_sign_error = "\u2716"
 let g:lightline#ale#indicator_errors = g:ale_sign_error
@@ -583,16 +598,20 @@ let g:LanguageClient_rootMarkers = {
   \ 'ocaml': ['bsconfig.json'],
   \ }
 
-noremap <silent> <plug>(lang-enable)
+nnoremap <silent> <plug>(lang-enable)
   \ :LanguageClientStart <cr>
-noremap <silent> <plug>(lang-disable)
+nnoremap <silent> <plug>(lang-disable)
   \ :LanguageClientStop <cr>
-noremap <silent> <plug>(lang-hover)
+nnoremap <silent> <plug>(lang-hover)
   \ :call LanguageClient_textDocument_hover() <cr>
-noremap <silent> <plug>(lang-rename)
+nnoremap <silent> <plug>(lang-rename)
   \ :call LanguageClient_textDocument_rename() <cr>
-noremap <silent> <plug>(lang-go-to-def)
+nnoremap <silent> <plug>(lang-go-to-def)
   \ :call LanguageClient_textDocument_definition() <cr>
+nnoremap <silent> <plug>(lang-go-to-typedef)
+  \ :call LanguageClient_textDocument_typeDefinition() <cr>
+nnoremap <silent> <plug>(lang-go-to-impl)
+  \ :call LanguageClient_textDocument_implementation() <cr>
 
 " }}}
 " javascript {{{

@@ -2,7 +2,7 @@
   {
     "shell": [
       {
-        "command": "nix-env -iA nodejs-9_x yarn -f '<nixpkgs>'",
+        "command": "nix-env -iA nodejs yarn -f '<nixpkgs>'",
         "description": "Installing nodejs and yarn"
       },
       {
