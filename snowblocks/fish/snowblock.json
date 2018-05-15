@@ -18,13 +18,5 @@
       "~/.config/fish/functions/s.fish": "functions/s.fish",
       "~/.config/fish/functions/ts.fish": "functions/ts.fish"
     }
-  },
-  {
-    "shell": [
-      {
-        "command": "nix-env -iA fish -f '<nixpkgs>'",
-        "description": "Installing fish"
-      }
-    ]
   }
 ]

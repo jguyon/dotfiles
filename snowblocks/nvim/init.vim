@@ -73,7 +73,7 @@ call plug#end()
 " }}}
 " basics {{{
 
-set shell=~/.nix-profile/bin/bash " Run commands with bash
+set shell=$SHELL " Run commands with bash
 set mouse=a " Enable mouse
 set termguicolors " Enable true colour
 set guicursor=a:Cursor " Force cursor highlight group
@@ -176,8 +176,13 @@ nnoremap <silent> <leader>w> :vertical resize +5 <cr>
 " }}}
 " terminal {{{
 
-nnoremap <silent> <leader>t :call LaunchCommand('fish') <cr>
+nnoremap <silent> <leader>t :call LaunchTerminal() <cr>
 nnoremap <silent> <leader>T :call PromptCommand() <cr>
+
+function! LaunchTerminal() abort
+  terminal
+  startinsert
+endfunction
 
 function! LaunchCommand(cmd) abort
   execute 'edit term://' . getcwd() . '//' . a:cmd

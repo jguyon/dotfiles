@@ -13,18 +13,5 @@
     "link": {
       "~/.config/nvim/init.vim": "init.vim"
     }
-  },
-  {
-    "shell": [
-      {
-        "command":
-          "nix-env -iA neovim python27Packages.neovim python36Packages.neovim vim-vint -f '<nixpkgs>'",
-        "description": "Installing neovim"
-      },
-      {
-        "command": "nvim --headless '+PlugInstall --sync' +qa",
-        "description": "Installing neovim plugins"
-      }
-    ]
   }
 ]

@@ -1,6 +1,4 @@
-#! /usr/bin/env nix-shell
-#! nix-shell -i bash -p coreutils bash python3 gnumake gcc
-
+#!/usr/bin/env bash
 set -e
 
 SNOWSAW_DIR=".snowsaw"
