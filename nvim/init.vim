@@ -2,21 +2,6 @@
 
 " plugins {{{
 
-" automatically install vim-plug
-if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
-  silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-endif
-
-" automatically install plugins
-augroup autoinstall
-  au!
-  au VimEnter * 
-    \ if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
-    \|  PlugInstall --sync | q
-    \|endif
-augroup END
-
 call plug#begin('~/.local/share/nvim/plugged')
 
 " editing {{{
@@ -470,6 +455,7 @@ nnoremap <silent> <plug>(ctrlspace) :CtrlSpace<cr>
 " }}}
 " fzf.vim {{{
 
+let $FZF_DEFAULT_COMMAND = 'ag -l --nocolor -g ""'
 let g:fzf_command_prefix = 'Fzf'
 let g:fzf_layout = { 'down': '~30%' }
 let g:fzf_history_dir = '~/.local/share/fzf-history'
