@@ -1,30 +1,66 @@
-# extracted from https://github.com/oh-my-fish/theme-l
+# extracted from https://github.com/fisherman/vibrant
 
-function _git_branch_name
-  echo (command git symbolic-ref HEAD ^/dev/null | sed -e 's|^refs/heads/||')
-end
+set __fish_git_prompt_color_branch blue
 
-function _is_git_dirty
-  echo (command git status -s --ignore-submodules=dirty ^/dev/null)
-end
+set __fish_git_prompt_char_upstream_prefix ' '
+set __fish_git_prompt_char_stateseparator ' '
 
+set __fish_git_prompt_show_informative_status true
+set __fish_git_prompt_color_upstream_ahead yellow
+set __fish_git_prompt_char_upstream_ahead '↑'
+set __fish_git_prompt_color_upstream_behind yellow
+set __fish_git_prompt_char_upstream_behind '↓'
+
+
+
+set __fish_git_prompt_color_untrackedfiles red
+set __fish_git_prompt_char_untrackedfiles '*'
+
+set __fish_git_prompt_showdirtystate true
+set __fish_git_prompt_color_dirtystate red
+set __fish_git_prompt_char_dirtystate '±'
+
+set __fish_git_prompt_color_stagedstate yellow
+set __fish_git_prompt_char_stagedstate '⇈'
+
+set __fish_git_prompt_showuntrackedfiles true
+set __fish_git_prompt_color_cleanstate brwhite
+set __fish_git_prompt_char_cleanstate '✔'
+
+
+
+set _vbr_cyan    (set_color cyan)
+set _vbr_yellow  (set_color yellow)
+set _vbr_red     (set_color red)
+set _vbr_blue    (set_color blue)
+set _vbr_green   (set_color green)
+set _vbr_gray    (set_color brwhite)
+
+
+
+# [user@host] path [branch [git status]] prompt
 function fish_prompt
-  set -l blue (set_color blue)
-  set -l green (set_color green)
-  set -l normal (set_color normal)
+	set -l exit_code $status
 
-  set -l arrow "λ"
-  set -l cwd $blue(basename (prompt_pwd))
+	set -l prompt ''
+	set -e prompt[1]
 
-  if [ (_git_branch_name) ]
-    set git_info $green(_git_branch_name)
-    set git_info ":$git_info"
+	# display username and hostname if logged in as root, in sudo or ssh session
+	if [ \( (id -u) -eq 0 -o $SUDO_USER \) -o $SSH_CONNECTION ]
+		set -l host (hostname | cut -f 1 -d '.')
+		set prompt $prompt $_vbr_yellow$USER$_vbr_gray'@'$_vbr_cyan$host
+	end
 
-    if [ (_is_git_dirty) ]
-      set -l dirty "*"
-      set git_info "$git_info$dirty"
-    end
-  end
+	# path
+	set prompt $prompt $_vbr_gray(pwd | sed "s:^$HOME:~:")
 
-  echo -n -s $cwd $git_info $normal ' ' $arrow ' '
+	# Git
+	set prompt $prompt (__fish_git_prompt '%s')
+
+	# prompt symbol
+	if [ $exit_code != 0 ]; set prompt $prompt $_vbr_red'♦'
+	else;                   set prompt $prompt $_vbr_green'♦'
+	end
+
+	echo -n $prompt (set_color normal)
 end
