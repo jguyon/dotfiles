@@ -31,7 +31,6 @@ Plug 'junegunn/fzf.vim' " Fuzzy-search everything
 Plug 'airblade/vim-gitgutter' " Display git hunks in gutter
 Plug 'tpope/vim-fugitive' " Git commands
 Plug 'tpope/vim-dispatch' " Run build and test tasks
-Plug 'tpope/vim-projectionist' " Project-specific config
 Plug 'w0rp/ale' " Linting
 Plug 'maximbaz/lightline-ale' " Display error info in status line
 Plug 'roxma/nvim-completion-manager' " Auto-completion support
@@ -135,7 +134,6 @@ nnoremap <silent> <leader>qW :wqa! <cr>
 
 nnoremap <silent> <leader>fw :write <cr>
 nnoremap <silent> <leader>fW :write! <cr>
-nmap <leader>fa <plug>(file-alternative)
 nmap <leader>ff <plug>(search-files)
 
 " }}}
@@ -444,11 +442,6 @@ let g:CtrlSpaceSaveWorkspaceOnExit = 1
 let g:CtrlSpaceSaveWorkspaceOnSwitch = 1
 let g:CtrlSpaceLoadLastWorkspaceOnStart = 1
 let g:CtrlSpaceGlobCommand = 'ag --follow --nocolor --nogroup -g ""'
-let g:CtrlSpaceStatuslineFunction = 'lightline#statusline(0)'
-
-hi! link CtrlSpaceNormal Normal
-hi! link CtrlSpaceSelected CursorLine
-hi! link CtrlSpaceSearch MatchParen
 
 nnoremap <silent> <plug>(ctrlspace) :CtrlSpace<cr>
 
@@ -457,7 +450,7 @@ nnoremap <silent> <plug>(ctrlspace) :CtrlSpace<cr>
 
 let $FZF_DEFAULT_COMMAND = 'ag -l --nocolor -g ""'
 let g:fzf_command_prefix = 'Fzf'
-let g:fzf_layout = { 'down': '~30%' }
+let g:fzf_layout = { 'down': '~20%' }
 let g:fzf_history_dir = '~/.local/share/fzf-history'
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
@@ -509,30 +502,6 @@ nnoremap <silent> <plug>(git-push) :Gpush <cr>
 nnoremap <silent> <plug>(git-pull) :Gpull <cr>
 nnoremap <silent> <plug>(git-diff) :Gdiff <cr>
 nnoremap <silent> <plug>(git-authors) :Gblame <cr>
-
-" }}}
-" vim-projectionist {{{
-
-let g:projectionist_heuristics = {
-  \ 'bsconfig.json': {
-  \   '*': {
-  \     'start': '-dir={project} npx bsb -make-world -w',
-  \     'make': 'yarn bsb',
-  \     'dispatch': 'yarn bsb -make-world'
-  \   },
-  \   '*.re': {
-  \     'alternate': '{}.rei',
-  \   },
-  \   '*.rei': {
-  \     'alternate': '{}.re',
-  \   },
-  \   '*.bs.js': {
-  \     'alternate': '{}.re',
-  \   },
-  \ },
-  \ }
-
-nnoremap <silent> <plug>(file-alternative) :A <cr>
 
 " }}}
 " ale {{{
