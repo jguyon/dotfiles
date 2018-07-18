@@ -49,6 +49,7 @@ Plug 'dag/vim-fish' " fish shell
 Plug 'pangloss/vim-javascript' " javascript
 Plug 'mxw/vim-jsx' " JSX
 Plug 'reasonml-editor/vim-reason-plus' " reasonml
+Plug 'ElmCast/elm-vim' " elm
 
 " }}}
 
@@ -579,5 +580,10 @@ nnoremap <silent> <plug>(lang-go-to-impl)
 let g:jsx_ext_required = 0
 let g:javascript_plugin_flow = 1
 let g:javascript_plugin_jsdoc = 1
+
+" }}}
+" elm {{{
+
+let g:elm_setup_keybindings = 0
 
 " }}}

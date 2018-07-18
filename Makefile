@@ -1,7 +1,7 @@
 SHELL = /bin/bash
 OS = none
 
-all: core git fish tmux nvim node bucklescript
+all: core git fish tmux nvim node bucklescript elm
 
 core: core-$(OS)
 
@@ -81,6 +81,13 @@ bucklescript-none:
 bucklescript-ubuntu: node
 	yarn global add bs-platform ocaml-language-server reason-cli@3.2.0-linux
 
+elm: elm-$(OS)
+
+elm-none:
+
+elm-ubuntu: node
+	yarn global add elm elm-format elm-oracle elm-test
+
 .PHONY: \
 	all \
 	core core-none core-ubuntu \
@@ -89,4 +96,5 @@ bucklescript-ubuntu: node
 	tmux tmux-none tmux-ubuntu \
 	nvim nvim-none nvim-ubuntu \
 	node node-none node-ubuntu \
-	bucklescript bucklescript-none bucklescript-ubuntu
+	bucklescript bucklescript-none bucklescript-ubuntu \
+	elm elm-none elm-ubuntu
