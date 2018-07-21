@@ -33,8 +33,16 @@ Plug 'tpope/vim-fugitive' " Git commands
 Plug 'tpope/vim-dispatch' " Run build and test tasks
 Plug 'w0rp/ale' " Linting
 Plug 'maximbaz/lightline-ale' " Display error info in status line
-Plug 'roxma/nvim-completion-manager' " Auto-completion support
-Plug 'Shougo/neco-vim' " VimL completion support
+Plug 'ncm2/ncm2' " Auto-completions
+Plug 'roxma/nvim-yarp' " Required by ncm2
+Plug 'ncm2/ncm2-bufword' " Auto-complete words from current buffer
+Plug 'ncm2/ncm2-path' " Auto-complete paths
+Plug 'ncm2/ncm2-tmux' " Auto-complete words from other tmux panes
+Plug 'Shougo/neco-vim' " Required to auto-complete syntax
+Plug 'ncm2/ncm2-vim' " Auto-complete VimScript
+Plug 'ncm2/ncm2-cssomni' " Auto-complete CSS
+Plug 'ncm2/ncm2-html-subscope' " Detect JS/CSS subscope in HTML
+Plug 'ncm2/ncm2-markdown-subscope' " Detect code blocks in Markdown
 Plug 'autozimu/LanguageClient-neovim', {
   \ 'branch': 'next',
   \ 'do': 'bash install.sh',
@@ -74,7 +82,7 @@ set hidden " Hide abandoned buffers
 set showtabline=1 " Show the tab line if there is more than one tab
 set noshowmode " Do not show the current mode (lightline will do that)
 set tabstop=4 " Indent with 4 spaces by default
-set completeopt-=preview " Don't display annoying window during completion
+set completeopt=noinsert,menuone,noselect " Configure completion menu
 set shortmess+=c " Don't mask echo messages with completion matches
 set pumheight=10 " Height of autocomplete popup
 set backup backupdir=~/.local/share/nvim/backup " Enable backups
@@ -538,6 +546,11 @@ nmap <plug>(errors-next) <plug>(ale_next_wrap)
 nmap <plug>(errors-toggle) <plug>(ale_toggle_buffer)
 nmap <plug>(errors-reset) <plug>(ale_reset_buffer)
 nmap <plug>(errors-detail) <plug>(ale_detail)
+
+" }}}
+" ncm2 {{{
+
+autocmd BufEnter * call ncm2#enable_for_buffer()
 
 " }}}
 " lsp {{{
