@@ -268,16 +268,17 @@ let g:EasyMotion_use_smartsign_us = 1
 if exists('g:colors_name') && g:colors_name ==# 'inkstained'
   hi! link ALEError NONE
   hi! link ALEWarning NONE
+  hi! CursorLine cterm=NONE gui=NONE
   hi! link ColorColumn CursorLine
 
-  let g:terminal_color_0 = '#e7e5e2'
+  let g:terminal_color_0 = '#dfddd7'
   let g:terminal_color_1 = '#aa586e'
   let g:terminal_color_2 = '#608f8e'
   let g:terminal_color_3 = '#447487'
   let g:terminal_color_4 = '#56759a'
   let g:terminal_color_5 = '#7c6a93'
   let g:terminal_color_6 = '#a05b89'
-  let g:terminal_color_7 = '#929cad'
+  let g:terminal_color_7 = '#555f6f'
   let g:terminal_color_8 = '#d3d1cc'
   let g:terminal_color_9 = g:terminal_color_1
   let g:terminal_color_10 = g:terminal_color_2
@@ -285,7 +286,7 @@ if exists('g:colors_name') && g:colors_name ==# 'inkstained'
   let g:terminal_color_12 = g:terminal_color_4
   let g:terminal_color_13 = g:terminal_color_5
   let g:terminal_color_14 = g:terminal_color_6
-  let g:terminal_color_15 = '#697383'
+  let g:terminal_color_15 = '#929cad'
 endif
 
 " }}}
