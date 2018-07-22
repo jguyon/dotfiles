@@ -6,6 +6,7 @@ git:
 	stow -R git -t ~
 
 fish:
+	mkdir -p ~/.config/fish
 	stow -R fish -t ~/.config/fish
 
 tmux:
@@ -15,6 +16,7 @@ tmux:
 	fi
 
 nvim:
+	mkdir -p ~/.config/nvim
 	stow -R nvim -t ~/.config/nvim
 	if [ ! -e ~/.local/share/nvim/site/autoload/plug.vim ]; then \
 		curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
