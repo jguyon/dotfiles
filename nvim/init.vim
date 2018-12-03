@@ -566,8 +566,8 @@ let g:LanguageClient_autoStart = 1
 let g:LanguageClient_diagnosticsEnable = 0
 
 let g:LanguageClient_serverCommands = {
-  \ 'javascript': ['javascript-typescript-stdio'],
-  \ 'javascript.jsx': ['javascript-typescript-stdio'],
+  \ 'javascript': ['flow-language-server', '--stdio', '--try-flow-bin'],
+  \ 'javascript.jsx': ['flow-language-server', '--stdio', '--try-flow-bin'],
   \ 'reason': ['ocaml-language-server', '--stdio'],
   \ 'ocaml': ['ocaml-language-server', '--stdio'],
   \ }
