@@ -62,6 +62,7 @@ Plug 'cespare/vim-toml' " TOML
 Plug 'dag/vim-fish' " fish shell
 Plug 'pangloss/vim-javascript' " javascript
 Plug 'mxw/vim-jsx' " JSX
+Plug 'herringtondarkholme/yats.vim' " typescript
 Plug 'reasonml-editor/vim-reason-plus' " reasonml
 Plug 'ElmCast/elm-vim' " elm
 
@@ -568,6 +569,8 @@ let g:LanguageClient_diagnosticsEnable = 0
 let g:LanguageClient_serverCommands = {
   \ 'javascript': ['flow-language-server', '--stdio', '--try-flow-bin'],
   \ 'javascript.jsx': ['flow-language-server', '--stdio', '--try-flow-bin'],
+  \ 'typescript': ['javascript-typescript-stdio'],
+  \ 'typescript.tsx': ['javascript-typescript-stdio'],
   \ 'reason': ['ocaml-language-server', '--stdio'],
   \ 'ocaml': ['ocaml-language-server', '--stdio'],
   \ }
@@ -575,6 +578,8 @@ let g:LanguageClient_serverCommands = {
 let g:LanguageClient_rootMarkers = {
   \ 'javascript': ['package.json'],
   \ 'javascript.jsx': ['package.json'],
+  \ 'typescript': ['package.json'],
+  \ 'typescript.tsx': ['package.json'],
   \ 'reason': ['bsconfig.json'],
   \ 'ocaml': ['bsconfig.json'],
   \ }
