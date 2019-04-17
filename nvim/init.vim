@@ -24,8 +24,7 @@ Plug 'easymotion/vim-easymotion' " Move around easily
 " }}}
 " interface {{{
 
-Plug 'yuttie/inkstained-vim' " Color scheme
-Plug 'junegunn/rainbow_parentheses.vim' " Color matching pairs
+Plug 'arcticicestudio/nord-vim'
 Plug 'itchyny/lightline.vim' " Status line
 Plug 'vim-ctrlspace/vim-ctrlspace' " Workspace management
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
@@ -62,7 +61,8 @@ Plug 'cespare/vim-toml' " TOML
 Plug 'dag/vim-fish' " fish shell
 Plug 'pangloss/vim-javascript' " javascript
 Plug 'mxw/vim-jsx' " JSX
-Plug 'herringtondarkholme/yats.vim' " typescript
+Plug 'leafgarland/typescript-vim' " typescript
+Plug 'peitalin/vim-jsx-typescript' " TSX
 Plug 'reasonml-editor/vim-reason-plus' " reasonml
 Plug 'ElmCast/elm-vim' " elm
 
@@ -97,12 +97,16 @@ set swapfile dir=~/.local/share/nvim/backup " Enable swapfile
 set undofile undodir=~/.local/share/nvim/backup " Enable undofiles
 set history=1000 undolevels=1000 undoreload=10000 " We live in the future
 set sessionoptions-=buffers " Don't save hidden buffers in sessions
-
-" Theme
-colorscheme inkstained
+set exrc " Enable project specific configuration files
 
 " Use <esc> to quit terminal mode
 tnoremap <esc> <C-\><C-n>
+
+" Automatically reload files changed outside of vim
+augroup AUTORELOADCHANGED
+  au!
+  au FocusGained,BufEnter,CursorHold,CursorHoldI * checktime
+augroup END
 
 " No line numbers for terminals and help files
 augroup NOLINENUMBERS
@@ -148,6 +152,7 @@ nnoremap <silent> <leader>qW :wqa! <cr>
 " }}}
 " current buffer {{{
 
+nnoremap <silent> <leader>fr :edit <cr>
 nnoremap <silent> <leader>fw :write <cr>
 nnoremap <silent> <leader>fW :write! <cr>
 nmap <leader>ff <plug>(search-files)
@@ -200,6 +205,7 @@ endfunction
 
 nmap <leader>gs <plug>(git-status)
 nmap <leader>gc <plug>(git-commit)
+nmap <leader>gA <plug>(git-amend)
 nmap <leader>gd <plug>(git-diff)
 nmap <leader>gp <plug>(git-push)
 nmap <leader>gm <plug>(git-pull)
@@ -270,40 +276,15 @@ let g:EasyMotion_smartcase = 1
 let g:EasyMotion_use_smartsign_us = 1
 
 " }}}
-" inkstained-vim {{{
+" nord-vim {{{
 
-if exists('g:colors_name') && g:colors_name ==# 'inkstained'
-  hi! link ALEError NONE
-  hi! link ALEWarning NONE
-  hi! CursorLine cterm=NONE gui=NONE
-  hi! link ColorColumn CursorLine
+let g:nord_italic = 1
+let g:nord_italic_comments = 1
+let g:nord_underline = 1
+colorscheme nord
 
-  let g:terminal_color_0 = '#dfddd7'
-  let g:terminal_color_1 = '#aa586e'
-  let g:terminal_color_2 = '#608f8e'
-  let g:terminal_color_3 = '#447487'
-  let g:terminal_color_4 = '#56759a'
-  let g:terminal_color_5 = '#7c6a93'
-  let g:terminal_color_6 = '#a05b89'
-  let g:terminal_color_7 = '#555f6f'
-  let g:terminal_color_8 = '#d3d1cc'
-  let g:terminal_color_9 = g:terminal_color_1
-  let g:terminal_color_10 = g:terminal_color_2
-  let g:terminal_color_11 = g:terminal_color_3
-  let g:terminal_color_12 = g:terminal_color_4
-  let g:terminal_color_13 = g:terminal_color_5
-  let g:terminal_color_14 = g:terminal_color_6
-  let g:terminal_color_15 = '#929cad'
-endif
-
-" }}}
-" rainbow_parentheses.vim {{{
-
-let g:rainbow#pairs = [ [ '(', ')' ], [ '{', '}' ], [ '[', ']' ] ]
-augroup rainbow
-  au!
-  au VimEnter * RainbowParentheses
-augroup END
+" support transparent background
+hi Normal guibg=NONE ctermbg=NONE
 
 " }}}
 " lightline {{{
@@ -515,6 +496,7 @@ nmap <silent> <plug>(hunk-preview) <plug>GitGutterPreviewHunk
 
 nnoremap <silent> <plug>(git-status) :Gstatus <cr>
 nnoremap <silent> <plug>(git-commit) :Gcommit <cr>
+nnoremap <silent> <plug>(git-amend) :Gcommit --amend <cr>
 nnoremap <silent> <plug>(git-push) :Gpush <cr>
 nnoremap <silent> <plug>(git-pull) :Gpull <cr>
 nnoremap <silent> <plug>(git-diff) :Gdiff <cr>
@@ -567,10 +549,10 @@ let g:LanguageClient_autoStart = 1
 let g:LanguageClient_diagnosticsEnable = 0
 
 let g:LanguageClient_serverCommands = {
-  \ 'javascript': ['flow-language-server', '--stdio', '--try-flow-bin'],
-  \ 'javascript.jsx': ['flow-language-server', '--stdio', '--try-flow-bin'],
-  \ 'typescript': ['javascript-typescript-stdio'],
-  \ 'typescript.tsx': ['javascript-typescript-stdio'],
+  \ 'javascript': ['typescript-language-server', '--stdio'],
+  \ 'javascript.jsx': ['typescript-language-server', '--stdio'],
+  \ 'typescript': ['typescript-language-server', '--stdio'],
+  \ 'typescript.tsx': ['typescript-language-server', '--stdio'],
   \ 'reason': ['ocaml-language-server', '--stdio'],
   \ 'ocaml': ['ocaml-language-server', '--stdio'],
   \ }

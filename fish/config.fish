@@ -1,6 +1,9 @@
 # make fish default shell
 set -gx SHELL (which fish)
 
+# make neovim default editor
+set -gx EDITOR nvim
+
 # add local executables to PATH
 if test -d $HOME/.local/bin
   set -gx PATH $HOME/.local/bin $PATH

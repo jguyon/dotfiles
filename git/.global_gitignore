@@ -10,6 +10,10 @@ tags
 .projections.json
 .cs_files
 .cs_workspaces
+.nvimrc
+
+# vscode
+.vscode/
 
 # linux
 *~
