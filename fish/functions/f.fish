@@ -1,3 +1,9 @@
+# toggle fullscreen
 function f
-  wmctrl -r :ACTIVE: -b toggle,fullscreen
+  if type -q wmctrl
+    wmctrl -r :ACTIVE: -b toggle,fullscreen
+  else
+    echo "Please install wmctrl to toggle fullscreen"
+    false
+  end
 end
