@@ -359,8 +359,8 @@ live_config_reload: true
 #   - (Windows) powershell
 shell:
   program: /usr/bin/fish
-#  args:
-#    - --login
+  args:
+    - --login
 
 # Windows 10 ConPTY backend (Windows only)
 #
