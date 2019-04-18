@@ -15,4 +15,9 @@ if type -q yarn
 end
 
 # use vim mode
-fish_vi_key_bindings
+if test -z $VI_MODE_IS_SET_UP
+  # if the user has reverted to default key bindings, we don't want to
+  # reset to vi key bindings when they open a child shell
+  set -gx VI_MODE_IS_SET_UP true
+  fish_vi_key_bindings
+end
