@@ -21,7 +21,7 @@ set __fish_git_prompt_color_dirtystate red
 set __fish_git_prompt_char_dirtystate '±'
 
 set __fish_git_prompt_color_stagedstate yellow
-set __fish_git_prompt_char_stagedstate '⇈'
+set __fish_git_prompt_char_stagedstate '⇈ '
 
 set __fish_git_prompt_showuntrackedfiles true
 set __fish_git_prompt_color_cleanstate brwhite
@@ -52,14 +52,14 @@ function fish_prompt
 	end
 
 	# path
-	set prompt $prompt $_vbr_gray(pwd | sed "s:^$HOME:~:")
+	set prompt $prompt $_vbr_gray(prompt_pwd)
 
 	# Git
 	set prompt $prompt (__fish_git_prompt '%s')
 
 	# prompt symbol
-	if [ $exit_code != 0 ]; set prompt $prompt $_vbr_red'λ'
-	else;                   set prompt $prompt $_vbr_green'λ'
+	if [ $exit_code != 0 ]; set prompt $prompt $_vbr_red'●'
+	else;                   set prompt $prompt $_vbr_green'●'
 	end
 
 	echo -n $prompt (set_color normal)

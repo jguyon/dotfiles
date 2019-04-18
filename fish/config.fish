@@ -13,3 +13,6 @@ end
 if type -q yarn
   set -gx PATH (yarn global bin) $PATH
 end
+
+# use vim mode
+fish_vi_key_bindings
