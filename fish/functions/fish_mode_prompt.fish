@@ -1,23 +1,20 @@
 function fish_mode_prompt
-  if test "$fish_key_bindings" = "fish_vi_key_bindings"
-	switch $fish_bind_mode
-	  case default
-		set_color cyan
-		echo n
-	  case insert
-		set_color brwhite
-		echo i
-	  case replace_one
-		set_color yellow
-		echo r
-	  case visual
-		set_color brcyan
-		echo v
-	end
+  if [ "$fish_key_bindings" = "fish_vi_key_bindings" ]
+    set -l mode
 
-	echo " ♦ "
-	set_color normal
+    switch $fish_bind_mode
+      case default
+        set mode (set_color cyan)n
+      case insert
+        set mode (set_color white)i
+      case replace_one
+        set mode (set_color yellow)r
+      case visual
+        set mode (set_color brcyan)v
+    end
+
+    echo -n $mode ♦ (set_color normal)
   else
-	fish_default_mode_prompt
+    fish_default_mode_prompt
   end
 end
