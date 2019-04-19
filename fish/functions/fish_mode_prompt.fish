@@ -4,13 +4,13 @@ function fish_mode_prompt
 
     switch $fish_bind_mode
       case default
-        set mode (set_color cyan)n
+        set mode (set_color magenta)n
       case insert
-        set mode (set_color white)i
+        set mode (set_color cyan)i
       case replace_one
-        set mode (set_color yellow)r
+        set mode (set_color red)r
       case visual
-        set mode (set_color brcyan)v
+        set mode (set_color green)v
     end
 
     echo -n $mode ♦ (set_color normal)

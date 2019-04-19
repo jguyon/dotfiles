@@ -40,7 +40,7 @@ function fish_prompt
 
   # git
   set -l branch_color (set_color $__fish_git_prompt_color_branch)
-  set prompt $prompt (__fish_git_prompt $branch_color'%s')
+  set prompt $prompt (__fish_git_prompt (set_color brblack)' %s')
 
   # prompt symbol
   if [ $exit_code != 0 ]

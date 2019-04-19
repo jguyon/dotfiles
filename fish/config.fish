@@ -14,6 +14,9 @@ if type -q yarn
   set -gx PATH (yarn global bin) $PATH
 end
 
+# supress greeting message
+set fish_greeting
+
 # syntax highlighting
 if test -z $COLORS_ARE_SET_UP
   # if the user has manually changed the colors, we don't want to
@@ -32,7 +35,7 @@ if test -z $COLORS_ARE_SET_UP
   set fish_color_selection yellow
   set fish_color_search_match yellow
   set fish_color_operator cyan
-  set fish_color_escape yellow
+  set fish_color_escape green
   set fish_color_cwd brwhite
   set fish_color_autosuggestion brblack
   set fish_color_user yellow
