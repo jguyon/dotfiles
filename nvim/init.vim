@@ -81,6 +81,7 @@ set number relativenumber " Show relative line numbers
 set signcolumn=yes " Sign column always visible on the left
 set cursorline " Highlight current line
 set colorcolumn=81 " 80 columns indicator
+set nowrap " Do not wrap lines
 set showcmd " Show normal mode commands
 set ignorecase smartcase " Ignore case in searches, unless using uppercase
 set splitright splitbelow " Go to right/bottom when splitting windows
