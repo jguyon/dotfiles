@@ -6,7 +6,7 @@ git:
 	stow -R git -t ~
 
 fish:
-	mkdir -p ~/.config/fish
+	mkdir -p ~/.config/fish/functions
 	stow -R fish -t ~/.config/fish
 
 tmux:
