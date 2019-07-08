@@ -65,6 +65,7 @@ Plug 'leafgarland/typescript-vim' " typescript
 Plug 'peitalin/vim-jsx-typescript' " TSX
 Plug 'reasonml-editor/vim-reason-plus' " reasonml
 Plug 'ElmCast/elm-vim' " elm
+Plug 'rust-lang/rust.vim' " rust
 
 " }}}
 
@@ -526,6 +527,7 @@ let g:ale_fixers = {
   \ 'css': ['prettier'],
   \ 'markdown': ['prettier'],
   \ 'reason': ['refmt'],
+  \ 'rust': ['rustfmt'],
   \ }
 
 nnoremap <silent> <plug>(errors-enable) :ALEEnable<cr>
@@ -556,6 +558,7 @@ let g:LanguageClient_serverCommands = {
   \ 'typescript.tsx': ['typescript-language-server', '--stdio'],
   \ 'reason': ['ocaml-language-server', '--stdio'],
   \ 'ocaml': ['ocaml-language-server', '--stdio'],
+  \ 'rust': ['rustup', 'run', 'stable', 'rls'],
   \ }
 
 let g:LanguageClient_rootMarkers = {
@@ -565,6 +568,7 @@ let g:LanguageClient_rootMarkers = {
   \ 'typescript.tsx': ['package.json'],
   \ 'reason': ['bsconfig.json'],
   \ 'ocaml': ['bsconfig.json'],
+  \ 'rust': ['Cargo.toml'],
   \ }
 
 nnoremap <silent> <plug>(lang-enable)
