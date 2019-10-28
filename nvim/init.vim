@@ -74,7 +74,7 @@ call plug#end()
 " }}}
 " basics {{{
 
-set shell=$SHELL " Run commands with bash
+set shell=bash " Run commands with bash
 set mouse=a " Enable mouse
 set termguicolors " Enable true colour
 set guicursor=a:Cursor " Force cursor highlight group
