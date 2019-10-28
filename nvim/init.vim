@@ -440,7 +440,6 @@ let g:CtrlSpaceSetDefaultMapping = 0
 let g:CtrlSpaceSearchTiming = 100
 let g:CtrlSpaceSaveWorkspaceOnExit = 1
 let g:CtrlSpaceSaveWorkspaceOnSwitch = 1
-let g:CtrlSpaceLoadLastWorkspaceOnStart = 1
 let g:CtrlSpaceGlobCommand = 'ag --follow --nocolor --nogroup -g ""'
 
 nnoremap <silent> <plug>(ctrlspace) :CtrlSpace<cr>
