@@ -44,7 +44,7 @@ if test -z $COLORS_ARE_SET_UP
   set fish_color_comment brblack
   set fish_color_match yellow
   set fish_color_selection yellow
-  set fish_color_search_match yellow
+  set fish_color_search_match --background=brblack
   set fish_color_operator cyan
   set fish_color_escape green
   set fish_color_cwd brwhite
