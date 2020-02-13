@@ -486,11 +486,11 @@ nnoremap <silent> <plug>(search-git-commits-current) :FzfBCommits<cr>
 
 let g:gitgutter_map_keys = 0
 
-nmap <silent> <plug>(hunk-stage) <plug>GitGutterStageHunk
-nmap <silent> <plug>(hunk-undo) <plug>GitGutterUndoHunk
-nmap <silent> <plug>(hunk-prev) <plug>GitGutterPrevHunk
-nmap <silent> <plug>(hunk-next) <plug>GitGutterNextHunk
-nmap <silent> <plug>(hunk-preview) <plug>GitGutterPreviewHunk
+nmap <silent> <plug>(hunk-stage) <plug>(GitGutterStageHunk)
+nmap <silent> <plug>(hunk-undo) <plug>(GitGutterUndoHunk)
+nmap <silent> <plug>(hunk-prev) <plug>(GitGutterPrevHunk)
+nmap <silent> <plug>(hunk-next) <plug>(GitGutterNextHunk)
+nmap <silent> <plug>(hunk-preview) <plug>(GitGutterPreviewHunk)
 
 " }}}
 " vim-fugitive {{{
