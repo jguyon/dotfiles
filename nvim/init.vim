@@ -33,6 +33,7 @@ Plug 'junegunn/fzf.vim' " Fuzzy-search everything
 " }}}
 " integration {{{
 
+Plug 'sheerun/vim-polyglot' " Language support
 Plug 'airblade/vim-gitgutter' " Display git hunks in gutter
 Plug 'tpope/vim-fugitive' " Git commands
 Plug 'tpope/vim-dispatch' " Run build and test tasks
@@ -54,30 +55,16 @@ Plug 'autozimu/LanguageClient-neovim', {
   \ } " Language server protocol support
 
 " }}}
-" languages {{{
-
-Plug 'stephpy/vim-yaml' " YAML
-Plug 'cespare/vim-toml' " TOML
-Plug 'dag/vim-fish' " fish shell
-Plug 'pangloss/vim-javascript' " javascript
-Plug 'mxw/vim-jsx' " JSX
-Plug 'leafgarland/typescript-vim' " typescript
-Plug 'peitalin/vim-jsx-typescript' " TSX
-Plug 'reasonml-editor/vim-reason-plus' " reasonml
-Plug 'ElmCast/elm-vim' " elm
-Plug 'rust-lang/rust.vim' " rust
-
-" }}}
 
 call plug#end()
 
 " }}}
-" basics {{{
+" core {{{
 
 set shell=bash " Run commands with bash
 set mouse=a " Enable mouse
 set termguicolors " Enable true colour
-set guicursor=a:Cursor " Force cursor highlight group
+set guicursor+=a:Cursor " Force cursor highlight group
 set number relativenumber " Show relative line numbers
 set signcolumn=yes " Sign column always visible on the left
 set cursorline " Highlight current line
@@ -101,6 +88,20 @@ set history=1000 undolevels=1000 undoreload=10000 " We live in the future
 set sessionoptions-=buffers " Don't save hidden buffers in sessions
 set exrc " Enable project specific configuration files
 
+" set <leader> key to <space>
+let g:mapleader = ' '
+let g:maplocalleader = ' '
+
+nnoremap <silent> <leader>w :write<cr>
+nnoremap <silent> <leader>W :write!<cr>
+nnoremap <silent> <leader>q :qa<cr>
+nnoremap <silent> <leader>Q :qa!<cr>
+
+" Use <tab>/<s-tab> to select completion and <cr> to validate
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
+
 " Use <esc> to quit terminal mode
 tnoremap <esc> <C-\><C-n>
 
@@ -117,165 +118,21 @@ augroup NOLINENUMBERS
   au FileType help setlocal nonumber norelativenumber
 augroup END
 
-" Do not warn when closing terminal
-" augroup TERMINALNOMODIFIED
-"   au!
-"   au TermOpen * setlocal modified
-" augroup END
-
-" Use <tab>/<s-tab> to select completion and <cr> to validate
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
-
-" set <leader> key to <space>
-let g:mapleader = ' '
-let g:maplocalleader = ' '
-
-" }}}
-" mappings {{{
-
-" general {{{
-
-nmap <c-space> <plug>(ctrlspace)
-nmap <leader><leader> <plug>(search-commands)
-nmap <leader>: <plug>(search-command-history)
-nmap <leader>? <plug>(search-help)
-nmap <leader><tab> <plug>(search-mappings)
-
-" }}}
-" quit {{{
-
-nnoremap <silent> <leader>qq :qa <cr>
-nnoremap <silent> <leader>qQ :qa! <cr>
-nnoremap <silent> <leader>qw :wqa <cr>
-nnoremap <silent> <leader>qW :wqa! <cr>
-
-" }}}
-" current buffer {{{
-
-nnoremap <silent> <leader>fr :edit <cr>
-nnoremap <silent> <leader>fw :write <cr>
-nnoremap <silent> <leader>fW :write! <cr>
-nmap <leader>ff <plug>(search-files)
-
-" }}}
-" windows {{{
-
-nnoremap <silent> <leader>ws :split <cr>
-nnoremap <silent> <leader>wv :vsplit <cr>
-nnoremap <silent> <leader>wk :wincmd k <cr>
-nnoremap <silent> <leader>wj :wincmd j <cr>
-nnoremap <silent> <leader>wh :wincmd h <cr>
-nnoremap <silent> <leader>wl :wincmd l <cr>
-nnoremap <silent> <leader>wK :wincmd K <cr>
-nnoremap <silent> <leader>wJ :wincmd J <cr>
-nnoremap <silent> <leader>wH :wincmd H <cr>
-nnoremap <silent> <leader>wL :wincmd L <cr>
-nnoremap <silent> <leader>wd :wincmd c <cr>
-nnoremap <silent> <leader>w= :wincmd = <cr>
-nnoremap <silent> <leader>w- :resize -5 <cr>
-nnoremap <silent> <leader>w+ :resize +5 <cr>
-nnoremap <silent> <leader>w< :vertical resize -5 <cr>
-nnoremap <silent> <leader>w> :vertical resize +5 <cr>
-
-" }}}
-" terminal {{{
-
-nnoremap <silent> <leader>t :call LaunchTerminal() <cr>
-nnoremap <silent> <leader>T :call PromptCommand() <cr>
-
-function! LaunchTerminal() abort
-  terminal
-  startinsert
-endfunction
-
-function! LaunchCommand(cmd) abort
-  execute 'edit term://' . getcwd() . '//' . a:cmd
-  startinsert
-endfunction
-
-function! PromptCommand() abort
-  call inputsave()
-  let l:cmd = input('Enter a command: ')
-  call inputrestore()
-  call LaunchCommand(l:cmd)
-endfunction
-
-" }}}
-" git {{{
-
-nmap <leader>gs <plug>(git-status)
-nmap <leader>gc <plug>(git-commit)
-nmap <leader>gA <plug>(git-amend)
-nmap <leader>gd <plug>(git-diff)
-nmap <leader>gp <plug>(git-push)
-nmap <leader>gm <plug>(git-pull)
-nmap <leader>ga <plug>(git-authors)
-nmap <silent>gl <plug>(search-git-commits-current)
-nmap <silent>gL <plug>(search-git-commits)
-
-" }}}
-" hunks {{{
-
-nmap <leader>hs <plug>(hunk-stage)
-nmap <leader>hu <plug>(hunk-undo)
-nmap <leader>hp <plug>(hunk-prev)
-nmap <leader>hn <plug>(hunk-next)
-nmap <leader>hv <plug>(hunk-preview)
-
-" }}}
-" linting {{{
-
-nmap J <plug>(errors-detail)
-nmap <leader>ee <plug>(errors-enable)
-nmap <leader>eE <plug>(errors-disable)
-nmap <leader>el <plug>(errors-lint)
-nmap <leader>ef <plug>(errors-fix)
-nmap <leader>ep <plug>(errors-prev)
-nmap <leader>en <plug>(errors-next)
-nmap <leader>et <plug>(errors-toggle)
-nmap <leader>er <plug>(errors-reset)
-
-" }}}
-" language server {{{
-
-nmap K <plug>(lang-hover)
-nmap <leader>ii <plug>(lang-enable)
-nmap <leader>iI <plug>(lang-disable)
-nmap <leader>ir <plug>(lang-rename)
-nmap <leader>id <plug>(lang-go-to-def)
-nmap <leader>it <plug>(lang-go-to-typedef)
-nmap <leader>im <plug>(lang-go-to-impl)
-
-" }}}
-" motions {{{
-
-map <C-j> <Plug>(edgemotion-j)
-map <C-k> <Plug>(edgemotion-k)
-map ;f <Plug>(easymotion-s)
-map ;t <Plug>(easymotion-bd-t)
-map ;w <Plug>(easymotion-bd-w)
-map ;e <Plug>(easymotion-bd-e)
-map ;j <Plug>(easymotion-bd-jk)
-map ;n <Plug>(easymotion-bd-n)
-map ;s <Plug>(easymotion-s2)
-map ;z <Plug>(easymotion-bd-t2)
-map ;r <Plug>(easymotion-repeat)
-
-" }}}
-
 " }}}
 " vim-sleuth {{{
 
 let g:sleuth_automatic = 1
 
 " }}}
+" vim-edgemotion {{{
+
+map <C-j> <Plug>(edgemotion-j)
+map <C-k> <Plug>(edgemotion-k)
+
+" }}}
 " vim-easymotion {{{
 
-let g:EasyMotion_do_mapping = 0
-let g:EasyMotion_smartcase = 1
-let g:EasyMotion_use_smartsign_us = 1
+let g:EasyMotion_leader_key = ';'
 
 " }}}
 " nord-vim {{{
@@ -284,9 +141,6 @@ let g:nord_italic = 1
 let g:nord_italic_comments = 1
 let g:nord_underline = 1
 colorscheme nord
-
-" support transparent background
-hi Normal guibg=NONE ctermbg=NONE
 
 " }}}
 " lightline {{{
@@ -336,7 +190,7 @@ let g:lightline.component = {
   \ }
 
 let g:lightline.component_function = {
-  \ 'mode': 'LightlineMode',
+  \ 'mode': 'lightline#mode',
   \ 'filename': 'LightlineShortpath',
   \ 'readonly': 'LightlineReadOnly',
   \ 'githunks': 'LightlineGitHunks',
@@ -361,16 +215,6 @@ let g:lightline.tab_component_function = {
   \ 'tabtitle': 'LightlineTabTitle',
   \ }
 
-function! LightlineMode() abort
-  if &filetype ==# 'denite'
-    return 'denite'
-  elseif &filetype ==# 'ctrlspace'
-    return 'ctrlspace'
-  else
-    return lightline#mode()
-  endif
-endfunction
-
 function! LightlineShortpath() abort
   let l:filename = expand('%')
 
@@ -378,11 +222,6 @@ function! LightlineShortpath() abort
     return ''
   elseif &filetype ==# '' && strridx(l:filename, 'term://', 0) == 0
     return substitute(l:filename, '^term://.*//[0-9]*:\(.*\)$', '\1', '')
-  elseif &filetype ==# 'denite'
-    return denite#get_status('buffer_name')
-  elseif &filetype ==# 'ctrlspace'
-    return ctrlspace#api#StatuslineModeSegment(
-      \ ' ' . g:lightline.subseparator.left . ' ')
   elseif &filetype ==# 'help'
     return fnamemodify(l:filename, ':t:r')
   else
@@ -399,10 +238,6 @@ function! LightlineReadOnly() abort
 endfunction
 
 function! LightlineGitHunks() abort
-  if &filetype ==# 'denite' || &filetype ==# 'ctrlspace'
-    return ''
-  endif
-
   if !exists('*fugitive#head') || !exists('*GitGutterGetHunkSummary')
     return ''
   endif
@@ -436,13 +271,11 @@ endfunction
 " }}}
 " vim-ctrlspace {{{
 
-let g:CtrlSpaceSetDefaultMapping = 0
+let g:CtrlSpaceDefaultMappingKey = "<C-space> "
 let g:CtrlSpaceSearchTiming = 100
 let g:CtrlSpaceSaveWorkspaceOnExit = 1
 let g:CtrlSpaceSaveWorkspaceOnSwitch = 1
-let g:CtrlSpaceGlobCommand = 'ag --follow --nocolor --nogroup -g ""'
-
-nnoremap <silent> <plug>(ctrlspace) :CtrlSpace<cr>
+let g:CtrlSpaceGlobCommand = 'ag -l --nocolor -g ""'
 
 " }}}
 " fzf.vim {{{
@@ -473,35 +306,29 @@ augroup FZF
     \| au BufLeave <buffer> set laststatus=2 showmode ruler
 augroup END
 
-nnoremap <silent> <plug>(search-help) :FzfHelptags<cr>
-nnoremap <silent> <plug>(search-commands) :FzfCommands<cr>
-nnoremap <silent> <plug>(search-command-history) :FzfHistory:<cr>
-nnoremap <silent> <plug>(search-mappings) :FzfMaps<cr>
-nnoremap <silent> <plug>(search-files) :FzfFiles<cr>
-nnoremap <silent> <plug>(search-git-commits) :FzfCommits<cr>
-nnoremap <silent> <plug>(search-git-commits-current) :FzfBCommits<cr>
+nnoremap <silent> <leader>sf :FzfFiles<cr>
+nnoremap <silent> <leader>s: :FzfCommands<cr>
+nnoremap <silent> <leader>sh :FzfHistory:<cr>
+nnoremap <silent> <leader>s? :FzfHelptags<cr>
+nnoremap <silent> <leader>sm :FzfMaps<cr>
+nnoremap <silent> <leader>sg :FzfBCommits<cr>
+nnoremap <silent> <leader>sG :FzfCommits<cr>
 
 " }}}
 " vim-gitgutter {{{
 
 let g:gitgutter_map_keys = 0
 
-nmap <silent> <plug>(hunk-stage) <plug>(GitGutterStageHunk)
-nmap <silent> <plug>(hunk-undo) <plug>(GitGutterUndoHunk)
-nmap <silent> <plug>(hunk-prev) <plug>(GitGutterPrevHunk)
-nmap <silent> <plug>(hunk-next) <plug>(GitGutterNextHunk)
-nmap <silent> <plug>(hunk-preview) <plug>(GitGutterPreviewHunk)
+nmap <leader>hn <plug>(GitGutterNextHunk)
+nmap <leader>hp <plug>(GitGutterPrevHunk)
+nmap <leader>hs <plug>(GitGutterStageHunk)
+nmap <leader>hu <plug>(GitGutterUndoHunk)
+nmap <leader>hv <plug>(GitGutterPreviewHunk)
 
 " }}}
 " vim-fugitive {{{
 
-nnoremap <silent> <plug>(git-status) :Gstatus <cr>
-nnoremap <silent> <plug>(git-commit) :Gcommit <cr>
-nnoremap <silent> <plug>(git-amend) :Gcommit --amend <cr>
-nnoremap <silent> <plug>(git-push) :Gpush <cr>
-nnoremap <silent> <plug>(git-pull) :Gpull <cr>
-nnoremap <silent> <plug>(git-diff) :Gdiff <cr>
-nnoremap <silent> <plug>(git-authors) :Gblame <cr>
+nnoremap <silent> <leader>g :Git<cr>
 
 " }}}
 " ale {{{
@@ -529,15 +356,10 @@ let g:ale_fixers = {
   \ 'rust': ['rustfmt'],
   \ }
 
-nnoremap <silent> <plug>(errors-enable) :ALEEnable<cr>
-nnoremap <silent> <plug>(errors-disable) :ALEDisable<cr>
-nmap <plug>(errors-lint) <plug>(ale_lint)
-nmap <plug>(errors-fix) <plug>(ale_fix)
-nmap <plug>(errors-prev) <plug>(ale_previous_wrap)
-nmap <plug>(errors-next) <plug>(ale_next_wrap)
-nmap <plug>(errors-toggle) <plug>(ale_toggle_buffer)
-nmap <plug>(errors-reset) <plug>(ale_reset_buffer)
-nmap <plug>(errors-detail) <plug>(ale_detail)
+nmap J <plug>(ale_detail)
+nmap <leader>f <plug>(ale_fix)
+nmap <leader>en <plug>(ale_next_wrap)
+nmap <leader>ep <plug>(ale_previous_wrap)
 
 " }}}
 " ncm2 {{{
@@ -560,41 +382,15 @@ let g:LanguageClient_serverCommands = {
   \ 'rust': ['rustup', 'run', 'stable', 'rls'],
   \ }
 
-let g:LanguageClient_rootMarkers = {
-  \ 'javascript': ['package.json'],
-  \ 'javascript.jsx': ['package.json'],
-  \ 'typescript': ['package.json'],
-  \ 'typescript.tsx': ['package.json'],
-  \ 'reason': ['bsconfig.json'],
-  \ 'ocaml': ['bsconfig.json'],
-  \ 'rust': ['Cargo.toml'],
-  \ }
-
-nnoremap <silent> <plug>(lang-enable)
-  \ :LanguageClientStart <cr>
-nnoremap <silent> <plug>(lang-disable)
-  \ :LanguageClientStop <cr>
-nnoremap <silent> <plug>(lang-hover)
-  \ :call LanguageClient_textDocument_hover() <cr>
-nnoremap <silent> <plug>(lang-rename)
-  \ :call LanguageClient_textDocument_rename() <cr>
-nnoremap <silent> <plug>(lang-go-to-def)
-  \ :call LanguageClient_textDocument_definition() <cr>
-nnoremap <silent> <plug>(lang-go-to-typedef)
-  \ :call LanguageClient_textDocument_typeDefinition() <cr>
-nnoremap <silent> <plug>(lang-go-to-impl)
-  \ :call LanguageClient_textDocument_implementation() <cr>
+nnoremap <silent> K :call LanguageClient_textDocument_hover()<cr>
+nnoremap <silent> lr :call LanguageClient_textDocument_rename()<cr>
+nnoremap <silent> ld :call LanguageClient_textDocument_definition()<cr>
+nnoremap <silent> lR :call LanguageClient_textDocument_references()<cr>
 
 " }}}
 " javascript {{{
 
-let g:jsx_ext_required = 0
 let g:javascript_plugin_flow = 1
 let g:javascript_plugin_jsdoc = 1
-
-" }}}
-" elm {{{
-
-let g:elm_setup_keybindings = 0
 
 " }}}
