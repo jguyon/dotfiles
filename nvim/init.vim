@@ -383,9 +383,9 @@ let g:LanguageClient_serverCommands = {
   \ }
 
 nnoremap <silent> K :call LanguageClient_textDocument_hover()<cr>
-nnoremap <silent> lr :call LanguageClient_textDocument_rename()<cr>
-nnoremap <silent> ld :call LanguageClient_textDocument_definition()<cr>
-nnoremap <silent> lR :call LanguageClient_textDocument_references()<cr>
+nnoremap <silent> <leader>lr :call LanguageClient_textDocument_rename()<cr>
+nnoremap <silent> <leader>ld :call LanguageClient_textDocument_definition()<cr>
+nnoremap <silent> <leader>lR :call LanguageClient_textDocument_references()<cr>
 
 " }}}
 " javascript {{{
