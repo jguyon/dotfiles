@@ -94,6 +94,8 @@ let g:maplocalleader = ' '
 
 nnoremap <silent> <leader>w :write<cr>
 nnoremap <silent> <leader>W :write!<cr>
+nnoremap <silent> <leader>c :q<cr>
+nnoremap <silent> <leader>C :q!<cr>
 nnoremap <silent> <leader>q :qa<cr>
 nnoremap <silent> <leader>Q :qa!<cr>
 
