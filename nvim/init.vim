@@ -248,7 +248,7 @@ function! LightlineGitHunks() abort
   if strlen(l:branch) == 0
     return ''
   elseif l:hunks[0] > 0 || l:hunks[1] > 0 || l:hunks[2] > 0
-    return printf("\ue0a0 +%-2s ~%-2s -%-2s",
+    return printf("\ue0a0 +%s ~%s -%s",
       \ l:hunks[0], l:hunks[1], l:hunks[2])
   else
     return printf("\ue0a0 %s", l:branch)
