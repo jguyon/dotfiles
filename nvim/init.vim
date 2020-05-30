@@ -238,11 +238,11 @@ function! LightlineReadOnly() abort
 endfunction
 
 function! LightlineGitHunks() abort
-  if !exists('*fugitive#head') || !exists('*GitGutterGetHunkSummary')
+  if !exists('*FugitiveHead') || !exists('*GitGutterGetHunkSummary')
     return ''
   endif
 
-  let l:branch = fugitive#head()
+  let l:branch = FugitiveHead()
   let l:hunks = GitGutterGetHunkSummary()
 
   if strlen(l:branch) == 0
