@@ -92,8 +92,8 @@ set exrc " Enable project specific configuration files
 let g:mapleader = ' '
 let g:maplocalleader = ' '
 
-nnoremap <silent> <leader>w :write<cr>
-nnoremap <silent> <leader>W :write!<cr>
+nnoremap <silent> <leader>w :w<cr>
+nnoremap <silent> <leader>W :w!<cr>
 nnoremap <silent> <leader>c :q<cr>
 nnoremap <silent> <leader>C :q!<cr>
 nnoremap <silent> <leader>q :qa<cr>
