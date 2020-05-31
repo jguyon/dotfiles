@@ -73,7 +73,6 @@ set nowrap " Do not wrap lines
 set showcmd " Show normal mode commands
 set ignorecase smartcase " Ignore case in searches, unless using uppercase
 set splitright splitbelow " Go to right/bottom when splitting windows
-set clipboard+=unnamedplus " Use system clipboard
 set hidden " Hide abandoned buffers
 set showtabline=1 " Show the tab line if there is more than one tab
 set noshowmode " Do not show the current mode (lightline will do that)
@@ -98,6 +97,10 @@ nnoremap <silent> <leader>c :q<cr>
 nnoremap <silent> <leader>C :q!<cr>
 nnoremap <silent> <leader>q :qa<cr>
 nnoremap <silent> <leader>Q :qa!<cr>
+
+" Copy and paste to system clipboard
+noremap <silent> <leader>y "+y
+noremap <silent> <leader>p "+p
 
 " Use <tab>/<s-tab> to select completion and <cr> to validate
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
