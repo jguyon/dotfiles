@@ -2,7 +2,7 @@
 set -gx SHELL (which fish)
 
 # make neovim default editor
-set -gx EDITOR nvim
+set -gx EDITOR (which nvim)
 
 # add local executables to PATH
 if test -d $HOME/.local/bin
