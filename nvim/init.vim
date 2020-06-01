@@ -267,12 +267,12 @@ let g:CtrlSpaceDefaultMappingKey = "<C-space> "
 let g:CtrlSpaceSearchTiming = 100
 let g:CtrlSpaceSaveWorkspaceOnExit = 1
 let g:CtrlSpaceSaveWorkspaceOnSwitch = 1
-let g:CtrlSpaceGlobCommand = 'ag -l --nocolor -g ""'
+let g:CtrlSpaceGlobCommand = 'ag -l --nocolor --hidden --ignore .git/ -g ""'
 
 " }}}
 " fzf.vim {{{
 
-let $FZF_DEFAULT_COMMAND = 'ag -l --nocolor -g ""'
+let $FZF_DEFAULT_COMMAND = 'ag -l --nocolor --hidden --ignore .git/ -g ""'
 let g:fzf_command_prefix = 'Fzf'
 let g:fzf_layout = { 'down': '~20%' }
 let g:fzf_history_dir = '~/.local/share/fzf-history'
