@@ -33,13 +33,22 @@ Plug 'junegunn/fzf.vim' " Fuzzy-search everything
 " }}}
 " integration {{{
 
-Plug 'sheerun/vim-polyglot' " Language support
 Plug 'airblade/vim-gitgutter' " Display git hunks in gutter
 Plug 'tpope/vim-fugitive' " Git commands
 Plug 'tpope/vim-dispatch' " Run build and test tasks
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " IntelliSense
 Plug 'Shougo/neco-vim' " Required by coc-neco
 Plug 'neoclide/coc-neco' " IntelliSense support for vim files
+
+" }}}
+" languages {{{
+
+Plug 'stephpy/vim-yaml' " YAML
+Plug 'cespare/vim-toml' " TOML
+Plug 'dag/vim-fish' " fish shell
+Plug 'pangloss/vim-javascript' " JavaScript
+Plug 'leafgarland/typescript-vim' " TypeScript
+Plug 'maxmellon/vim-jsx-pretty' " JSX/TSX
 
 " }}}
 
@@ -396,7 +405,7 @@ augroup COC
 augroup END
 
 " }}}
-" javascript {{{
+" vim-javascript {{{
 
 let g:javascript_plugin_flow = 1
 let g:javascript_plugin_jsdoc = 1
