@@ -37,22 +37,9 @@ Plug 'sheerun/vim-polyglot' " Language support
 Plug 'airblade/vim-gitgutter' " Display git hunks in gutter
 Plug 'tpope/vim-fugitive' " Git commands
 Plug 'tpope/vim-dispatch' " Run build and test tasks
-Plug 'w0rp/ale' " Linting
-Plug 'maximbaz/lightline-ale' " Display error info in status line
-Plug 'ncm2/ncm2' " Auto-completions
-Plug 'roxma/nvim-yarp' " Required by ncm2
-Plug 'ncm2/ncm2-bufword' " Auto-complete words from current buffer
-Plug 'ncm2/ncm2-path' " Auto-complete paths
-Plug 'ncm2/ncm2-tmux' " Auto-complete words from other tmux panes
-Plug 'Shougo/neco-vim' " Required to auto-complete syntax
-Plug 'ncm2/ncm2-vim' " Auto-complete VimScript
-Plug 'ncm2/ncm2-cssomni' " Auto-complete CSS
-Plug 'ncm2/ncm2-html-subscope' " Detect JS/CSS subscope in HTML
-Plug 'ncm2/ncm2-markdown-subscope' " Detect code blocks in Markdown
-Plug 'autozimu/LanguageClient-neovim', {
-  \ 'branch': 'next',
-  \ 'do': 'bash install.sh',
-  \ } " Language server protocol support
+Plug 'neoclide/coc.nvim', {'branch': 'release'} " IntelliSense
+Plug 'Shougo/neco-vim' " Required by coc-neco
+Plug 'neoclide/coc-neco' " IntelliSense support for vim files
 
 " }}}
 
@@ -80,6 +67,8 @@ set tabstop=4 " Indent with 4 spaces by default
 set completeopt=noinsert,menuone,noselect " Configure completion menu
 set shortmess+=c " Don't mask echo messages with completion matches
 set pumheight=10 " Height of autocomplete popup
+set cmdheight=2 " Give more space for displaying messages
+set updatetime=300 " Shorter update time for CursorHold and CursorHoldI
 set backup backupdir=~/.local/share/nvim/backup " Enable backups
 set swapfile dir=~/.local/share/nvim/backup " Enable swapfile
 set undofile undodir=~/.local/share/nvim/backup " Enable undofiles
@@ -101,11 +90,6 @@ nnoremap <silent> <leader>Q :qa!<cr>
 " Copy and paste to system clipboard
 noremap <silent> <leader>y "+y
 noremap <silent> <leader>p "+p
-
-" Use <tab>/<s-tab> to select completion and <cr> to validate
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 
 " Use <esc> to quit terminal mode
 tnoremap <esc> <C-\><C-n>
@@ -167,9 +151,9 @@ let g:lightline.subseparator = { 'left': "\ue0b1", 'right': "\ue0b3" }
 let g:lightline.active = {
   \ 'left': [ [ 'mode', 'paste', 'readonly' ],
   \           [ 'githunks', 'filename', 'modified' ] ],
-  \ 'right': [ [ 'linter_checking', 'linter_ok', 'linter_warnings', 'linter_errors' ],
-  \            [ 'lineinfo' ],
-  \            [ 'filetype' ] ],
+  \ 'right': [ [ 'lineinfo' ],
+  \            [],
+  \            ['filetype', 'cocstatus'] ],
   \ }
 
 let g:lightline.inactive = {
@@ -199,6 +183,7 @@ let g:lightline.component_function = {
   \ 'filename': 'LightlineShortpath',
   \ 'readonly': 'LightlineReadOnly',
   \ 'githunks': 'LightlineGitHunks',
+  \ 'cocstatus': 'coc#status',
   \ }
 
 let g:lightline.component_expand = {
@@ -206,13 +191,6 @@ let g:lightline.component_expand = {
   \ 'linter_warnings': 'lightline#ale#warnings',
   \ 'linter_errors': 'lightline#ale#errors',
   \ 'linter_ok': 'lightline#ale#ok',
-  \ }
-
-let g:lightline.component_type = {
-  \ 'linter_checking': 'left',
-  \ 'linter_warnings': 'warning',
-  \ 'linter_errors': 'error',
-  \ 'linter_ok': 'left',
   \ }
 
 let g:lightline.tab_component_function = {
@@ -336,61 +314,86 @@ nmap <leader>hv <plug>(GitGutterPreviewHunk)
 nnoremap <silent> <leader>g :Git<cr>
 
 " }}}
-" ale {{{
+" coc.nvim {{{
 
-let g:lightline#ale#indicator_checking = "\u2026"
-let g:lightline#ale#indicator_ok = "\u2713"
-let g:ale_sign_error = "\u2716"
-let g:lightline#ale#indicator_errors = g:ale_sign_error
-let g:ale_sign_warning = "\u26a0"
-let g:lightline#ale#indicator_warnings = g:ale_sign_warning
-let g:ale_sign_info = "\u2139"
-let g:ale_open_list = 0
-let g:ale_lint_on_enter = 0
-let g:ale_lint_on_text_changed = 'normal'
-let g:ale_lint_on_insert_leave = 1
-let g:ale_fix_on_save = 0
+let g:coc_global_extensions = [
+ \ 'coc-json',
+ \ 'coc-tsserver', 
+ \ 'coc-eslint',
+ \ 'coc-css',
+ \ 'coc-html',
+ \ 'coc-prettier',
+ \ 'coc-emoji',
+ \ ]
 
-let g:ale_fixers = {
-  \ 'javascript': ['prettier'],
-  \ 'typescript': ['prettier'],
-  \ 'json': ['prettier'],
-  \ 'css': ['prettier'],
-  \ 'markdown': ['prettier'],
-  \ 'reason': ['refmt'],
-  \ 'rust': ['rustfmt'],
-  \ }
+let g:coc_status_error_sign = '✗'
+let g:coc_status_warning_sign = '⚠'
 
-nmap J <plug>(ale_detail)
-nmap <leader>f <plug>(ale_fix)
-nmap <leader>en <plug>(ale_next_wrap)
-nmap <leader>ep <plug>(ale_previous_wrap)
+" Use <cr> to trigger completion and navigate completion items
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 
-" }}}
-" ncm2 {{{
+" Use <cr> to confirm completion
+if exists('*complete_info')
+  inoremap <expr> <cr>
+        \ complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
 
-autocmd BufEnter * call ncm2#enable_for_buffer()
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
 
-" }}}
-" lsp {{{
+" Common actions
+nmap <leader>f <Plug>(coc-format)
+vmap <leader>f <Plug>(coc-format-selected)
+nmap <leader>s <Plug>(coc-range-select)
+vmap <leader>s <Plug>(coc-range-select)
+nmap <leader>S <Plug>(coc-range-select-backward)
+vmap <leader>S <Plug>(coc-range-select-backward)
+nmap <leader>lr <Plug>(coc-rename)
+nmap <leader>ln <Plug>(coc-diagnostic-next)
+nmap <leader>lp <Plug>(coc-diagnostic-prev)
+nmap <leader>ld <Plug>(coc-definition)
+nmap <leader>lt <Plug>(coc-type-definition)
+nmap <leader>li <Plug>(coc-implementation)
+nmap <leader>lf <Plug>(coc-references)
+nmap <leader>la <Plug>(coc-codeaction)
+vmap <leader>la <Plug>(coc-codeaction-selected)
 
-let g:LanguageClient_autoStart = 1
-let g:LanguageClient_diagnosticsEnable = 0
+" Operators for selecting functions and classes
+vmap if <Plug>(coc-funcobj-i)
+omap if <Plug>(coc-funcobj-i)
+vmap af <Plug>(coc-funcobj-a)
+omap af <Plug>(coc-funcobj-a)
+vmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+vmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
 
-let g:LanguageClient_serverCommands = {
-  \ 'javascript': ['typescript-language-server', '--stdio'],
-  \ 'javascript.jsx': ['typescript-language-server', '--stdio'],
-  \ 'typescript': ['typescript-language-server', '--stdio'],
-  \ 'typescript.tsx': ['typescript-language-server', '--stdio'],
-  \ 'reason': ['ocaml-language-server', '--stdio'],
-  \ 'ocaml': ['ocaml-language-server', '--stdio'],
-  \ 'rust': ['rustup', 'run', 'stable', 'rls'],
-  \ }
-
-nnoremap <silent> K :call LanguageClient_textDocument_hover()<cr>
-nnoremap <silent> <leader>lr :call LanguageClient_textDocument_rename()<cr>
-nnoremap <silent> <leader>ld :call LanguageClient_textDocument_definition()<cr>
-nnoremap <silent> <leader>lR :call LanguageClient_textDocument_references()<cr>
+augroup COC
+  au!
+  " Highlight the symbol and its references when holding the cursor.
+  au CursorHold * silent call CocActionAsync('highlight')
+  " Update signature help on jump placeholder.
+  au User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+  " Force lightline update
+  au User CocStatusChange,CocDiagnosticChange call lightline#update()
+augroup END
 
 " }}}
 " javascript {{{
