@@ -24,7 +24,7 @@ Plug 'easymotion/vim-easymotion' " Move around easily
 " }}}
 " interface {{{
 
-Plug 'arcticicestudio/nord-vim'
+Plug 'arcticicestudio/nord-vim' " Color scheme
 Plug 'itchyny/lightline.vim' " Status line
 Plug 'vim-ctrlspace/vim-ctrlspace' " Workspace management
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
@@ -162,7 +162,7 @@ let g:lightline.active = {
   \           [ 'githunks', 'filename', 'modified' ] ],
   \ 'right': [ [ 'lineinfo' ],
   \            [],
-  \            ['filetype', 'cocstatus'] ],
+  \            [ 'filetype', 'cocstatus' ] ],
   \ }
 
 let g:lightline.inactive = {
