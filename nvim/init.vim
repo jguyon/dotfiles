@@ -24,8 +24,7 @@ Plug 'jiangmiao/auto-pairs' " Auto-insert matching bracket, quote...
 
 Plug 'arcticicestudio/nord-vim' " Color scheme
 Plug 'itchyny/lightline.vim' " Status line
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
-Plug 'junegunn/fzf.vim' " Fuzzy-search everything
+Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' } " Fuzzy search
 
 " }}}
 " integration {{{
@@ -226,41 +225,12 @@ endfunction
 " }}}
 
 " }}}
-" fzf.vim {{{
+" vim-clap {{{
 
-let $FZF_DEFAULT_COMMAND = 'ag -l --nocolor --hidden --ignore .git/ -g ""'
-let g:fzf_command_prefix = 'Fzf'
-let g:fzf_layout = { 'down': '~20%' }
-let g:fzf_history_dir = '~/.local/share/fzf-history'
-let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'MatchParen'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':     ['fg', 'MatchParen'],
-  \ 'info':    ['fg', 'PreProc'],
-  \ 'border':  ['fg', 'Ignore'],
-  \ 'prompt':  ['fg', 'Conditional'],
-  \ 'pointer': ['fg', 'Exception'],
-  \ 'marker':  ['fg', 'Keyword'],
-  \ 'spinner': ['fg', 'Label'],
-  \ 'header':  ['fg', 'Comment'] }
+let g:clap_layout = { 'relative': 'editor' }
 
-" Don't display status line with fzf
-augroup FZF
-  au!
-  au FileType fzf set laststatus=0 noshowmode noruler
-    \| au BufLeave <buffer> set laststatus=2 showmode ruler
-augroup END
-
-nnoremap <silent> <leader>sf :FzfFiles<cr>
-nnoremap <silent> <leader>s: :FzfCommands<cr>
-nnoremap <silent> <leader>sh :FzfHistory:<cr>
-nnoremap <silent> <leader>s? :FzfHelptags<cr>
-nnoremap <silent> <leader>sm :FzfMaps<cr>
-nnoremap <silent> <leader>sg :FzfBCommits<cr>
-nnoremap <silent> <leader>sG :FzfCommits<cr>
+nnoremap <silent> <leader>o :Clap files<cr>
+nnoremap <silent> <leader>b :Clap buffers<cr>
 
 " }}}
 " vim-gitgutter {{{
