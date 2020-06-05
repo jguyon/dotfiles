@@ -18,7 +18,6 @@ Plug 'tpope/vim-repeat' " Enable '.' operator for custom mappings
 Plug 'tpope/vim-surround' " Replace/delete surrounding characters
 Plug 'tpope/vim-commentary' " Comment stuff in/out
 Plug 'jiangmiao/auto-pairs' " Auto-insert matching bracket, quote...
-Plug 'easymotion/vim-easymotion' " Move around easily
 
 " }}}
 " interface {{{
@@ -119,11 +118,6 @@ augroup END
 " vim-sleuth {{{
 
 let g:sleuth_automatic = 1
-
-" }}}
-" vim-easymotion {{{
-
-let g:EasyMotion_leader_key = ';'
 
 " }}}
 " nord-vim {{{
