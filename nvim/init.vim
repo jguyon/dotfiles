@@ -18,7 +18,6 @@ Plug 'tpope/vim-repeat' " Enable '.' operator for custom mappings
 Plug 'tpope/vim-surround' " Replace/delete surrounding characters
 Plug 'tpope/vim-commentary' " Comment stuff in/out
 Plug 'jiangmiao/auto-pairs' " Auto-insert matching bracket, quote...
-Plug 'haya14busa/vim-edgemotion' " Move to edges
 Plug 'easymotion/vim-easymotion' " Move around easily
 
 " }}}
@@ -120,12 +119,6 @@ augroup END
 " vim-sleuth {{{
 
 let g:sleuth_automatic = 1
-
-" }}}
-" vim-edgemotion {{{
-
-map <C-j> <Plug>(edgemotion-j)
-map <C-k> <Plug>(edgemotion-k)
 
 " }}}
 " vim-easymotion {{{
