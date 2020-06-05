@@ -24,7 +24,6 @@ Plug 'jiangmiao/auto-pairs' " Auto-insert matching bracket, quote...
 
 Plug 'arcticicestudio/nord-vim' " Color scheme
 Plug 'itchyny/lightline.vim' " Status line
-Plug 'vim-ctrlspace/vim-ctrlspace' " Workspace management
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim' " Fuzzy-search everything
 
@@ -157,11 +156,6 @@ let g:lightline.inactive = {
   \ 'right': [ [], [ 'lineinfo' ] ],
   \ }
 
-let g:lightline.tab = {
-  \ 'active': [ 'tabnum', 'tabtitle', 'modified' ],
-  \ 'inactive': [ 'tabnum', 'tabtitle', 'modified' ],
-  \ }
-
 let g:lightline.mode_map = {
   \ 'n': 'n', 'i': 'i', 'R': 'R', 'v': 'v', 'V': 'V', "\<C-v>": 'C-v',
   \ 'c': 'c', 's': 's', 'S': 'S', "\<C-s>": 'C-s', 't': 't',
@@ -187,11 +181,6 @@ let g:lightline.component_expand = {
   \ 'linter_warnings': 'lightline#ale#warnings',
   \ 'linter_errors': 'lightline#ale#errors',
   \ 'linter_ok': 'lightline#ale#ok',
-  \ }
-
-let g:lightline.tab_component_function = {
-  \ 'tabnum': 'LightlineTabNum',
-  \ 'tabtitle': 'LightlineTabTitle',
   \ }
 
 function! LightlineShortpath() abort
@@ -234,27 +223,7 @@ function! LightlineGitHunks() abort
   endif
 endfunction
 
-function! LightlineTabNum(n) abort
-  return a:n . ctrlspace#api#TabBuffersNumber(a:n)
-endfunction
-
-function! LightlineTabTitle(n) abort
-  let l:buflist = tabpagebuflist(a:n)
-  let l:winnr = tabpagewinnr(a:n)
-  let l:bufnr = l:buflist[l:winnr - 1]
-  return ctrlspace#api#TabTitle(a:n, l:bufnr, expand('#'. l:bufnr . ':t'))
-endfunction
-
 " }}}
-
-" }}}
-" vim-ctrlspace {{{
-
-let g:CtrlSpaceDefaultMappingKey = "<C-space> "
-let g:CtrlSpaceSearchTiming = 100
-let g:CtrlSpaceSaveWorkspaceOnExit = 1
-let g:CtrlSpaceSaveWorkspaceOnSwitch = 1
-let g:CtrlSpaceGlobCommand = 'ag -l --nocolor --hidden --ignore .git/ -g ""'
 
 " }}}
 " fzf.vim {{{
