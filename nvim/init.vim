@@ -184,7 +184,7 @@ let g:lightline.mode_map = {
 " components {{{
 
 let g:lightline.component = {
-  \ 'lineinfo': "\ue0a1 %3l:%-2c / %L",
+  \ 'lineinfo': "\ue0a1 %3l.%-2c / %L",
   \ }
 
 let g:lightline.component_function = {
