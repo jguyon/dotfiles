@@ -85,17 +85,6 @@ set exrc " Enable project specific configuration files
 let g:mapleader = ' '
 let g:maplocalleader = ' '
 
-nnoremap <silent> <leader>w :w<cr>
-nnoremap <silent> <leader>W :w!<cr>
-nnoremap <silent> <leader>c :q<cr>
-nnoremap <silent> <leader>C :q!<cr>
-nnoremap <silent> <leader>q :qa<cr>
-nnoremap <silent> <leader>Q :qa!<cr>
-
-" Copy and paste to system clipboard
-noremap <silent> <leader>y "+y
-noremap <silent> <leader>p "+p
-
 " Use <esc> to quit terminal mode
 tnoremap <esc> <C-\><C-n>
 
@@ -233,22 +222,6 @@ nnoremap <silent> <leader>o :Clap files<cr>
 nnoremap <silent> <leader>b :Clap buffers<cr>
 
 " }}}
-" vim-gitgutter {{{
-
-let g:gitgutter_map_keys = 0
-
-nmap <leader>hn <plug>(GitGutterNextHunk)
-nmap <leader>hp <plug>(GitGutterPrevHunk)
-nmap <leader>hs <plug>(GitGutterStageHunk)
-nmap <leader>hu <plug>(GitGutterUndoHunk)
-nmap <leader>hv <plug>(GitGutterPreviewHunk)
-
-" }}}
-" vim-fugitive {{{
-
-nnoremap <silent> <leader>g :Git<cr>
-
-" }}}
 " coc.nvim {{{
 
 let g:coc_global_extensions = [
@@ -294,21 +267,19 @@ function! s:show_documentation()
 endfunction
 
 " Common actions
+nmap <silent> ]d <Plug>(coc-diagnostic-next)
+nmap <silent> [d <Plug>(coc-diagnostic-prev)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nmap <silent> <c-n> <Plug>(coc-range-select)
+vmap <silent> <c-n> <Plug>(coc-range-select)
+nmap <silent> <c-p> <Plug>(coc-range-select-backward)
+vmap <silent> <c-p> <Plug>(coc-range-select-backward)
+nmap <silent> <leader>r <Plug>(coc-rename)
 nmap <silent> <leader>f <Plug>(coc-format)
 vmap <silent> <leader>f <Plug>(coc-format-selected)
-nmap <silent> <leader>s <Plug>(coc-range-select)
-vmap <silent> <leader>s <Plug>(coc-range-select)
-nmap <silent> <leader>S <Plug>(coc-range-select-backward)
-vmap <silent> <leader>S <Plug>(coc-range-select-backward)
-nmap <silent> <leader>lr <Plug>(coc-rename)
-nmap <silent> <leader>ln <Plug>(coc-diagnostic-next)
-nmap <silent> <leader>lp <Plug>(coc-diagnostic-prev)
-nmap <silent> <leader>ld <Plug>(coc-definition)
-nmap <silent> <leader>lt <Plug>(coc-type-definition)
-nmap <silent> <leader>li <Plug>(coc-implementation)
-nmap <silent> <leader>lf <Plug>(coc-references)
-nmap <silent> <leader>la <Plug>(coc-codeaction)
-vmap <silent> <leader>la <Plug>(coc-codeaction-selected)
 
 " Operators for selecting functions and classes
 vmap <silent> if <Plug>(coc-funcobj-i)
