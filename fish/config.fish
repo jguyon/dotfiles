@@ -20,14 +20,12 @@ if status --is-interactive && test -d $HOME/.fnm
 end
 
 # supress greeting message
-set fish_greeting
+if status --is-interactive
+  set fish_greeting
+end
 
 # syntax highlighting
-if test -z $COLORS_ARE_SET_UP
-  # if the user has manually changed the colors, we don't want to
-  # reset them when they open a child shell
-  set -gx COLORS_ARE_SET_UP true
-
+if status --is-interactive
   set fish_color_normal normal
   set fish_color_command blue --bold
   set fish_color_quote green
@@ -54,9 +52,6 @@ if test -z $COLORS_ARE_SET_UP
 end
 
 # use vim mode
-if test -z $VI_MODE_IS_SET_UP
-  # if the user has reverted to default key bindings, we don't want to
-  # reset to vi key bindings when they open a child shell
-  set -gx VI_MODE_IS_SET_UP true
+if status --is-interactive
   fish_vi_key_bindings
 end
