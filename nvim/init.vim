@@ -297,8 +297,6 @@ augroup COC
   au CursorHold * silent call CocActionAsync('highlight')
   " Update signature help on jump placeholder.
   au User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-  " Force lightline update
-  au User CocStatusChange,CocDiagnosticChange call lightline#update()
 augroup END
 
 " }}}
