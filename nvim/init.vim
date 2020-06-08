@@ -237,7 +237,7 @@ let g:coc_global_extensions = [
 let g:coc_status_error_sign = '✗'
 let g:coc_status_warning_sign = '!'
 
-" Use <cr> to trigger completion and navigate completion items
+" Use <tab> to trigger completion and navigate completion items
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
