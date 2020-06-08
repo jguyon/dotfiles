@@ -193,7 +193,7 @@ function! TabLabel(n) abort
   let name = bufname(buflist[winnr -1])
   let short = empty(name) ? '???' : fnamemodify(name, ':t')
 
-  return a:n . ' ' . short
+  return a:n . ':' . short
 endfunction
 
 function! TabLineCwd() abort
