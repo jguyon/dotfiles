@@ -30,7 +30,6 @@ Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' } " Fuzzy search
 
 Plug 'airblade/vim-gitgutter' " Display git hunks in gutter
 Plug 'tpope/vim-fugitive' " Git commands
-Plug 'tpope/vim-dispatch' " Run build and test tasks
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " IntelliSense
 Plug 'vn-ki/coc-clap' " Integrate coc.nvim with vim-clap
 Plug 'Shougo/neco-vim' " Required by coc-neco
