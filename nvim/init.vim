@@ -23,7 +23,6 @@ Plug 'jiangmiao/auto-pairs' " Auto-insert matching bracket, quote...
 " interface {{{
 
 Plug 'arcticicestudio/nord-vim' " Color scheme
-Plug 'itchyny/lightline.vim' " Status line
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' } " Fuzzy search
 
 " }}}
@@ -52,7 +51,7 @@ Plug 'maxmellon/vim-jsx-pretty' " JSX/TSX
 call plug#end()
 
 " }}}
-" core {{{
+" basics {{{
 
 set shell=bash " Run commands with bash
 set mouse=a " Enable mouse
@@ -67,8 +66,7 @@ set showcmd " Show normal mode commands
 set ignorecase smartcase " Ignore case in searches, unless using uppercase
 set splitright splitbelow " Go to right/bottom when splitting windows
 set hidden " Hide abandoned buffers
-set showtabline=1 " Show the tab line if there is more than one tab
-set noshowmode " Do not show the current mode (lightline will do that)
+set showtabline=2 " Always show the tab line
 set tabstop=4 " Indent with 4 spaces by default
 set completeopt=noinsert,menuone,noselect " Configure completion menu
 set shortmess+=c " Don't mask echo messages with completion matches
@@ -103,6 +101,106 @@ augroup NOLINENUMBERS
 augroup END
 
 " }}}
+" statusline {{{
+
+set statusline=
+set statusline+=\ %{StatusLineShortPath()}%h%w%q%m%{StatusLineReadOnly()}
+set statusline+=%=
+set statusline+=%{StatusLineCocStatus()}%{StatusLineGitStatus()}
+
+function! StatusLineShortPath() abort
+  let l:filename = expand('%')
+
+  if strlen(l:filename) == 0
+    return ''
+  elseif &filetype ==# '' && strridx(l:filename, 'term://', 0) == 0
+    return substitute(l:filename, '^term://.*//[0-9]*:\(.*\)$', '\1', '')
+  elseif &filetype ==# 'help'
+    return fnamemodify(l:filename, ':t:r')
+  else
+    return pathshorten(fnamemodify(l:filename, ':~:.'))
+  endif
+endfunction
+
+function! StatusLineReadOnly() abort
+  if &readonly
+    return "[\ue0a2]"
+  else
+    return ''
+  endif
+endfunction
+
+function! StatusLineGitStatus() abort
+  if !exists('*FugitiveHead') || !exists('*GitGutterGetHunkSummary')
+    return ''
+  endif
+
+  let l:branch = FugitiveHead()
+  let l:hunks = GitGutterGetHunkSummary()
+
+  if strlen(l:branch) == 0
+    return ''
+  elseif l:hunks[0] > 0 || l:hunks[1] > 0 || l:hunks[2] > 0
+    return printf("\u2502 \ue0a0 +%s ~%s -%s ",
+      \ l:hunks[0], l:hunks[1], l:hunks[2])
+  else
+    return printf("\u2502 \ue0a0 %s ", l:branch)
+  endif
+endfunction
+
+function! StatusLineCocStatus() abort
+  if !exists('*coc#status')
+    return ''
+  endif
+
+  let l:status = coc#status()
+
+  if strlen(l:status) == 0
+    return ''
+  else
+    return printf("\u2502 %s ", l:status)
+  endif
+endfunction
+
+" }}}
+" tabline {{{
+
+set tabline=%!TabLine()
+
+function! TabLine() abort
+  let s = ''
+
+  for i in range(tabpagenr('$'))
+    if i + 1 == tabpagenr()
+      let s .= '%#TabLineSel#'
+    else
+      let s .= '%#TabLine#'
+    endif
+
+    let s .= '%' . (i + 1) . 'T'
+    let s .= ' %{TabLabel(' . (i + 1) . ')} '
+  endfor
+
+  let s .= '%#TabLineFill#%T'
+  let s .= '%=%#TabLine#%{TabLineCwd()} '
+
+  return s
+endfunction
+
+function! TabLabel(n) abort
+  let buflist = tabpagebuflist(a:n)
+  let winnr = tabpagewinnr(a:n)
+  let name = bufname(buflist[winnr -1])
+  let short = empty(name) ? '???' : fnamemodify(name, ':t')
+
+  return a:n . ' ' . short
+endfunction
+
+function! TabLineCwd() abort
+  return pathshorten(fnamemodify(getcwd(), ':~'))
+endfunction
+
+" }}}
 " vim-sleuth {{{
 
 let g:sleuth_automatic = 1
@@ -114,105 +212,6 @@ let g:nord_italic = 1
 let g:nord_italic_comments = 1
 let g:nord_underline = 1
 colorscheme nord
-
-" }}}
-" lightline {{{
-
-let g:lightline = {}
-
-" colorscheme {{{
-
-if exists('g:colors_name')
-  let g:lightline.colorscheme = g:colors_name
-endif
-
-" }}}
-" layout {{{
-
-let g:lightline.separator = { 'left': "\ue0b0", 'right': "\ue0b2" }
-let g:lightline.subseparator = { 'left': "\ue0b1", 'right': "\ue0b3" }
-
-let g:lightline.active = {
-  \ 'left': [ [ 'mode', 'paste', 'readonly' ],
-  \           [ 'githunks', 'filename', 'modified' ] ],
-  \ 'right': [ [ 'lineinfo' ],
-  \            [],
-  \            [ 'filetype', 'cocstatus' ] ],
-  \ }
-
-let g:lightline.inactive = {
-  \ 'left': [ [], [ 'filename' ] ],
-  \ 'right': [ [], [ 'lineinfo' ] ],
-  \ }
-
-let g:lightline.mode_map = {
-  \ 'n': 'n', 'i': 'i', 'R': 'R', 'v': 'v', 'V': 'V', "\<C-v>": 'C-v',
-  \ 'c': 'c', 's': 's', 'S': 'S', "\<C-s>": 'C-s', 't': 't',
-  \ }
-
-" }}}
-" components {{{
-
-let g:lightline.component = {
-  \ 'lineinfo': "\ue0a1 %3l.%-2c / %L",
-  \ }
-
-let g:lightline.component_function = {
-  \ 'mode': 'lightline#mode',
-  \ 'filename': 'LightlineShortpath',
-  \ 'readonly': 'LightlineReadOnly',
-  \ 'githunks': 'LightlineGitHunks',
-  \ 'cocstatus': 'coc#status',
-  \ }
-
-let g:lightline.component_expand = {
-  \ 'linter_checking': 'lightline#ale#checking',
-  \ 'linter_warnings': 'lightline#ale#warnings',
-  \ 'linter_errors': 'lightline#ale#errors',
-  \ 'linter_ok': 'lightline#ale#ok',
-  \ }
-
-function! LightlineShortpath() abort
-  let l:filename = expand('%')
-
-  if strlen(l:filename) == 0
-    return ''
-  elseif &filetype ==# '' && strridx(l:filename, 'term://', 0) == 0
-    return substitute(l:filename, '^term://.*//[0-9]*:\(.*\)$', '\1', '')
-  elseif &filetype ==# 'help'
-    return fnamemodify(l:filename, ':t:r')
-  else
-    return pathshorten(fnamemodify(expand('%'), ':~:.'))
-  endif
-endfunction
-
-function! LightlineReadOnly() abort
-  if &readonly
-    return "\ue0a2"
-  else
-    return ''
-  endif
-endfunction
-
-function! LightlineGitHunks() abort
-  if !exists('*FugitiveHead') || !exists('*GitGutterGetHunkSummary')
-    return ''
-  endif
-
-  let l:branch = FugitiveHead()
-  let l:hunks = GitGutterGetHunkSummary()
-
-  if strlen(l:branch) == 0
-    return ''
-  elseif l:hunks[0] > 0 || l:hunks[1] > 0 || l:hunks[2] > 0
-    return printf("\ue0a0 +%s ~%s -%s",
-      \ l:hunks[0], l:hunks[1], l:hunks[2])
-  else
-    return printf("\ue0a0 %s", l:branch)
-  endif
-endfunction
-
-" }}}
 
 " }}}
 " vim-clap {{{
