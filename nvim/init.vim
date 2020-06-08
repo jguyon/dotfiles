@@ -219,6 +219,7 @@ colorscheme nord
 " vim-clap {{{
 
 let g:clap_layout = { 'relative': 'editor' }
+let g:clap_insert_mode_only = v:true
 
 nnoremap <silent> <leader>o :Clap files<cr>
 nnoremap <silent> <leader>b :Clap buffers<cr>
