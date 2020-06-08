@@ -130,6 +130,8 @@ function! StatusLineReadOnly() abort
   endif
 endfunction
 
+let g:status_line_separator = "«"
+
 function! StatusLineGitStatus() abort
   if !exists('*FugitiveHead') || !exists('*GitGutterGetHunkSummary')
     return ''
@@ -141,10 +143,10 @@ function! StatusLineGitStatus() abort
   if strlen(l:branch) == 0
     return ''
   elseif l:hunks[0] > 0 || l:hunks[1] > 0 || l:hunks[2] > 0
-    return printf("\u2502 \ue0a0 +%s ~%s -%s ",
-      \ l:hunks[0], l:hunks[1], l:hunks[2])
+    return printf("%s \ue0a0 +%s ~%s -%s ",
+      \ g:status_line_separator, l:hunks[0], l:hunks[1], l:hunks[2])
   else
-    return printf("\u2502 \ue0a0 %s ", l:branch)
+    return printf("%s \ue0a0 %s ", g:status_line_separator, l:branch)
   endif
 endfunction
 
@@ -158,7 +160,7 @@ function! StatusLineCocStatus() abort
   if strlen(l:status) == 0
     return ''
   else
-    return printf("\u2502 %s ", l:status)
+    return printf("%s %s ", g:status_line_separator, l:status)
   endif
 endfunction
 
