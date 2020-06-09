@@ -10,7 +10,7 @@ autocmd VimEnter *
 
 call plug#begin('~/.local/share/nvim/plugged')
 
-" editing {{{
+" basics {{{
 
 Plug 'tpope/vim-sensible' " Sensible defaults
 Plug 'tpope/vim-sleuth' " Auth-detect indentation
@@ -18,25 +18,26 @@ Plug 'tpope/vim-repeat' " Enable '.' operator for custom mappings
 Plug 'tpope/vim-surround' " Replace/delete surrounding characters
 Plug 'tpope/vim-commentary' " Comment stuff in/out
 Plug 'jiangmiao/auto-pairs' " Auto-insert matching bracket, quote...
+Plug 'arcticicestudio/nord-vim' " Color scheme
 
 " }}}
-" interface {{{
+" utilities {{{
 
-Plug 'arcticicestudio/nord-vim' " Color scheme
+Plug 'tpope/vim-eunuch' " Helpers for UNIX shell commands
+Plug 'airblade/vim-gitgutter' " Display git hunks in gutter
+Plug 'tpope/vim-fugitive' " Git commands
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' } " Fuzzy search
 
 " }}}
-" integration {{{
+" IntelliSense {{{
 
-Plug 'airblade/vim-gitgutter' " Display git hunks in gutter
-Plug 'tpope/vim-fugitive' " Git commands
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " IntelliSense
 Plug 'vn-ki/coc-clap' " Integrate coc.nvim with vim-clap
 Plug 'Shougo/neco-vim' " Required by coc-neco
 Plug 'neoclide/coc-neco' " IntelliSense support for vim files
 
 " }}}
-" languages {{{
+" syntax {{{
 
 Plug 'stephpy/vim-yaml' " YAML
 Plug 'cespare/vim-toml' " TOML
