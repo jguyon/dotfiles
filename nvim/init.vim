@@ -200,6 +200,8 @@ function! TabLabel(n) abort
 
   if strlen(name) == 0
     let short = '???'
+  elseif stridx(name, 'term://', 0) == 0
+    let short = substitute(name, '^term://.*//[0-9]*:\(.*\)$', '\1', '')
   elseif strpart(name, strlen(name) - 1, 1) ==# '/'
     let dirname = strpart(name, 0, strlen(name) - 1)
     let short = fnamemodify(dirname, ':t') . '/'
