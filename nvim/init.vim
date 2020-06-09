@@ -188,7 +188,7 @@ function! TabLine() abort
   endfor
 
   let s .= '%#TabLineFill#%T'
-  let s .= '%=%#TabLine#%{TabLineCwd()} '
+  let s .= '%=%#TabLine#%{ObsessionStatus()} %{TabLineCwd()} '
 
   return s
 endfunction
