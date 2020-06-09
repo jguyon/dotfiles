@@ -105,7 +105,7 @@ augroup END
 " statusline {{{
 
 set statusline=
-set statusline+=\ %{StatusLineShortPath()}%h%w%q%m%{StatusLineReadOnly()}
+set statusline+=\ %{StatusLineShortPath()}\ %h%w%q%m%{StatusLineReadOnly()}
 set statusline+=%=
 set statusline+=%{StatusLineCocStatus()}%{StatusLineGitStatus()}
 
@@ -117,7 +117,7 @@ function! StatusLineShortPath() abort
   elseif &filetype ==# '' && strridx(l:filename, 'term://', 0) == 0
     return substitute(l:filename, '^term://.*//[0-9]*:\(.*\)$', '\1', '')
   elseif &filetype ==# 'help'
-    return fnamemodify(l:filename, ':t:r')
+    return fnamemodify(l:filename, ':t')
   elseif strpart(l:filename, strlen(l:filename) - 1, 1) ==# '/'
     let l:dirname = strpart(l:filename, 0, strlen(l:filename) - 1)
     return pathshorten(fnamemodify(l:dirname, ':~:.')) . '/'
