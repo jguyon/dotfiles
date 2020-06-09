@@ -24,6 +24,7 @@ Plug 'arcticicestudio/nord-vim' " Color scheme
 " utilities {{{
 
 Plug 'tpope/vim-eunuch' " Helpers for UNIX shell commands
+Plug 'justinmk/vim-dirvish' " Simple directory viewer
 Plug 'airblade/vim-gitgutter' " Display git hunks in gutter
 Plug 'tpope/vim-fugitive' " Git commands
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' } " Fuzzy search
@@ -112,11 +113,14 @@ function! StatusLineShortPath() abort
   let l:filename = expand('%')
 
   if strlen(l:filename) == 0
-    return ''
+    return '???'
   elseif &filetype ==# '' && strridx(l:filename, 'term://', 0) == 0
     return substitute(l:filename, '^term://.*//[0-9]*:\(.*\)$', '\1', '')
   elseif &filetype ==# 'help'
     return fnamemodify(l:filename, ':t:r')
+  elseif strpart(l:filename, strlen(l:filename) - 1, 1) ==# '/'
+    let l:dirname = strpart(l:filename, 0, strlen(l:filename) - 1)
+    return pathshorten(fnamemodify(l:dirname, ':~:.')) . '/'
   else
     return pathshorten(fnamemodify(l:filename, ':~:.'))
   endif
@@ -193,7 +197,15 @@ function! TabLabel(n) abort
   let buflist = tabpagebuflist(a:n)
   let winnr = tabpagewinnr(a:n)
   let name = bufname(buflist[winnr -1])
-  let short = empty(name) ? '???' : fnamemodify(name, ':t')
+
+  if strlen(name) == 0
+    let short = '???'
+  elseif strpart(name, strlen(name) - 1, 1) ==# '/'
+    let dirname = strpart(name, 0, strlen(name) - 1)
+    let short = fnamemodify(dirname, ':t') . '/'
+  else
+    let short = fnamemodify(name, ':t')
+  endif
 
   return a:n . ':' . short
 endfunction
