@@ -25,6 +25,7 @@ Plug 'arcticicestudio/nord-vim' " Color scheme
 
 Plug 'tpope/vim-eunuch' " Helpers for UNIX shell commands
 Plug 'justinmk/vim-dirvish' " Simple directory viewer
+Plug 'tpope/vim-obsession' " Continually updated session files
 Plug 'airblade/vim-gitgutter' " Display git hunks in gutter
 Plug 'tpope/vim-fugitive' " Git commands
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' } " Fuzzy search
@@ -78,7 +79,6 @@ set backup backupdir=~/.local/share/nvim/backup " Enable backups
 set swapfile dir=~/.local/share/nvim/backup " Enable swapfile
 set undofile undodir=~/.local/share/nvim/backup " Enable undofiles
 set history=1000 undolevels=1000 undoreload=10000 " We live in the future
-set sessionoptions-=buffers " Don't save hidden buffers in sessions
 set exrc " Enable project specific configuration files
 
 " set <leader> key to <space>
