@@ -28,7 +28,7 @@ Plug 'justinmk/vim-dirvish' " Simple directory viewer
 Plug 'tpope/vim-obsession' " Continually updated session files
 Plug 'airblade/vim-gitgutter' " Display git hunks in gutter
 Plug 'tpope/vim-fugitive' " Git commands
-Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' } " Fuzzy search
+Plug 'liuchengxu/vim-clap', { 'do': 'bash install.sh' } " Fuzzy search
 
 " }}}
 " IntelliSense {{{
@@ -188,7 +188,7 @@ function! TabLine() abort
   endfor
 
   let s .= '%#TabLineFill#%T'
-  let s .= '%=%#TabLine#%{ObsessionStatus()} %{TabLineCwd()} '
+  let s .= '%=%#TabLine#%{TabLineInfo()} '
 
   return s
 endfunction
@@ -212,8 +212,14 @@ function! TabLabel(n) abort
   return a:n . ':' . short
 endfunction
 
-function! TabLineCwd() abort
-  return pathshorten(fnamemodify(getcwd(), ':~'))
+function! TabLineInfo() abort
+  let info = pathshorten(fnamemodify(getcwd(), ':~'))
+
+  if exists('*ObsessionStatus')
+    let info = ObsessionStatus() . ' ' . info
+  endif
+
+  return info
 endfunction
 
 " }}}
@@ -227,7 +233,8 @@ let g:sleuth_automatic = 1
 let g:nord_italic = 1
 let g:nord_italic_comments = 1
 let g:nord_underline = 1
-colorscheme nord
+
+autocmd VimEnter * colorscheme nord
 
 " }}}
 " vim-clap {{{
