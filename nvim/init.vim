@@ -239,9 +239,8 @@ autocmd VimEnter * colorscheme nord
 " }}}
 " vim-clap {{{
 
-let g:clap_layout = { 'relative': 'editor' }
-
-nnoremap <silent> <leader>o :Clap files<cr>
+nnoremap <silent> <leader>p :Clap files<cr>
+nnoremap <silent> <leader>g :Clap git_files<cr>
 nnoremap <silent> <leader>b :Clap buffers<cr>
 
 " }}}
