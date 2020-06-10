@@ -10,45 +10,29 @@ autocmd VimEnter *
 
 call plug#begin('~/.local/share/nvim/plugged')
 
-" basics {{{
-
+Plug 'arcticicestudio/nord-vim' " Color scheme
 Plug 'tpope/vim-sensible' " Sensible defaults
 Plug 'tpope/vim-sleuth' " Auth-detect indentation
 Plug 'tpope/vim-repeat' " Enable '.' operator for custom mappings
 Plug 'tpope/vim-surround' " Replace/delete surrounding characters
 Plug 'tpope/vim-commentary' " Comment stuff in/out
 Plug 'jiangmiao/auto-pairs' " Auto-insert matching bracket, quote...
-Plug 'arcticicestudio/nord-vim' " Color scheme
-
-" }}}
-" utilities {{{
-
 Plug 'tpope/vim-eunuch' " Helpers for UNIX shell commands
 Plug 'justinmk/vim-dirvish' " Simple directory viewer
 Plug 'tpope/vim-obsession' " Continually updated session files
 Plug 'airblade/vim-gitgutter' " Display git hunks in gutter
 Plug 'tpope/vim-fugitive' " Git commands
 Plug 'liuchengxu/vim-clap', { 'do': 'bash install.sh' } " Fuzzy search
-
-" }}}
-" IntelliSense {{{
-
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " IntelliSense
 Plug 'vn-ki/coc-clap' " Integrate coc.nvim with vim-clap
 Plug 'Shougo/neco-vim' " Required by coc-neco
 Plug 'neoclide/coc-neco' " IntelliSense support for vim files
-
-" }}}
-" syntax {{{
-
 Plug 'stephpy/vim-yaml' " YAML
 Plug 'cespare/vim-toml' " TOML
 Plug 'dag/vim-fish' " fish shell
 Plug 'pangloss/vim-javascript' " JavaScript
 Plug 'leafgarland/typescript-vim' " TypeScript
 Plug 'maxmellon/vim-jsx-pretty' " JSX/TSX
-
-" }}}
 
 call plug#end()
 
@@ -223,11 +207,6 @@ function! TabLineInfo() abort
 endfunction
 
 " }}}
-" vim-sleuth {{{
-
-let g:sleuth_automatic = 1
-
-" }}}
 " nord-vim {{{
 
 let g:nord_italic = 1
@@ -235,6 +214,11 @@ let g:nord_italic_comments = 1
 let g:nord_underline = 1
 
 autocmd VimEnter * colorscheme nord
+
+" }}}
+" vim-sleuth {{{
+
+let g:sleuth_automatic = 1
 
 " }}}
 " vim-clap {{{
