@@ -85,6 +85,17 @@ augroup NOLINENUMBERS
   au FileType help setlocal nonumber norelativenumber
 augroup END
 
+" Edit a file relative to the currently opened file's containing directory
+command! -bar -nargs=1 -bang -complete=custom,s:relative_complete Relative
+  \ edit<bang> %:h/<args>
+" Taken from https://github.com/tpope/vim-eunuch/blob/33e875b31c8b811a0a47908884a5e2339106bbe8/plugin/eunuch.vim#L117
+function! s:relative_complete(A, L, P) abort
+  let prefix = expand('%:p:h') . '/'
+  let files = split(glob(prefix . a:A . '*'), "\n")
+  call map(files, 'v:val[strlen(prefix) : -1] . (isdirectory(v:val) ? "/" : "")')
+  return join(files + ['..' . '/'], "\n")
+endfunction
+
 " }}}
 " statusline {{{
 
