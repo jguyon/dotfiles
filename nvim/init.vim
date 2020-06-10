@@ -12,7 +12,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'arcticicestudio/nord-vim' " Color scheme
 Plug 'tpope/vim-sensible' " Sensible defaults
-Plug 'tpope/vim-sleuth' " Auth-detect indentation
+Plug 'tpope/vim-sleuth' " Auto-detect indentation
 Plug 'tpope/vim-repeat' " Enable '.' operator for custom mappings
 Plug 'tpope/vim-surround' " Replace/delete surrounding characters
 Plug 'tpope/vim-commentary' " Comment stuff in/out
@@ -23,16 +23,16 @@ Plug 'tpope/vim-obsession' " Continually updated session files
 Plug 'airblade/vim-gitgutter' " Display git hunks in gutter
 Plug 'tpope/vim-fugitive' " Git commands
 Plug 'liuchengxu/vim-clap', { 'do': 'bash install.sh' } " Fuzzy search
-Plug 'neoclide/coc.nvim', {'branch': 'release'} " IntelliSense
+Plug 'neoclide/coc.nvim', { 'branch': 'release' } " IntelliSense
 Plug 'vn-ki/coc-clap' " Integrate coc.nvim with vim-clap
 Plug 'Shougo/neco-vim' " Required by coc-neco
 Plug 'neoclide/coc-neco' " IntelliSense support for vim files
-Plug 'stephpy/vim-yaml' " YAML
-Plug 'cespare/vim-toml' " TOML
-Plug 'dag/vim-fish' " fish shell
-Plug 'pangloss/vim-javascript' " JavaScript
-Plug 'leafgarland/typescript-vim' " TypeScript
-Plug 'maxmellon/vim-jsx-pretty' " JSX/TSX
+Plug 'stephpy/vim-yaml' " YAML syntax
+Plug 'cespare/vim-toml' " TOML syntax
+Plug 'dag/vim-fish' " fish shell syntax
+Plug 'pangloss/vim-javascript' " JavaScript syntax
+Plug 'leafgarland/typescript-vim' " TypeScript syntax
+Plug 'maxmellon/vim-jsx-pretty' " JSX/TSX syntax
 
 call plug#end()
 
