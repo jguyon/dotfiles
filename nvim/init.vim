@@ -54,7 +54,6 @@ set splitright splitbelow " Go to right/bottom when splitting windows
 set hidden " Hide abandoned buffers
 set showtabline=2 " Always show the tab line
 set tabstop=4 " Indent with 4 spaces by default
-set completeopt=noinsert,menuone,noselect " Configure completion menu
 set shortmess+=c " Don't mask echo messages with completion matches
 set pumheight=10 " Height of autocomplete popup
 set cmdheight=2 " Give more space for displaying messages
@@ -284,8 +283,8 @@ function! s:show_documentation()
 endfunction
 
 " Common actions
-nmap <silent> ]d <Plug>(coc-diagnostic-next)
-nmap <silent> [d <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
@@ -307,6 +306,9 @@ vmap <silent> ic <Plug>(coc-classobj-i)
 omap <silent> ic <Plug>(coc-classobj-i)
 vmap <silent> ac <Plug>(coc-classobj-a)
 omap <silent> ac <Plug>(coc-classobj-a)
+
+" Fold current buffer
+command! -nargs=? Fold :call CocAction('fold', <f-args>)
 
 augroup COC
   au!
