@@ -2,6 +2,10 @@
 
 " plugins {{{
 
+" Open plug window in a new tab
+let g:plug_window = 'tabnew'
+let g:plug_pwindow = 'vertical rightbelow new'
+
 " auto-install missing plugins
 autocmd VimEnter *
   \  if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
@@ -47,6 +51,8 @@ set number relativenumber " Show relative line numbers
 set signcolumn=yes " Sign column always visible on the left
 set cursorline " Highlight current line
 set colorcolumn=81 " 80 columns indicator
+set scrolloff=5 " Always keep 5 lines above and below the cursor
+set list listchars=tab:»\ ,trail:·,nbsp:+,precedes:<,extends:> " Display chars
 set nowrap " Do not wrap lines
 set showcmd " Show normal mode commands
 set ignorecase smartcase " Ignore case in searches, unless using uppercase
@@ -83,17 +89,6 @@ augroup NOLINENUMBERS
   au TermOpen * setlocal nonumber norelativenumber nomodified
   au FileType help setlocal nonumber norelativenumber
 augroup END
-
-" Edit a file relative to the currently opened file's containing directory
-command! -bar -nargs=1 -bang -complete=custom,s:relative_complete Relative
-  \ edit<bang> %:h/<args>
-" Taken from https://github.com/tpope/vim-eunuch/blob/33e875b31c8b811a0a47908884a5e2339106bbe8/plugin/eunuch.vim#L117
-function! s:relative_complete(A, L, P) abort
-  let prefix = expand('%:p:h') . '/'
-  let files = split(glob(prefix . a:A . '*'), "\n")
-  call map(files, 'v:val[strlen(prefix) : -1] . (isdirectory(v:val) ? "/" : "")')
-  return join(files + ['..' . '/'], "\n")
-endfunction
 
 " }}}
 " statusline {{{
