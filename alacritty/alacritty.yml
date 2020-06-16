@@ -6,8 +6,6 @@ env:
 
 window:
   dynamic_padding: true
-  decorations: none
-  startup_mode: Fullscreen
 
 font:
   normal:
