@@ -1,7 +1,7 @@
 SHELL = /bin/bash
 STOW = stow --no-folding -t ~ -R
 
-all: git fish tmux nvim alacritty
+all: git fish tmux nvim alacritty i3
 
 git:
 	$(STOW) git
@@ -25,4 +25,7 @@ nvim:
 alacritty:
 	$(STOW) alacritty
 
-.PHONY: all git fish tmux nvim alacritty
+i3:
+	$(STOW) i3
+
+.PHONY: all git fish tmux nvim alacritty i3
