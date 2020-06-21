@@ -50,6 +50,8 @@ colors:
     cyan: '#8FBCBB'
     white: '#ECEFF4'
 
+background_opacity: 0.95
+
 shell:
   program: /usr/bin/fish
   args:

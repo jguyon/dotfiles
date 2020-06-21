@@ -220,6 +220,9 @@ let g:nord_underline = 1
 
 autocmd VimEnter * colorscheme nord
 
+" Support transparent terminal backgrounds
+autocmd VimEnter * hi Normal guibg=NONE
+
 " }}}
 " vim-sleuth {{{
 
