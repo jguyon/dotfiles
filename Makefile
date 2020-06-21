@@ -1,19 +1,13 @@
 SHELL = /bin/bash
 STOW = stow --no-folding -t ~ -R
 
-all: git fish tmux nvim alacritty i3 sway
+all: git fish nvim alacritty i3 sway
 
 git:
 	$(STOW) git
 
 fish:
 	$(STOW) fish
-
-tmux:
-	$(STOW) tmux
-	if [ ! -d ~/.tmux/plugins/tpm ]; then \
-		git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm; \
-	fi
 
 nvim:
 	$(STOW) nvim
@@ -31,4 +25,4 @@ i3:
 sway:
 	$(STOW) sway
 
-.PHONY: all git fish tmux nvim alacritty i3 sway
+.PHONY: all git fish nvim alacritty i3 sway
