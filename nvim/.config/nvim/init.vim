@@ -94,9 +94,9 @@ augroup END
 " statusline {{{
 
 set statusline=
-set statusline+=\ %{StatusLineShortPath()}\ %h%w%q%m%{StatusLineReadOnly()}
+set statusline+=\ %{StatusLineShortPath()}\ %h%w%q%m%r
 set statusline+=%=
-set statusline+=%{StatusLineCocStatus()}%{StatusLineGitStatus()}
+set statusline+=%{StatusLineCocStatus()}%{StatusLineGitStatus()}%p%%\ 
 
 function! StatusLineShortPath() abort
   let l:filename = expand('%')
@@ -115,14 +115,6 @@ function! StatusLineShortPath() abort
   endif
 endfunction
 
-function! StatusLineReadOnly() abort
-  if &readonly
-    return "[\ue0a2]"
-  else
-    return ''
-  endif
-endfunction
-
 let g:status_line_separator = "«"
 
 function! StatusLineGitStatus() abort
@@ -136,10 +128,10 @@ function! StatusLineGitStatus() abort
   if strlen(l:branch) == 0
     return ''
   elseif l:hunks[0] > 0 || l:hunks[1] > 0 || l:hunks[2] > 0
-    return printf("%s \ue0a0 +%s ~%s -%s ",
-      \ g:status_line_separator, l:hunks[0], l:hunks[1], l:hunks[2])
+    return printf("Git(+%s ~%s -%s) %s ",
+      \ l:hunks[0], l:hunks[1], l:hunks[2], g:status_line_separator)
   else
-    return printf("%s \ue0a0 %s ", g:status_line_separator, l:branch)
+    return printf("Git(%s) %s ", l:branch, g:status_line_separator)
   endif
 endfunction
 
@@ -153,7 +145,7 @@ function! StatusLineCocStatus() abort
   if strlen(l:status) == 0
     return ''
   else
-    return printf("%s %s ", g:status_line_separator, l:status)
+    return printf("%s %s ", l:status, g:status_line_separator)
   endif
 endfunction
 
