@@ -1,7 +1,7 @@
 SHELL = /bin/bash
 STOW = stow --no-folding -t ~ -R
 
-all: git fish nvim alacritty i3 sway
+all: git fish nvim alacritty sway
 
 git:
 	$(STOW) git
@@ -19,10 +19,7 @@ nvim:
 alacritty:
 	$(STOW) alacritty
 
-i3:
-	$(STOW) i3
-
 sway:
 	$(STOW) sway
 
-.PHONY: all git fish nvim alacritty i3 sway
+.PHONY: all git fish nvim alacritty sway
