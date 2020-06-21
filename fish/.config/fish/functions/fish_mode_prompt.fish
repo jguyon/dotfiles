@@ -17,5 +17,5 @@ function fish_mode_prompt
       set mode i
   end
 
-  echo -n (set_color $color) [$mode]
+  echo -n (set_color $color)"[$mode] "
 end
