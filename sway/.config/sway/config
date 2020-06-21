@@ -1,0 +1,238 @@
+# Read `man 5 sway` for a complete reference.
+
+# Use super key as modifier
+set $mod Mod4
+
+# Preferred terminal emulator
+set $term alacritty
+set $browser qutebrowser
+
+# Font for UI elements
+set $font Iosevka Aile 10
+
+# Nord theme
+# https://www.nordtheme.com/
+set $nord0 #2e3440
+set $nord1 #3b4252
+set $nord2 #434c5e
+set $nord3 #4c566a
+set $nord4 #d8dee9
+set $nord5 #e5e9f0
+set $nord6 #eceff4
+set $nord7 #8fbcbb
+set $nord8 #88c0d0
+set $nord9 #81a1c1
+set $nord10 #5e81ac
+set $nord11 #bf616a
+set $nord12 #d08770
+set $nord13 #ebcb8b
+set $nord14 #a3be8c
+set $nord15 #b48ead
+
+# Keyboard layout
+input type:keyboard {
+    xkb_layout us
+    xkb_variant altgr-intl
+}
+
+# Wallpaper
+output * bg ~/.config/sway/background.jpg fill
+
+# Screen locker
+exec --no-startup-id swayidle -w \
+    timeout 270 'swaymsg "output * dpms off"' \
+    resume 'swaymsg "output * dpms on"' \
+    timeout 300 'swaylock -f' \
+    timeout 900 'systemctl suspend' \
+    before-sleep 'swaylock -f' \
+    lock 'swaylock -f'
+
+# Don't lock the screen when fullscreen
+for_window [class="."] inhibit_idle fullscreen
+for_window [app_id="."] inhibit_idle fullscreen
+
+# Notification tool
+exec --no-startup-id mako
+
+# Invoke default action for notification
+bindsym $mod+i exec --no-startup-id makoctl invoke
+
+# Dismiss notification
+bindsym $mod+Shift+i exec --no-startup-id makoctl dismiss
+
+# Reload the configuration file
+bindsym $mod+Shift+c reload
+
+# Use Mouse+$mod to drag windows
+floating_modifier $mod
+
+# Start a terminal
+bindsym $mod+Return exec $term
+
+# Start a browser
+bindsym $mod+Shift+Return exec $browser
+
+# Launch an application
+bindsym $mod+space exec j4-dmenu-desktop --dmenu="bemenu -i -p Launch -l 10 --fn '$font' --tb=$nord1 --tf=$nord8 --fb=$nord1 --ff=$nord4 --nb=$nord1 --nf=$nord4 --sb=$nord8 --sf=$nord0 --hb=$nord3 --hf=$nord8"
+
+# Kill focused window
+bindsym $mod+Shift+q kill
+
+# Change focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# Move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# Resize focused window
+mode "resize" {
+    # Shrink width
+    bindsym h resize shrink width
+    # Grow height
+    bindsym j resize grow height
+    # Shrink height
+    bindsym k resize shrink height
+    # Grow width
+    bindsym l resize grow width
+
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+# Split in horizontal orientation
+bindsym $mod+b split h
+
+# Split in vertical orientation
+bindsym $mod+v split v
+
+# Toggle fullscreen mode for the focused window
+bindsym $mod+f fullscreen toggle
+
+# Toggle floating mode for the focused window
+bindsym $mod+Shift+f floating toggle
+
+# Swap focus between the tiling area and the floating area
+bindsym $mod+g focus mode_toggle
+
+# Change container layout
+bindsym $mod+e layout toggle splith splitv tabbed stacking
+bindsym $mod+Shift+e layout toggle stacking tabbed splitv splith
+
+# Focus the parent container
+bindsym $mod+u focus parent
+
+# Focus the child container
+bindsym $mod+d focus child
+
+# Workspace names
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# Switch to workspace
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+# Move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+# Move the currently focused window to the scratchpad
+bindsym $mod+Shift+minus move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym $mod+minus scratchpad show
+
+# Control the session/system
+mode "off" {
+    # Exit the session
+    bindsym e exec --no-startup-id "swaymsg exit", mode "default"
+    # Lock the session
+    bindsym l exec --no-startup-id "loginctl lock-session", mode "default"
+    # Reboot the computer
+    bindsym r exec --no-startup-id "systemctl reboot", mode "default"
+    # Power off the computer
+    bindsym p exec --no-startup-id "systemctl poweroff", mode "default"
+    # Suspend the computer
+    bindsym s exec --no-startup-id "systemctl suspend", mode "default"
+
+    bindsym Escape mode "default"
+}
+bindsym $mod+Escape mode "off"
+
+# Send signal to i3blocks to update volume block
+set $update-status-volume exec --no-startup-id pkill -SIGRTMIN+10 i3blocks
+# Control the audio
+mode "audio" {
+    # Volume down
+    bindsym j exec --no-startup-id amixer -q -D pulse sset Master 5%- unmute, $update-status-volume
+    # Volume up
+    bindsym k exec --no-startup-id amixer -q -D pulse sset Master 5%+ unmute, $update-status-volume
+    # Mute
+    bindsym m exec --no-startup-id amixer -q -D pulse sset Master toggle, $update-status-volume
+
+    bindsym Escape mode "default"
+}
+bindsym $mod+a mode "audio"
+
+title_align center
+default_border pixel 2
+default_floating_border pixel 2
+gaps inner 20
+
+font pango:$font
+
+client.focused $nord8 $nord10 $nord0 $nord7 $nord9
+client.focused_inactive $nord8 $nord3 $nord8 $nord7 $nord1
+client.unfocused $nord3 $nord0 $nord3 $nord7 $nord1
+client.urgent $nord13 $nord3 $nord13 $nord7 $nord12
+client.placeholder $nord3 $nord0 $nord3 $nord7 $nord1
+client.background $nord0
+
+# Status bar
+# Read `man 5 sway-bar` for more information about this section.
+bar {
+    status_command i3blocks
+    position top
+    separator_symbol " « "
+
+    colors {
+        background $nord1
+        statusline $nord4
+        separator $nord9
+        focused_workspace $nord8 $nord10 $nord0
+        active_workspace $nord8 $nord3 $nord8
+        inactive_workspace $nord3 $nord0 $nord3
+        urgent_workspace $nord13 $nord3 $nord13
+    }
+}

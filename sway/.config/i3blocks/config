@@ -1,0 +1,14 @@
+command=~/.config/i3blocks/custom/$BLOCK_NAME
+
+[volume]
+label=VOL
+interval=5
+signal=10
+
+[network]
+label=NTWK
+interval=5
+
+[time]
+command=date '+%A %-d %B %H:%M'
+interval=1

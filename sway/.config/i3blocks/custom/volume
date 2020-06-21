@@ -1,0 +1,27 @@
+#!/bin/bash
+
+MIXER="pulse"
+SCONTROL="Master"
+STEP="5%"
+MUTE_COLOR="#BF616A"
+
+volume() {
+  amixer -D $MIXER get $SCONTROL $(capability)
+}
+
+format() {
+  perl_filter='if (/.*\[(\d+%)\] (\[(-?\d+.\d+dB)\] )?\[(on|off)\]/)'
+  perl_filter+='{CORE::say $4 eq "off" ? "mute\nmute\n'$MUTE_COLOR'" : "'
+  # If dB was selected, print that instead
+  perl_filter+=$([[ $STEP = *dB ]] && echo '$3' || echo '$1')
+  perl_filter+='"; exit}'
+  perl -ne "$perl_filter"
+}
+
+case $BLOCK_BUTTON in
+  3) amixer -q -D $MIXER sset $SCONTROL toggle ;;  # right click, mute/unmute
+  4) amixer -q -D $MIXER sset $SCONTROL ${STEP}+ unmute ;; # scroll up, increase
+  5) amixer -q -D $MIXER sset $SCONTROL ${STEP}- unmute ;; # scroll down, decrease
+esac
+
+volume | format

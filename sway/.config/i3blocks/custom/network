@@ -1,0 +1,21 @@
+#!/bin/bash
+
+DOWN_COLOR="#BF616A"
+UP_COLOR="#A3BE8C"
+
+# Interface used for the default route
+IF=$(ip route | awk '/^default/ { print $5 ; exit }')
+
+# If the machine does not have an interface, display nothing
+[[ ! -d /sys/class/net/${IF} ]] && exit
+
+if [[ "$(cat /sys/class/net/$IF/operstate)" = 'down' ]]; then
+  echo down
+  echo down
+  echo $DOWN_COLOR
+  exit
+fi
+
+echo up
+echo up
+echo $UP_COLOR
