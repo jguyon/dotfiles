@@ -6,7 +6,7 @@ STEP="5%"
 MUTE_COLOR="#BF616A"
 
 volume() {
-  amixer -D $MIXER get $SCONTROL $(capability)
+  amixer -D $MIXER get $SCONTROL
 }
 
 format() {

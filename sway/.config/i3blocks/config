@@ -1,12 +1,12 @@
 command=~/.config/i3blocks/custom/$BLOCK_NAME
 
 [volume]
-label=VOL
+label=VOL 
 interval=5
-signal=10
+signal=5
 
 [network]
-label=NTWK
+label=NTWK 
 interval=5
 
 [time]
