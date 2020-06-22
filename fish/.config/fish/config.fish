@@ -1,22 +1,7 @@
-# add local executables to PATH
-if test -d $HOME/.local/bin
-  set -gx PATH $HOME/.local/bin $PATH
-end
-
 # fnm
 if status --is-interactive && test -d $HOME/.fnm
   set PATH $HOME/.fnm $PATH
   fnm env --multi --use-on-cd | source
-
-  if test -e (pwd)/.nvmrc
-    echo "fnm: Found .nvmrc"
-    fnm use
-  end
-
-  if test -e (pwd)/.node-version
-    echo "fnm: Found .node-version"
-    fnm use
-  end
 end
 
 # supress greeting message
