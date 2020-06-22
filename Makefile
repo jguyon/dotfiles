@@ -7,7 +7,7 @@ all: $(TARGETS)
 
 clean: $(TARGETS:%=clean-%)
 
-.PHONY: $(TARGETS) $(TARGETS:%=clean-%)
+.PHONY: all clean $(TARGETS) $(TARGETS:%=clean-%)
 
 git:
 	$(STOW) git
