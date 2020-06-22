@@ -19,6 +19,7 @@
 - j4-dmenu-desktop (for sway)
 - bemenu (for sway)
 - pulseaudio (for sway)
+- amixer (for sway)
 - i3blocks (for sway)
 - Iosevka font and its variants (for sway, alacritty and qutebrowser)
 
