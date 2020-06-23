@@ -21,7 +21,8 @@
 - pulseaudio (for sway)
 - amixer (for sway)
 - i3blocks (for sway)
-- Iosevka font and its variants (for sway, alacritty and qutebrowser)
+- Iosevka Term (for alacritty)
+- Iosevka Aile (for qutebrowser and sway)
 
 ## Install dotfiles
 
