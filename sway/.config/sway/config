@@ -73,7 +73,7 @@ bindsym $mod+Return exec $term
 bindsym $mod+Shift+Return exec $browser
 
 # Launch an application
-bindsym $mod+space exec j4-dmenu-desktop --dmenu="bemenu -i -p Launch -l 10 --fn '$font' --tb=$nord1 --tf=$nord8 --fb=$nord1 --ff=$nord4 --nb=$nord1 --nf=$nord4 --sb=$nord8 --sf=$nord0 --hb=$nord3 --hf=$nord8"
+bindsym $mod+space exec j4-dmenu-desktop --term=$term --dmenu="bemenu -i -p Launch -l 10 --fn '$font' --tb=$nord1 --tf=$nord8 --fb=$nord1 --ff=$nord4 --nb=$nord1 --nf=$nord4 --sb=$nord8 --sf=$nord0 --hb=$nord3 --hf=$nord8"
 
 # Kill focused window
 bindsym $mod+Shift+q kill
