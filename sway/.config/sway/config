@@ -204,11 +204,11 @@ gaps inner 20
 
 font pango:$font
 
-client.focused $nord8 $nord10 $nord0 $nord7 $nord9
-client.focused_inactive $nord8 $nord3 $nord8 $nord7 $nord1
-client.unfocused $nord3 $nord0 $nord3 $nord7 $nord1
-client.urgent $nord13 $nord11 $nord0 $nord7 $nord12
-client.placeholder $nord3 $nord0 $nord3 $nord7 $nord1
+client.focused $nord8 $nord10 $nord0 $nord9 $nord9
+client.focused_inactive $nord8 $nord3 $nord8 $nord3 $nord3
+client.unfocused $nord3 $nord0 $nord3 $nord1 $nord1
+client.urgent $nord13 $nord11 $nord0 $nord12 $nord12
+client.placeholder $nord3 $nord0 $nord3 $nord1 $nord1
 client.background $nord0
 
 # Status bar
