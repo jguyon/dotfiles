@@ -13,7 +13,7 @@ window:
 font:
   normal:
     family: Iosevka Term
-  size: 10.0
+  size: 11.0
 
 # Nord color scheme
 # https://github.com/arcticicestudio/nord-alacritty/blob/develop/src/nord.yml

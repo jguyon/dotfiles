@@ -8,7 +8,7 @@ set $term alacritty
 set $browser qutebrowser
 
 # Font for UI elements
-set $font Iosevka Aile 10
+set $font Iosevka Aile 11
 
 # Nord theme
 # https://www.nordtheme.com/

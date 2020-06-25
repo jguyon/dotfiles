@@ -115,7 +115,7 @@ c.colors.tabs.pinned.selected.odd.fg = c.colors.tabs.selected.odd.fg
 c.colors.webpage.bg = 'white'
 
 c.fonts.default_family = ['Iosevka Aile']
-c.fonts.default_size = '10pt'
+c.fonts.default_size = '11pt'
 
 c.tabs.favicons.scale = 0.8
 c.tabs.padding = {'top': 4, 'bottom': 4, 'left': 5, 'right': 5}
