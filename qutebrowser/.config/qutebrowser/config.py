@@ -116,6 +116,11 @@ c.colors.webpage.bg = 'white'
 
 c.fonts.default_family = ['Iosevka Aile']
 c.fonts.default_size = '11pt'
+c.fonts.contextmenu = 'default_size default_family'
+c.fonts.prompts = 'default_size default_family'
+c.fonts.web.family.fixed = 'Iosevka Term'
+c.fonts.web.family.sans_serif = 'DejaVu Sans'
+c.fonts.web.family.serif = 'DejaVu Serif'
 
 c.tabs.favicons.scale = 0.8
 c.tabs.padding = {'top': 4, 'bottom': 4, 'left': 5, 'right': 5}
