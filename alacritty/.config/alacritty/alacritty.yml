@@ -50,8 +50,6 @@ shell:
 
 mouse:
   hide_when_typing: true
-  url:
-    launcher: None
 
 key_bindings:
   - { key: F11, action: ToggleFullscreen }
