@@ -24,6 +24,7 @@
 - i3blocks (for sway)
 - Iosevka Term (for alacritty and qutebrowser)
 - Iosevka Aile (for qutebrowser and sway)
+- Noto Color Emoji (for qutebrowser)
 
 ## Install dotfiles
 
