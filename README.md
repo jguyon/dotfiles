@@ -10,6 +10,7 @@
 - fnm
 - neovim
 - node.js (for coc.nvim)
+- ripgrep (for vim-clap)
 - alacritty
 - qutebrowser
 - sway
@@ -21,7 +22,7 @@
 - pulseaudio (for sway)
 - amixer (for sway)
 - i3blocks (for sway)
-- Iosevka Term (for alacritty)
+- Iosevka Term (for alacritty and qutebrowser)
 - Iosevka Aile (for qutebrowser and sway)
 
 ## Install dotfiles
