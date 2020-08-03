@@ -96,7 +96,7 @@ augroup END
 set statusline=
 set statusline+=\ %{StatusLineShortPath()}\ %h%w%q%m%r
 set statusline+=%=
-set statusline+=%{StatusLineCocStatus()}%{StatusLineGitStatus()}%p%%\ 
+set statusline+=%{StatusLineGitStatus()}%{StatusLineCocStatus()}%p%%\ 
 
 function! StatusLineShortPath() abort
   let l:filename = expand('%')
