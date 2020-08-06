@@ -69,6 +69,7 @@ set swapfile dir=~/.local/share/nvim/backup " Enable swapfile
 set undofile undodir=~/.local/share/nvim/backup " Enable undofiles
 set history=1000 undolevels=1000 undoreload=10000 " We live in the future
 set exrc " Enable project specific configuration files
+set sessionoptions-=buffers " Don't save hidden buffers in sessions
 
 " set <leader> key to <space>
 let g:mapleader = ' '
