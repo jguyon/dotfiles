@@ -26,6 +26,7 @@ Plug 'justinmk/vim-dirvish' " Simple directory viewer
 Plug 'tpope/vim-obsession' " Continually updated session files
 Plug 'airblade/vim-gitgutter' " Display git hunks in gutter
 Plug 'tpope/vim-fugitive' " Git commands
+Plug 'rbong/vim-flog' " Git branch viewer
 Plug 'liuchengxu/vim-clap', { 'do': 'bash install.sh' } " Fuzzy search
 Plug 'neoclide/coc.nvim', { 'branch': 'release' } " IntelliSense
 Plug 'vn-ki/coc-clap' " Integrate coc.nvim with vim-clap
