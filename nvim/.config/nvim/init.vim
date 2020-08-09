@@ -24,6 +24,7 @@ Plug 'jiangmiao/auto-pairs' " Auto-insert matching bracket, quote...
 Plug 'tpope/vim-eunuch' " Helpers for UNIX shell commands
 Plug 'justinmk/vim-dirvish' " Simple directory viewer
 Plug 'tpope/vim-obsession' " Continually updated session files
+Plug 'mbbill/undotree' " Navigate undo history
 Plug 'airblade/vim-gitgutter' " Display git hunks in gutter
 Plug 'tpope/vim-fugitive' " Git commands
 Plug 'rbong/vim-flog' " Git branch viewer
@@ -221,6 +222,13 @@ autocmd VimEnter * hi Normal guibg=NONE
 " vim-sleuth {{{
 
 let g:sleuth_automatic = 1
+
+" }}}
+" undotree {{{
+
+let g:undotree_SetFocusWhenToggle = 1
+
+nnoremap <leader>u :UndotreeToggle<cr>
 
 " }}}
 " vim-clap {{{
