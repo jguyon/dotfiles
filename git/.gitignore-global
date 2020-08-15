@@ -11,6 +11,7 @@ tags
 .cs_files
 .cs_workspaces
 .nvimrc
+.vim/coc-settings.json
 
 # vscode
 .vscode/
