@@ -1,6 +1,7 @@
 font=Iosevka Aile
 font-size=14
 color=4C566A
+image=~/.config/sway/background.jpg
 bs-hl-color=BF616A
 inside-color=2E3440
 inside-clear-color=EBCB8B
