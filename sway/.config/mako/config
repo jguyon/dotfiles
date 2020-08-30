@@ -1,5 +1,5 @@
 font=Iosevka Aile 11
-background-color=#5E81AC
-text-color=#2E3440
-border-color=#88C0D0
-progress-color=over #A3BE8C
+background-color=#282828
+text-color=#ebdbb2
+border-color=#504945
+progress-color=over #98971a

@@ -3,7 +3,7 @@
 MIXER="pulse"
 SCONTROL="Master"
 STEP="5%"
-MUTE_COLOR="#BF616A"
+MUTE_COLOR="#fb4934"
 
 volume() {
   amixer -D $MIXER get $SCONTROL

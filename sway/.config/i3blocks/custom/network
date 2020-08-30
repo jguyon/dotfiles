@@ -1,7 +1,7 @@
 #!/bin/bash
 
-DOWN_COLOR="#BF616A"
-UP_COLOR="#A3BE8C"
+DOWN_COLOR="#cc241d"
+UP_COLOR="#b8bb26"
 
 # Interface used for the default route
 IF=$(ip route | awk '/^default/ { print $5 ; exit }')

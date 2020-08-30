@@ -10,24 +10,32 @@ set $browser qutebrowser
 # Font for UI elements
 set $font Iosevka Aile 11
 
-# Nord theme
-# https://www.nordtheme.com/
-set $nord0 #2e3440
-set $nord1 #3b4252
-set $nord2 #434c5e
-set $nord3 #4c566a
-set $nord4 #d8dee9
-set $nord5 #e5e9f0
-set $nord6 #eceff4
-set $nord7 #8fbcbb
-set $nord8 #88c0d0
-set $nord9 #81a1c1
-set $nord10 #5e81ac
-set $nord11 #bf616a
-set $nord12 #d08770
-set $nord13 #ebcb8b
-set $nord14 #a3be8c
-set $nord15 #b48ead
+# Gruvbox theme
+# https://github.com/morhetz/gruvbox
+set $bg0 #282828
+set $bg1 #3c3836
+set $bg2 #504945
+set $bg3 #665c54
+set $bg4 #7c6f64
+set $fg0 #fbf1c7
+set $fg1 #ebdbb2
+set $fg2 #d5c4a1
+set $fg3 #bdae93
+set $fg4 #a89984
+set $red #cc241d
+set $brred #fb4934
+set $green #98971a
+set $brgreen #b8bb26
+set $yellow #d79921
+set $bryellow #fabd2f
+set $blue #458588
+set $brblue #83a598
+set $purple #b16286
+set $brpurple #d3869b
+set $aqua #689d6a
+set $braqua #8ec07c
+set $orange #d65d0e
+set $brorange #fe8019
 
 # Keyboard layout
 input type:keyboard {
@@ -73,7 +81,7 @@ bindsym $mod+Return exec $term
 bindsym $mod+Shift+Return exec $browser
 
 # Launch an application
-bindsym $mod+space exec j4-dmenu-desktop --term=$term --dmenu="bemenu -i -p Launch -l 10 --fn '$font' --tb=$nord1 --tf=$nord8 --fb=$nord1 --ff=$nord4 --nb=$nord1 --nf=$nord4 --sb=$nord8 --sf=$nord0 --hb=$nord3 --hf=$nord8"
+bindsym $mod+space exec j4-dmenu-desktop --term=$term --dmenu="bemenu -i -p Launch -l 10 --fn '$font' --tb=$bg0 --tf=$braqua --fb=$bg0 --ff=$fg1 --nb=$bg0 --nf=$fg1 --sb=$aqua --sf=$bg0 --hb=$bg2 --hf=$braqua"
 
 # Kill focused window
 bindsym $mod+Shift+q kill
@@ -204,12 +212,12 @@ gaps inner 20
 
 font pango:$font
 
-client.focused $nord8 $nord10 $nord0 $nord9 $nord9
-client.focused_inactive $nord8 $nord3 $nord8 $nord3 $nord3
-client.unfocused $nord3 $nord0 $nord3 $nord1 $nord1
-client.urgent $nord13 $nord11 $nord0 $nord12 $nord12
-client.placeholder $nord3 $nord0 $nord3 $nord1 $nord1
-client.background $nord0
+client.focused $brblue $blue $bg0 $brblue $brblue
+client.focused_inactive $bg4 $bg2 $fg4 $bg4 $bg4
+client.unfocused $bg2 $bg0 $bg4 $bg2 $bg2
+client.placeholder $bg2 $bg1 $bg4 $bg2 $bg2
+client.urgent $brred $red $bg0 $brred $brred
+client.background $bg0
 
 # Status bar
 # Read `man 5 sway-bar` for more information about this section.
@@ -219,12 +227,12 @@ bar {
     separator_symbol " « "
 
     colors {
-        background $nord1
-        statusline $nord4
-        separator $nord9
-        focused_workspace $nord8 $nord10 $nord0
-        active_workspace $nord8 $nord3 $nord8
-        inactive_workspace $nord3 $nord0 $nord3
-        urgent_workspace $nord13 $nord11 $nord0
+        background $bg1
+        statusline $fg1
+        separator $bg4
+        focused_workspace $brblue $blue $bg0
+        active_workspace $bg4 $bg2 $fg4
+        inactive_workspace $bg2 $bg0 $bg4
+        urgent_workspace $brred $red $bg0
     }
 }
