@@ -14,7 +14,7 @@ autocmd VimEnter *
 
 call plug#begin('~/.local/share/nvim/plugged')
 
-Plug 'arcticicestudio/nord-vim' " Color scheme
+Plug 'morhetz/gruvbox' " Color scheme
 Plug 'tpope/vim-sensible' " Sensible defaults
 Plug 'tpope/vim-sleuth' " Auto-detect indentation
 Plug 'tpope/vim-repeat' " Enable '.' operator for custom mappings
@@ -207,13 +207,11 @@ function! TabLineInfo() abort
 endfunction
 
 " }}}
-" nord-vim {{{
+" gruvbox {{{
 
-let g:nord_italic = 1
-let g:nord_italic_comments = 1
-let g:nord_underline = 1
+let g:gruvbox_italic = 1
 
-autocmd VimEnter * colorscheme nord
+autocmd VimEnter * colorscheme gruvbox
 
 " Support transparent terminal backgrounds
 autocmd VimEnter * hi Normal guibg=NONE
