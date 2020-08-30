@@ -183,7 +183,9 @@ function! TabLabel(n) abort
   let winnr = tabpagewinnr(a:n)
   let name = bufname(buflist[winnr -1])
 
-  if strlen(name) == 0
+  if &ft == 'fzf'
+    let short = 'fzf'
+  elseif strlen(name) == 0
     let short = '???'
   elseif stridx(name, 'term://', 0) == 0
     let short = substitute(name, '^term://.*//[0-9]*:\(.*\)$', '\1', '')
