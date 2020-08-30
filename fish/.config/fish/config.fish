@@ -13,9 +13,9 @@ end
 if status --is-interactive
   set fish_color_normal normal
   set fish_color_command blue --bold
-  set fish_color_quote brgreen
-  set fish_color_redirection brblue
-  set fish_color_end magenta
+  set fish_color_quote green
+  set fish_color_redirection magenta
+  set fish_color_end white
   set fish_color_error brred
   set fish_color_param normal
   set fish_color_comment brblack
