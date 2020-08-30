@@ -211,6 +211,15 @@ endfunction
 
 let g:gruvbox_italic = 1
 
+" The color scheme only uses the bright colors to hightlight syntax
+" Let's do the same in the terminal
+let g:terminal_color_1 = g:terminal_color_9
+let g:terminal_color_2 = g:terminal_color_10
+let g:terminal_color_3 = g:terminal_color_11
+let g:terminal_color_4 = g:terminal_color_12
+let g:terminal_color_5 = g:terminal_color_13
+let g:terminal_color_6 = g:terminal_color_14
+
 autocmd VimEnter * colorscheme gruvbox
 
 " Support transparent terminal backgrounds
