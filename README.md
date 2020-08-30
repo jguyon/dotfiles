@@ -10,7 +10,8 @@
 - fnm
 - neovim
 - node.js (for coc.nvim)
-- ripgrep (for vim-clap)
+- ripgrep (for fzf.vim)
+- bat (for fzf.vim)
 - alacritty
 - qutebrowser
 - sway

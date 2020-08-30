@@ -28,9 +28,10 @@ Plug 'mbbill/undotree' " Navigate undo history
 Plug 'airblade/vim-gitgutter' " Display git hunks in gutter
 Plug 'tpope/vim-fugitive' " Git commands
 Plug 'rbong/vim-flog' " Git branch viewer
-Plug 'liuchengxu/vim-clap', { 'do': 'bash install.sh' } " Fuzzy search
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " fzf binary
+Plug 'junegunn/fzf.vim' " Fuzzy search everything
 Plug 'neoclide/coc.nvim', { 'branch': 'release' } " IntelliSense
-Plug 'vn-ki/coc-clap' " Integrate coc.nvim with vim-clap
+Plug 'antoinemadec/coc-fzf' " Integrate coc.nvim with fzf.vim
 Plug 'Shougo/neco-vim' " Required by coc-neco
 Plug 'neoclide/coc-neco' " IntelliSense support for vim files
 Plug 'stephpy/vim-yaml' " YAML syntax
@@ -238,11 +239,28 @@ let g:undotree_SetFocusWhenToggle = 1
 nnoremap <leader>u :UndotreeToggle<cr>
 
 " }}}
-" vim-clap {{{
+" fzf {{{
 
-nnoremap <silent> <leader>p :Clap files<cr>
-nnoremap <silent> <leader>g :Clap git_files<cr>
-nnoremap <silent> <leader>b :Clap buffers<cr>
+let g:fzf_buffers_jump = 1
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+let g:fzf_colors = {
+  \ 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'GruvboxYellow'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'GruvboxYellow'],
+  \ 'info':    ['fg', 'GruvboxAqua'],
+  \ 'border':  ['fg', 'GruvboxGray'],
+  \ 'prompt':  ['fg', 'GruvboxBlue'],
+  \ 'pointer': ['fg', 'GruvboxRed'],
+  \ 'marker':  ['fg', 'GruvboxRed'],
+  \ 'spinner': ['fg', 'GruvboxGray'],
+  \ 'header':  ['fg', 'Comment']
+  \ }
+
+nnoremap <silent> <leader>p :Files<cr>
+nnoremap <silent> <leader>b :Buffers<cr>
 
 " }}}
 " coc.nvim {{{
