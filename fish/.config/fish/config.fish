@@ -13,10 +13,10 @@ end
 if status --is-interactive
   set fish_color_normal normal
   set fish_color_command blue --bold
-  set fish_color_quote green
-  set fish_color_redirection blue
+  set fish_color_quote brgreen
+  set fish_color_redirection brblue
   set fish_color_end magenta
-  set fish_color_error red
+  set fish_color_error brred
   set fish_color_param normal
   set fish_color_comment brblack
   set fish_color_match yellow
@@ -24,11 +24,16 @@ if status --is-interactive
   set fish_color_search_match --background=brblack
   set fish_color_operator cyan
   set fish_color_escape green
-  set fish_color_cwd brwhite
+  set fish_color_cwd white
+  set fish_color_cwd_root red
   set fish_color_autosuggestion brblack
   set fish_color_user yellow
   set fish_color_host cyan
+  set fish_color_host_remote magenta
   set fish_color_cancel magenta
+  set fish_color_history_current --bold
+  set fish_color_status red
+  set fish_color_valid_path --underline
   set fish_pager_color_prefix yellow
   set fish_pager_color_completion normal
   set fish_pager_color_description brblack
