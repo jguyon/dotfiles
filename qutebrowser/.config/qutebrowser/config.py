@@ -30,14 +30,14 @@ braqua = '#8ec07c'
 orange = '#d65d0e'
 brorange = '#fe8019'
 
-c.colors.completion.category.bg = bg3
+c.colors.completion.category.bg = bg2
 c.colors.completion.category.border.bottom = bg0
 c.colors.completion.category.border.top = c.colors.completion.category.border.bottom
 c.colors.completion.category.fg = fg1
 c.colors.completion.even.bg = bg1
-c.colors.completion.odd.bg = bg2
+c.colors.completion.odd.bg = c.colors.completion.even.bg
 c.colors.completion.fg = fg1
-c.colors.completion.item.selected.bg = blue
+c.colors.completion.item.selected.bg = bg3
 c.colors.completion.item.selected.border.bottom = c.colors.completion.item.selected.bg
 c.colors.completion.item.selected.border.top = c.colors.completion.item.selected.border.bottom
 c.colors.completion.item.selected.fg = c.colors.completion.fg
