@@ -37,8 +37,7 @@ Plug 'stephpy/vim-yaml' " YAML syntax
 Plug 'cespare/vim-toml' " TOML syntax
 Plug 'dag/vim-fish' " fish shell syntax
 Plug 'pangloss/vim-javascript' " JavaScript syntax
-Plug 'leafgarland/typescript-vim' " TypeScript syntax
-Plug 'maxmellon/vim-jsx-pretty' " JSX/TSX syntax
+Plug 'HerringtonDarkholme/yats.vim' " TypeScript syntax
 
 call plug#end()
 
@@ -325,11 +324,8 @@ let g:javascript_plugin_flow = 1
 let g:javascript_plugin_jsdoc = 1
 
 " }}}
-" typescript-vim {{{
+" yats.vim {{{
 
-augroup TYPESCRIPTTSX
-  au!
-  au BufNewFile,BufRead *.tsx set filetype=typescript.tsx
-augroup END
+set re=0
 
 " }}}
