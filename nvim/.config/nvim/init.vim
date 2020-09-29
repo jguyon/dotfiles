@@ -242,6 +242,11 @@ let g:undotree_SetFocusWhenToggle = 1
 nnoremap <leader>u :UndotreeToggle<cr>
 
 " }}}
+" vim-fugitive {{{
+
+autocmd VimEnter * command! G :tab Git
+
+" }}}
 " fzf {{{
 
 let g:fzf_buffers_jump = 1
