@@ -212,7 +212,6 @@ endfunction
 " }}}
 " gruvbox {{{
 
-let g:gruvbox_bold = 0
 let g:gruvbox_italic = 1
 let g:gruvbox_invert_selection = 0
 
