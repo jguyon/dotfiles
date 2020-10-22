@@ -38,6 +38,7 @@ Plug 'cespare/vim-toml' " TOML syntax
 Plug 'dag/vim-fish' " fish shell syntax
 Plug 'pangloss/vim-javascript' " JavaScript syntax
 Plug 'HerringtonDarkholme/yats.vim' " TypeScript syntax
+Plug 'maxmellon/vim-jsx-pretty' " JSX syntax
 
 call plug#end()
 
