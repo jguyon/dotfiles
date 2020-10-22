@@ -5,7 +5,7 @@ set -gx FZF_DEFAULT_COMMAND rg --files --hidden --iglob !.git --sort path
 set -gx BAT_THEME ansi-dark
 
 # fnm
-if status --is-interactive && test -d $HOME/.fnm
+if test -d $HOME/.fnm
   set PATH $HOME/.fnm $PATH
   fnm env --multi --use-on-cd | source
 end
