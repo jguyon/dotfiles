@@ -329,6 +329,7 @@ vmap <silent> <c-p> <Plug>(coc-range-select-backward)
 nmap <silent> <leader>r <Plug>(coc-rename)
 nmap <silent> <leader>f <Plug>(coc-format)
 vmap <silent> <leader>f <Plug>(coc-format-selected)
+nmap <silent> <leader>c <Plug>(coc-codeaction)
 
 " Operators for selecting functions and classes
 vmap <silent> if <Plug>(coc-funcobj-i)
