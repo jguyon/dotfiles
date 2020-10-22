@@ -4,16 +4,16 @@ function fish_mode_prompt
 
   switch $fish_bind_mode
     case default
-      set color magenta
+      set color $dracula_purple
       set mode n
     case replace_one
-      set color yellow
+      set color $dracula_yellow
       set mode r
     case visual
-      set color green
+      set color $dracula_green
       set mode v
     case '*'
-      set color cyan
+      set color $dracula_cyan
       set mode i
   end
 
