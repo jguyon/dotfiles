@@ -242,10 +242,10 @@ let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 let g:fzf_colors = {
   \ 'fg':      ['fg', 'Normal'],
   \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'DraculaYellow'],
+  \ 'hl':      ['fg', 'DraculaOrange'],
   \ 'fg+':     ['fg', 'CursorLine'],
   \ 'bg+':     ['bg', 'CursorLine'],
-  \ 'hl+':     ['fg', 'DraculaYellow'],
+  \ 'hl+':     ['fg', 'DraculaOrange'],
   \ 'info':    ['fg', 'DraculaInfoLine'],
   \ 'border':  ['fg', 'DraculaSubtle'],
   \ 'prompt':  ['fg', 'DraculaPurple'],

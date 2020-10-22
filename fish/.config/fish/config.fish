@@ -37,22 +37,22 @@ if status --is-interactive
   set fish_color_error $dracula_red
   set fish_color_param $dracula_foreground
   set fish_color_comment $dracula_comment
-  set fish_color_match $dracula_yellow
-  set fish_color_selection $dracula_yellow
+  set fish_color_match $dracula_orange
+  set fish_color_selection $dracula_orange
   set fish_color_search_match --background=$dracula_selection
   set fish_color_operator $dracula_cyan
   set fish_color_escape $dracula_green
   set fish_color_cwd $dracula_comment
   set fish_color_cwd_root $dracula_red
   set fish_color_autosuggestion $dracula_comment
-  set fish_color_user $dracula_yellow
+  set fish_color_user $dracula_orange
   set fish_color_host $dracula_cyan
   set fish_color_host_remote $dracula_purple
   set fish_color_cancel $dracula_purple
   set fish_color_history_current --bold
   set fish_color_status $dracula_red
   set fish_color_valid_path --underline
-  set fish_pager_color_prefix $dracula_yellow
+  set fish_pager_color_prefix $dracula_orange
   set fish_pager_color_completion $dracula_foreground
   set fish_pager_color_description $dracula_comment
   set fish_pager_color_progress $dracula_green
