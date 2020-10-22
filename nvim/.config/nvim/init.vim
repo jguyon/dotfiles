@@ -14,7 +14,7 @@ autocmd VimEnter *
 
 call plug#begin('~/.local/share/nvim/plugged')
 
-Plug 'morhetz/gruvbox' " Color scheme
+Plug 'dracula/vim', { 'as': 'dracula' } " Color scheme
 Plug 'tpope/vim-sensible' " Sensible defaults
 Plug 'tpope/vim-sleuth' " Auto-detect indentation
 Plug 'tpope/vim-repeat' " Enable '.' operator for custom mappings
@@ -210,24 +210,12 @@ function! TabLineInfo() abort
 endfunction
 
 " }}}
-" gruvbox {{{
+" dracula {{{
 
-let g:gruvbox_italic = 1
-let g:gruvbox_invert_selection = 0
-
-autocmd VimEnter * colorscheme gruvbox
+autocmd VimEnter * colorscheme dracula
 
 " Support transparent terminal backgrounds
 autocmd VimEnter * hi Normal guibg=NONE
-
-" The color scheme only uses the bright colors to hightlight syntax
-" Let's do the same in the terminal
-autocmd VimEnter * let g:terminal_color_1 = g:terminal_color_9
-autocmd VimEnter * let g:terminal_color_2 = g:terminal_color_10
-autocmd VimEnter * let g:terminal_color_3 = g:terminal_color_11
-autocmd VimEnter * let g:terminal_color_4 = g:terminal_color_12
-autocmd VimEnter * let g:terminal_color_5 = g:terminal_color_13
-autocmd VimEnter * let g:terminal_color_6 = g:terminal_color_14
 
 " }}}
 " vim-sleuth {{{
@@ -254,16 +242,16 @@ let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 let g:fzf_colors = {
   \ 'fg':      ['fg', 'Normal'],
   \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'GruvboxYellow'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':     ['fg', 'GruvboxYellow'],
-  \ 'info':    ['fg', 'GruvboxAqua'],
-  \ 'border':  ['fg', 'GruvboxGray'],
-  \ 'prompt':  ['fg', 'GruvboxBlue'],
-  \ 'pointer': ['fg', 'GruvboxRed'],
-  \ 'marker':  ['fg', 'GruvboxRed'],
-  \ 'spinner': ['fg', 'GruvboxGray'],
+  \ 'hl':      ['fg', 'DraculaYellow'],
+  \ 'fg+':     ['fg', 'CursorLine'],
+  \ 'bg+':     ['bg', 'CursorLine'],
+  \ 'hl+':     ['fg', 'DraculaYellow'],
+  \ 'info':    ['fg', 'DraculaInfoLine'],
+  \ 'border':  ['fg', 'DraculaSubtle'],
+  \ 'prompt':  ['fg', 'DraculaPurple'],
+  \ 'pointer': ['fg', 'DraculaGreen'],
+  \ 'marker':  ['fg', 'DraculaRed'],
+  \ 'spinner': ['fg', 'DraculaSubtle'],
   \ 'header':  ['fg', 'Comment']
   \ }
 
