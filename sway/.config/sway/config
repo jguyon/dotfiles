@@ -10,32 +10,19 @@ set $browser qutebrowser
 # Font for UI elements
 set $font Iosevka Aile 11
 
-# Gruvbox theme
-# https://github.com/morhetz/gruvbox
-set $bg0 #282828
-set $bg1 #3c3836
-set $bg2 #504945
-set $bg3 #665c54
-set $bg4 #7c6f64
-set $fg0 #fbf1c7
-set $fg1 #ebdbb2
-set $fg2 #d5c4a1
-set $fg3 #bdae93
-set $fg4 #a89984
-set $red #cc241d
-set $brred #fb4934
-set $green #98971a
-set $brgreen #b8bb26
-set $yellow #d79921
-set $bryellow #fabd2f
-set $blue #458588
-set $brblue #83a598
-set $purple #b16286
-set $brpurple #d3869b
-set $aqua #689d6a
-set $braqua #8ec07c
-set $orange #d65d0e
-set $brorange #fe8019
+# Dracula theme
+# https://github.com/dracula/dracula-theme
+set $background #282a36
+set $selection #44475a
+set $foreground #f8f8f2
+set $comment #6272a4
+set $cyan #8be9fd
+set $green #50fa7b
+set $orange #ffb86c
+set $pink #ff79c6
+set $purple #bd93f9
+set $red #ff5555
+set $yellow #f1fa8c
 
 # Keyboard layout
 input type:keyboard {
@@ -81,7 +68,7 @@ bindsym $mod+Return exec $term
 bindsym $mod+Shift+Return exec $browser
 
 # Launch an application
-bindsym $mod+space exec j4-dmenu-desktop --term=$term --dmenu="bemenu -i -p Launch -l 10 --fn '$font' --tb=$bg0 --tf=$braqua --fb=$bg0 --ff=$fg1 --nb=$bg0 --nf=$fg1 --sb=$aqua --sf=$bg0 --hb=$bg2 --hf=$braqua"
+bindsym $mod+space exec j4-dmenu-desktop --term=$term --dmenu="bemenu -i -p Launch -n --fn '$font' --tb=$background --tf=$pink --fb=$background --ff=$foreground --nb=$background --nf=$foreground --sb=$pink --sf=$background --hb=$background --hf=$pink"
 
 # Kill focused window
 bindsym $mod+Shift+q kill
@@ -212,12 +199,12 @@ gaps inner 20
 
 font pango:$font
 
-client.focused $brblue $blue $bg0 $brblue $brblue
-client.focused_inactive $bg4 $bg2 $fg4 $bg4 $bg4
-client.unfocused $bg2 $bg0 $bg4 $bg2 $bg2
-client.placeholder $bg2 $bg1 $bg4 $bg2 $bg2
-client.urgent $brred $red $bg0 $brred $brred
-client.background $bg0
+client.focused $cyan $cyan $background $cyan $cyan
+client.focused_inactive $selection $selection $foreground $selection $selection
+client.unfocused $background $background $comment $background $background
+client.placeholder $background $background $comment $background $background
+client.urgent $red $red $background $red $red
+client.background $background
 
 # Status bar
 # Read `man 5 sway-bar` for more information about this section.
@@ -227,12 +214,12 @@ bar {
     separator_symbol " « "
 
     colors {
-        background $bg1
-        statusline $fg1
-        separator $bg4
-        focused_workspace $brblue $blue $bg0
-        active_workspace $bg4 $bg2 $fg4
-        inactive_workspace $bg2 $bg0 $bg4
-        urgent_workspace $brred $red $bg0
+        background $background
+        statusline $foreground
+        separator $comment
+        focused_workspace $cyan $cyan $background
+        active_workspace $selection $selection $foreground
+        inactive_workspace $background $background $comment
+        urgent_workspace $red $red $background
     }
 }
