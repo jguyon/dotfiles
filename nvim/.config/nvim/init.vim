@@ -248,7 +248,7 @@ let g:fzf_colors = {
   \ 'hl+':     ['fg', 'DraculaOrange'],
   \ 'info':    ['fg', 'DraculaInfoLine'],
   \ 'border':  ['fg', 'DraculaSubtle'],
-  \ 'prompt':  ['fg', 'DraculaPurple'],
+  \ 'prompt':  ['fg', 'DraculaComment'],
   \ 'pointer': ['fg', 'DraculaGreen'],
   \ 'marker':  ['fg', 'DraculaRed'],
   \ 'spinner': ['fg', 'DraculaSubtle'],
