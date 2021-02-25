@@ -129,3 +129,8 @@ c.fonts.web.family.sans_serif = 'Liberation Sans'
 c.fonts.web.family.serif = 'Liberation Serif'
 
 c.tabs.padding = {'top': 4, 'bottom': 4, 'left': 5, 'right': 5}
+c.tabs.background = True
+c.tabs.favicons.show = 'never'
+c.tabs.show = 'multiple'
+
+c.statusbar.show = 'in-mode'
