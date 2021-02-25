@@ -227,7 +227,7 @@ bar {
     separator_symbol " « "
 
     colors {
-        background $bg1
+        background $bg1f2
         statusline $fg1
         separator $bg4
         focused_workspace $brblue $blue $bg0
